@@ -47,6 +47,11 @@ function App() {
         let filteredTasks = tasks.filter((el:PropsType)=>el.id!==id)
         setTasks(filteredTasks)
     }
+        const changeStatus=(id:number)=>{
+            let newTasks = [...tasks]
+            newTasks[id].isDone = !newTasks[id].isDone
+            setTasks(newTasks)
+    }
     const addTask=(text:string)=>{
         tasks.push({id:(tasks.length),title:text,isDone:false})
         let newTasks = [...tasks]
@@ -57,6 +62,7 @@ function App() {
             <TodoList title = "What to learn" tasks={tasksForTodoList}
                       removeTask={removeTask}
                       setFilterType={setFilterType}
+                      changeStatus={changeStatus}
             addTasks={addTask}/>
             {/*<TodoList title = "Songs" tasks={tasks2}*/}
             {/*          removeTask={removeTask}/>*/}

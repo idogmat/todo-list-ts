@@ -10,11 +10,12 @@ export type TaskType={
     removeTask:Function
     setFilterType:Function
     addTasks:Function
+    changeStatus:Function
 }
 const TodoList=(props:TaskType)=>{
 
     const taskList=props.tasks.map((el:PropsType)=>{
-        return <li key={el.id}><input type="checkbox"
+        return <li onClick={()=>props.changeStatus(el.id)} key={el.id}><input  type="checkbox"
                           checked={el.isDone}/>
             <span>{el.title}</span>
             <button onClick={()=>props.removeTask(el.id)}>x</button>
