@@ -1,34 +1,39 @@
 import React from "react";
-export type PropsType = {
-    id:number
-    title: string
-    isDone:boolean
-}
+import FullInput from "./FullInput";
+
 export type TaskType={
-    title?:string
+    title:string
     tasks:Array<PropsType>
     removeTask:Function
     setFilterType:Function
     addTasks:Function
     changeStatus:Function
+    taskTitle:string
+    changeTaskTitle:Function
+
+}
+export type PropsType = {
+    id:number
+    title: string
+    isDone:boolean
 }
 const TodoList=(props:TaskType)=>{
 
     const taskList=props.tasks.map((el:PropsType)=>{
-        return <li onClick={()=>props.changeStatus(el.id)} key={el.id}><input  type="checkbox"
+        return <li key={el.id}><input onClick={()=>props.changeStatus(el.id)} type="checkbox"
                           checked={el.isDone}/>
             <span>{el.title}</span>
             <button onClick={()=>props.removeTask(el.id)}>x</button>
         </li>
     })
-    let text:any = React.createRef()
-
     return(
         <div>
             <h3>{props.title}</h3>
+            <FullInput addTasks={props.addTasks}
+                       taskTitle={props.taskTitle}
+                       changeTaskTitle={props.changeTaskTitle}/>
             <div>
-                <input ref={text}/>
-                <button onClick={()=>props.addTasks(text.current.value)}>+</button>
+
             </div>
             <ul>
                 {taskList}

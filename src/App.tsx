@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import TodoList, {PropsType, TaskType} from "./components/TodoList";
+import TodoList, {PropsType} from "./components/TodoList";
 
 export type FilterValuesType = 'all'|'completed'|'active'
 
@@ -13,18 +13,7 @@ function App() {
         { id: 4, title: "I am Happy", isDone: false },
     ]
 
-    // function insideUseState(data:any,funcForSetData:Function){
-    //     return [data,funcForSetData()]
-    // }
-    //let [tasks,setTasks]=useState(initialState)
-    //
-    // let arr =useState(initTasks)
-    //
-    // let tasks=arr[0]
-    // let setTasks=arr[1]
-
-
-
+    let [taskTitle,setTaskTitle]=useState('')
     let [tasks,setTasks]=useState<Array<PropsType>>(initTasks)
     let [filter,setFilter]=useState<FilterValuesType>('all')
     let tasksForTodoList=tasks
@@ -52,21 +41,26 @@ function App() {
             newTasks[id].isDone = !newTasks[id].isDone
             setTasks(newTasks)
     }
-    const addTask=(text:string)=>{
-        tasks.push({id:(tasks.length),title:text,isDone:false})
+    const addTask=()=>{
+        tasks.push({id:tasks.length,title:taskTitle,isDone:false})
         let newTasks = [...tasks]
         setTasks(newTasks)
+        setTaskTitle('')
     }
+        const changeTaskTitle =(text:string)=>{
+            setTaskTitle(text)
+        }
+
     return (
         <div className="App">
             <TodoList title = "What to learn" tasks={tasksForTodoList}
                       removeTask={removeTask}
                       setFilterType={setFilterType}
                       changeStatus={changeStatus}
-            addTasks={addTask}/>
-            {/*<TodoList title = "Songs" tasks={tasks2}*/}
-            {/*          removeTask={removeTask}/>*/}
-            {/*<TodoList title = "Books"/>*/}
+                      addTasks={addTask}
+                      taskTitle={taskTitle}
+                      changeTaskTitle={changeTaskTitle}
+            />
 
         </div>
     );
