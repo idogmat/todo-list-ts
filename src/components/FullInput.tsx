@@ -1,22 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 
 const FullInput=(props:any)=>{
 
-
-    let text:any = React.createRef()
-    const changeTitle=()=>{
-        props.changeTaskTitle(text.current.value)
-        // props.changeTaskTitle(e.currentTarget.value)
+    const changeInput=(text:any)=>{
+        props.changeTaskTitle(text)
     }
-    const addPost=()=>{
+    const addTask=()=>{
         props.addTasks()
     }
     return <div>
-            <input ref={text}
+            <input
                    value={props.taskTitle}
-                   onChange={changeTitle}
+                   onChange={(e)=>changeInput(e.currentTarget.value)}
             />
-            <button onClick={addPost}>+</button>
+            <button onClick={addTask}>+</button>
         </div>
 }
 export default FullInput

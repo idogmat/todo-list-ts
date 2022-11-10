@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import './App.css';
 import TodoList, {PropsType} from "./components/TodoList";
-
+import { v1 } from 'uuid';
 export type FilterValuesType = 'all'|'completed'|'active'
 
 function App() {
     let initTasks:Array<PropsType> = [
-        { id: 0, title: "HTML&CSS", isDone: true },
-        { id: 1, title: "JS", isDone: true },
-        { id: 2, title: "ReactJS", isDone: false },
-        { id: 3, title: "Hello world", isDone: true },
-        { id: 4, title: "I am Happy", isDone: false },
+        { id: v1(), title: "HTML&CSS", isDone: true },
+        { id: v1(), title: "JS", isDone: true },
+        { id: v1(), title: "ReactJS", isDone: false },
+        { id: v1(), title: "Hello world", isDone: true },
+        { id: v1(), title: "I am Happy", isDone: false },
     ]
 
     let [taskTitle,setTaskTitle]=useState('')
@@ -32,18 +32,19 @@ function App() {
         }
 
 
-    function removeTask(id:number){
+    function removeTask(id:string){
         let filteredTasks = tasks.filter((el:PropsType)=>el.id!==id)
         setTasks(filteredTasks)
     }
-        const changeStatus=(id:number)=>{
+        const changeStatus=(id:string)=>{
             let newTasks = [...tasks]
-            newTasks[id].isDone = !newTasks[id].isDone
+            newTasks.find(el=> {
+               return el.id === id?el.isDone=!el.isDone:''
+            })
             setTasks(newTasks)
     }
     const addTask=()=>{
-        tasks.push({id:tasks.length,title:taskTitle,isDone:false})
-        let newTasks = [...tasks]
+        let newTasks = [{id:v1(),title:taskTitle,isDone:false},...tasks]
         setTasks(newTasks)
         setTaskTitle('')
     }

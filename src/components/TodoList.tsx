@@ -13,7 +13,7 @@ export type TaskType={
 
 }
 export type PropsType = {
-    id:number
+    id:string
     title: string
     isDone:boolean
 }
@@ -21,7 +21,9 @@ const TodoList=(props:TaskType)=>{
 
     const taskList=props.tasks.map((el:PropsType)=>{
         return <li key={el.id}><input onClick={()=>props.changeStatus(el.id)} type="checkbox"
-                          checked={el.isDone}/>
+                          checked={el.isDone}
+                                      onChange={()=>{}}
+        />
             <span>{el.title}</span>
             <button onClick={()=>props.removeTask(el.id)}>x</button>
         </li>
