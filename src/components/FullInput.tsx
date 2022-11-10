@@ -1,17 +1,26 @@
-import React, {useState} from "react";
+import React from "react";
+type InputProps={
+    addTasks:()=>void
+    taskTitle:string
+    changeTaskTitle:(text:string)=>void
+}
+const FullInput=(props:InputProps)=>{
 
-const FullInput=(props:any)=>{
-
-    const changeInput=(text:any)=>{
+    const changeInput=(text:string)=>{
         props.changeTaskTitle(text)
     }
     const addTask=()=>{
-        props.addTasks()
+        if(props.taskTitle === ''){
+
+        }else {
+            props.addTasks()
+        }
     }
     return <div>
             <input
                    value={props.taskTitle}
                    onChange={(e)=>changeInput(e.currentTarget.value)}
+                   onKeyDown={(e)=>e.key==="Enter" && addTask()}
             />
             <button onClick={addTask}>+</button>
         </div>

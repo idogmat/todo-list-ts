@@ -16,21 +16,27 @@ function App() {
     let [taskTitle,setTaskTitle]=useState('')
     let [tasks,setTasks]=useState<Array<PropsType>>(initTasks)
     let [filter,setFilter]=useState<FilterValuesType>('all')
-    let tasksForTodoList=tasks
 
+
+
+    const getTodoList =()=>{
+        if (filter === 'completed') {
+            return tasks.filter((el: PropsType) => el.isDone === true)
+        } else if (filter === 'active') {
+            return tasks.filter((el: PropsType) => el.isDone === false)
+        } else {
+            return [...tasks]
+        }
+
+    }
+    let tasksForTodoList=getTodoList()
     const setFilterType=(type:FilterValuesType)=>{
         setFilter(type)
-    }
-        if(filter === 'completed') {
-            tasksForTodoList = tasks.filter((el: PropsType) => el.isDone === true)
-        }
-        if(filter === 'active') {
-            tasksForTodoList = tasks.filter((el: PropsType) => el.isDone === false)
-        }
-        if(filter === 'all') {
-            tasksForTodoList = tasks
-        }
+        getTodoList()
 
+
+
+    }
 
     function removeTask(id:string){
         let filteredTasks = tasks.filter((el:PropsType)=>el.id!==id)
@@ -39,7 +45,7 @@ function App() {
         const changeStatus=(id:string)=>{
             let newTasks = [...tasks]
             newTasks.find(el=> {
-               return el.id === id?el.isDone=!el.isDone:''
+               return el.id === id ? el.isDone =! el.isDone:''
             })
             setTasks(newTasks)
     }
