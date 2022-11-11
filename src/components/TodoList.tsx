@@ -1,5 +1,9 @@
 import React from "react";
 import FullInput from "./FullInput";
+import {BtnStyle} from "../style/elements";
+import s from './style.module.css'
+
+
 
 export type TaskType={
     title:string
@@ -31,12 +35,12 @@ const TodoList=(props:TaskType)=>{
             checked={el.isDone}
             onChange={() => {}}/>
 
-            <span>{el.title}</span>
-            <button onClick={removeTask}>x</button>
+            <p>{el.title}</p>
+            <BtnStyle onClick={removeTask}>x</BtnStyle>
         </li>
     })
     return(
-        <div>
+        <>
             <h3>{props.title}</h3>
             <FullInput addTasks={props.addTasks}
                        taskTitle={props.taskTitle}
@@ -47,12 +51,12 @@ const TodoList=(props:TaskType)=>{
                 {props.tasks.length ?
                     <ul>{taskList}</ul> :
                     <p>Your list is empty</p>}
-            <div>
-                <button onClick={()=>selectFilter('all')}>All</button>
-                <button onClick={()=>selectFilter('active')}>Active</button>
-                <button onClick={()=>selectFilter('completed')}>Completed</button>
+            <div className={s.sort}>
+                <BtnStyle onClick={()=>selectFilter('all')}>All</BtnStyle>
+                <BtnStyle onClick={()=>selectFilter('active')}>Active</BtnStyle>
+                <BtnStyle onClick={()=>selectFilter('completed')}>Completed</BtnStyle>
             </div>
-        </div>
+        </>
     )
 }
 export default  TodoList
