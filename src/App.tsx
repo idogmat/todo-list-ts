@@ -125,6 +125,7 @@ function App() {
                                      removeTask={removeTask}
                                      setFilterType={setFilterType}
                                      changeStatus={changeStatus}
+                                     removeTodoList={removeTodoList}
                                      addTasks={addTask}
                                      taskTitle={tl.text}
                                      changeTaskTitle={changeTaskTitle}
@@ -132,7 +133,7 @@ function App() {
                                      setError={changeError}
                                      filter={tl.filter}
                                      id={tl.id}
-                                     removeTodoList={removeTodoList}
+
                                      onChangeEditTitleFromTask={onChangeEditTitleFromTask}
                                      changeTodoListTitle={changeTodoListTitle}
 

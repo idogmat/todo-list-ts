@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Input} from '../style/elements'
+import {Input} from './elements'
 /**
  * Primary UI component for user interaction
  */

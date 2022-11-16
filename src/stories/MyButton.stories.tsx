@@ -19,21 +19,16 @@ const Template: ComponentStory<typeof MyButton> = (args) => <MyButton {...args} 
 export const ButtonsAdd = Template.bind({});
 
 ButtonsAdd.args = {
-    primary: true,
-    label: 'Button',
+
     title: '+'
 };
 export const ButtonsRemove = Template.bind({});
 
 ButtonsRemove.args = {
-    primary: true,
-    label: 'Button',
     title:'Remove'
 };
 export const ButtonsX = Template.bind({});
 
 ButtonsX.args = {
-    primary: true,
-    label: 'Button',
     title:'X'
 };
