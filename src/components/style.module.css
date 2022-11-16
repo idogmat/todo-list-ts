@@ -27,3 +27,9 @@ div .inputError{
 .done{
     opacity: .5;
 }
+.flex{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+}

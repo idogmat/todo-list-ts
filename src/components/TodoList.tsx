@@ -1,8 +1,9 @@
 import React from "react";
 import FullInput from "./FullInput";
-import {BtnStyle, HiddenCheckbox, TodoTitle} from "../style/elements";
+import {BtnStyle, HiddenCheckbox} from "../style/elements";
 import s from './style.module.css'
 import {FilterValuesType} from "../App";
+import EditableTitle from "./EditTitle";
 
 type FilterType='all' | 'active' | 'completed'
 
@@ -19,7 +20,10 @@ export type TaskType={
     changeTaskTitle:(text:string,id:string)=>void
     error:boolean
     setError:(b:boolean,id:string)=>void
+    removeTodoList:(s:string)=>void
     filter:FilterType
+    onChangeEditTitleFromTask:(a:string,b:string,c:string)=>void
+    changeTodoListTitle:(a:string,b:string)=>void
 
 }
 export type PropsType = {
@@ -31,9 +35,15 @@ const TodoList=(props:TaskType)=>{
     const selectFilter=(text:FilterType,id:string)=>{
         props.setFilterType(text,id)
     }
+    const changeTodoListTitle=(text:string)=>{
+        props.changeTodoListTitle(props.id,text)
+    }
     const taskList=props.tasks.map((el:PropsType)=>{
         const removeTask =()=>{
             props.removeTask(el.id,props.id)
+        }
+        const onChangeEditTitle=(title:string)=>{
+            props.onChangeEditTitleFromTask(el.id,title,props.id)
         }
 
         return <li className={el.isDone ? s.done : ''} key={el.id}><HiddenCheckbox
@@ -42,13 +52,17 @@ const TodoList=(props:TaskType)=>{
             checked={el.isDone}
             />
 
-            <TodoTitle>{el.title}</TodoTitle>
+            {/*<TodoTitle>{el.title}</TodoTitle>*/}
+            <EditableTitle title={el.title} onChangeEditTitle={onChangeEditTitle}/>
             <BtnStyle  onClick={removeTask}>x</BtnStyle>
         </li>
     })
     return(
         <>
-            <h3>{props.title}</h3>
+            <div className={s.flex}>
+            <EditableTitle title={props.title} onChangeEditTitle={changeTodoListTitle}></EditableTitle>
+            <BtnStyle onClick={()=>props.removeTodoList(props.id)} >Remove</BtnStyle>
+            </div>
             <FullInput addTasks={props.addTasks}
                        taskTitle={props.taskTitle}
                        changeTaskTitle={props.changeTaskTitle}
@@ -69,7 +83,9 @@ const TodoList=(props:TaskType)=>{
                 <BtnStyle className={(props.filter === 'completed') ? s.activeFilterBtn: ''}
                           onClick={()=>selectFilter('completed',props.id)}>Completed</BtnStyle>
             </div>
+
         </>
     )
 }
+
 export default  TodoList

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import TodoList, {PropsType} from "./components/TodoList";
 import {v1} from 'uuid';
+// import s from "./components/style.module.css";
+import AddItemForm from "./components/AddItemForm";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 type IDType = string
@@ -16,30 +18,22 @@ type TodoLists = {
 function App() {
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    // let initTasks: Array<PropsType> = [
-    //     {id: v1(), title: "HTML&CSS", isDone: true},
-    //     {id: v1(), title: "JS", isDone: true},
-    //     {id: v1(), title: "ReactJS", isDone: false},
-    //     {id: v1(), title: "Hello world", isDone: true},
-    //     {id: v1(), title: "I am Happy", isDone: false},
-    // ]
+
     let [tasks, setTasks] = useState({
         [todoListsId1]: [{id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
             {id: v1(), title: "ReactJS", isDone: false},
             {id: v1(), title: "Hello world", isDone: true},
-            {id: v1(), title: "I am Happy", isDone: false},],
+            {id: v1(), title: "I am Happy", isDone: false},
+        ],
         [todoListsId2]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
-
         ]
     })
+    let [todoLists, setTodoListFilter] = useState<Array<TodoLists>>(
+        [{id: todoListsId1, title: 'gggg', filter: 'all',error:false,text:''}])
 
-    // let [taskTitle, setTaskTitle] = useState('')
-    // let [tasks, setTasks] = useState<Array<PropsType>>(initTasks)
-    // let [filter, setFilter] = useState<FilterValuesType>('all')
-    // let [error, setError] = useState<boolean>(false)
     const changeError=(type:boolean,inputId:string) => {
         let error = todoLists.find(el => el.id === inputId)
         if(error) {
@@ -53,9 +47,6 @@ function App() {
             todoList.filter = type
             setTodoListFilter([...todoLists])
         }
-
-        // setFilter(type)
-        // getTodoList()
     }
 
     function removeTask(id: string, todoListId: string) {
@@ -86,12 +77,37 @@ function App() {
         }
 
     }
-    let [todoLists, setTodoListFilter] = useState<Array<TodoLists>>([
-        {id: todoListsId1, title: 'What to learn', filter: 'active',error:false,text:''},
-        {id: todoListsId2, title: 'What to buy', filter: 'completed',error:false,text:''},
-    ])
+
+
+    const addTodo=(title:string)=>{
+        let newTodoList:TodoLists ={id: v1(), title: title, filter: 'all',error:false,text:''}
+        setTodoListFilter([newTodoList,...todoLists])
+        setTasks({[newTodoList.id]:[],...tasks})
+    }
+    const removeTodoList =(todoListId:string)=>{
+        let newArr = todoLists.filter(tl=>tl.id !== todoListId)
+        setTodoListFilter(newArr)
+    }
+    const changeTodoListTitle =(todoListId:string,newText:string)=>{
+        let todoList = todoLists.find(tl=>tl.id === todoListId)
+        if(todoList) {
+            todoList.title = newText
+            setTodoListFilter([...todoLists])
+        }
+    }
+    const onChangeEditTitleFromTask=(elementId:string,
+                                     newText:string,
+                                     todoListId:string)=>{
+        let newTitle=tasks[todoListId].find(el=>el.id === elementId)
+        if(newTitle){
+            newTitle.title =newText
+            setTasks({...tasks})
+        }
+
+    }
     return (
         <div className="App">
+            <AddItemForm addTodo={addTodo}/>
             {
 
                 todoLists.map((tl) => {
@@ -116,6 +132,10 @@ function App() {
                                      setError={changeError}
                                      filter={tl.filter}
                                      id={tl.id}
+                                     removeTodoList={removeTodoList}
+                                     onChangeEditTitleFromTask={onChangeEditTitleFromTask}
+                                     changeTodoListTitle={changeTodoListTitle}
+
                     />
                 })
             }

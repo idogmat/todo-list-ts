@@ -2,13 +2,13 @@
 import styled from "styled-components";
 export const Input = styled.input.attrs(props => ({
     type: "text",
-    size: props.size || "1em",
+    size: props.size || "1rem",
 }))`
   border: 2px solid palevioletred;
   border-radius: 30px;
   width: 100%;
+  height: 3rem;
   margin: ${props => props.size};
-  padding: ${props => props.size};
   color: #DB7093FF ;
   font-size: 20px;
 `;
@@ -19,9 +19,13 @@ export const BtnStyle = styled.button`
   cursor: pointer;
   font-size: 1rem;
   margin: 1rem;
-  padding: 0.25em 1em;
+  padding:0 1rem;
   border: 2px solid palevioletred;
   border-radius: 30px;
+  :hover{
+    background: palevioletred;
+    color: #fff;
+  }
 
 `;
 export const HiddenCheckbox = styled.input`
@@ -38,10 +42,11 @@ export const HiddenCheckbox = styled.input`
 export const TodoTitle = styled.p`
   font-size: 20px;
   font-weight: 600;
+  margin: auto;
   color: linear-gradient(#ec6262,#251212);
   background: -webkit-linear-gradient(#ec6262,#251212);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-    
-    
-    `
+
+
+`
