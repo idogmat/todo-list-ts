@@ -56,7 +56,7 @@ const TodoList = (props: TaskType) => {
         </li>
     })
     return (
-        <>
+        <div className={s.todolishka}>
             <div className={s.flex}>
                 <EditableTitle title={props.title} onChangeEditTitle={changeTodoListTitle}></EditableTitle>
                 <BtnStyle onClick={() => props.removeTodoList(props.id)}>Remove</BtnStyle>
@@ -82,7 +82,7 @@ const TodoList = (props: TaskType) => {
                           onClick={() => selectFilter('completed', props.id)}>Completed</BtnStyle>
             </div>
 
-        </>
+        </div>
     )
 }
 

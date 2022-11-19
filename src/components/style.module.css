@@ -29,7 +29,11 @@ div .inputError{
 }
 .flex{
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
+}
+.todolishka{
+    display: flex;
+    flex-direction: column;
 }

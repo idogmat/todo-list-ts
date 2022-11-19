@@ -11,6 +11,7 @@ export const Input = styled.input.attrs(props => ({
   margin: ${props => props.size};
   color: #DB7093FF ;
   font-size: 20px;
+  box-sizing: border-box;
 `;
 
 export const BtnStyle = styled.button`
@@ -20,6 +21,7 @@ export const BtnStyle = styled.button`
   font-size: 1rem;
   margin: 1rem;
   padding:0 1rem;
+  box-sizing: border-box;
   border: 2px solid palevioletred;
   border-radius: 30px;
   :hover{
@@ -29,6 +31,7 @@ export const BtnStyle = styled.button`
 
 `;
 export const HiddenCheckbox = styled.input`
+  box-sizing: border-box;
   border: 0;
   -webkit-clip: rect(0 0 0 0);
   clip: rect(0 0 0 0);
@@ -40,6 +43,7 @@ export const HiddenCheckbox = styled.input`
   cursor: pointer;
 `;
 export const TodoTitle = styled.p`
+  box-sizing: border-box;
   font-size: 20px;
   font-weight: 600;
   margin: auto;

@@ -20,9 +20,11 @@ li{
   justify-content: space-between;
   flex-direction: row;
   border-bottom: 1px solid;
+  box-sizing: border-box;
 }
 .App{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
 }
