@@ -1,40 +1,39 @@
 import {v1} from "uuid";
-import {TodoList, todoListsReducer} from "./todulists-reducer";
+import {addTodoList, removeTodoList, TodoListType, todoListsReducer} from "./todulists-reducer";
 
 
 
 test('todolist-remove',()=>{
-    let todoListsId1 = v1();
-    let todoListsId2 = v1();
-    const startState:Array<TodoList>=[
-        {id: todoListsId1, title: 'first', filter: 'all', error: false, text: ''},
-        {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
+
+    const startState:Array<TodoListType>=[
+        {id: 'todoListsId1', title: 'first', filter: 'all', error: false, text: ''},
+        {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}
     ]
-    const endState=todoListsReducer(startState,{type:"REMOVE-TODOLIST",id:todoListsId1})
+    const endState=todoListsReducer(startState,removeTodoList('todoListsId1'))
 
     expect(endState.length).toBe(1)
-    expect(endState[0].id).toBe(todoListsId2)
+    expect(endState[0].id).toBe('todoListsId2')
 
 })
 
 test('todolist-Add',()=>{
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    const startState:Array<TodoList>=[
+    const startState:Array<TodoListType>=[
         {id: todoListsId1, title: 'first', filter: 'all', error: false, text: ''},
         {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
     ]
 
-    const endState=todoListsReducer(startState,{type:"ADD_TODOLIST",text:'test text'})
+    const endState=todoListsReducer(startState,addTodoList('test text'))
 
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe('test text')
+    expect(endState[0].title).toBe('test text')
 
 })
-test('todolist-remove',()=>{
+test('todolist-changeTitle',()=>{
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    const startState:Array<TodoList>=[
+    const startState:Array<TodoListType>=[
         {id: todoListsId1, title: 'first', filter: 'all', error: false, text: ''},
         {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
     ]
@@ -48,7 +47,7 @@ test('todolist-remove',()=>{
 test('todolist-Filter',()=>{
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    const startState:Array<TodoList>=[
+    const startState:Array<TodoListType>=[
         {id: todoListsId1, title: 'first', filter: 'all', error: false, text: ''},
         {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
     ]

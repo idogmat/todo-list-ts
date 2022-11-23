@@ -3,29 +3,25 @@ import Button from "./Button";
 import {Input} from "../style/elements";
 import s from './style.module.css'
 type InputProps={
-    addTasks:(text:string,todoListId:string)=>void
+    addTasks:(todoListId: string,text: string) =>void
     taskTitle:string
-    changeTaskTitle:(text:string,id:string)=>void
+    onChangedTodolistInput:(todoListId:string,text:string)=>void
     error:boolean
-    setError:(b:boolean,id:string)=>void
     id:string
 }
 
 const FullInput=(props:InputProps)=>{
-
     const changeInput=(text:string)=>{
-        props.changeTaskTitle(text,props.id)
+        props.onChangedTodolistInput(props.id,text)
         if(props.taskTitle !== '' || props.taskTitle.trim() !== '') {
-            props.setError(false,props.id)
+
         }
     }
     const addTask=()=>{
         if(props.taskTitle === '' || props.taskTitle.trim() === ''){
-            props.setError(true,props.id)
         } else {
-            props.setError(false,props.id)
-            props.addTasks(props.taskTitle,props.id)
-            props.changeTaskTitle('',props.id)
+            props.addTasks(props.id,props.taskTitle)
+            props.onChangedTodolistInput(props.id,'')
         }
     }
     return <div className={s.inputBlock}>

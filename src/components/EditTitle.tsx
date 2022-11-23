@@ -3,7 +3,7 @@ import {Input, TodoTitle} from "../style/elements";
 
 type EditableTitle={
     title:string
-    onChangeEditTitle:(s:string)=>void
+    callBack:(a:string)=>void
 
 }
 const EditableTitle=(props:EditableTitle)=>{
@@ -15,7 +15,7 @@ const EditableTitle=(props:EditableTitle)=>{
     }
     const activateViewMode=()=> {
         setEditOption(false)
-        props.onChangeEditTitle(title)
+        props.callBack(title)
     }
     const onChangeTitleHandler=(e:React.ChangeEvent<HTMLTextAreaElement>)=>{
         setTitle(e.currentTarget.value)

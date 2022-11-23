@@ -2,7 +2,7 @@ import React from "react";
 import FullInput from "./FullInput";
 import {BtnStyle, HiddenCheckbox} from "../style/elements";
 import s from './style.module.css'
-import {FilterValuesType} from "../App";
+import {FilterValuesType} from "../TodoListContainer";
 import EditableTitle from "./EditTitle";
 
 type FilterType = 'all' | 'active' | 'completed'
@@ -13,17 +13,19 @@ export type TaskType = {
     title: string
     tasks: Array<PropsType>
     removeTask: (el: string, id: string) => void
-    setFilterType: (s: FilterValuesType, i: string) => void
-    addTasks: (text: string, todoListId: string) => void
-    changeStatus: (a: string, b: boolean, c: string) => void
+    setFilterType: (id:string , f: FilterValuesType) => void
+    addTask: (todoListId: string,text: string ) => void
+    changeStatus: (a: string, c: string,b: boolean ) => void
+    onChangedTodolistInput: (todoListId:string,text:string)=> void
+    changeFieldTodolistTitle:(todoListId:string,text:string)=>void
+    changeTaskTitle: (t: string,id: string,text: string ) => void
+
+
     taskTitle: string
-    changeTaskTitle: (text: string, id: string) => void
     error: boolean
-    setError: (b: boolean, id: string) => void
     removeTodoList: (s: string) => void
     filter: FilterType
-    onChangeEditTitleFromTask: (a: string, b: string, c: string) => void
-    changeTodoListTitle: (a: string, b: string) => void
+
 
 }
 export type PropsType = {
@@ -32,40 +34,39 @@ export type PropsType = {
     isDone: boolean
 }
 const TodoList = (props: TaskType) => {
-    const selectFilter = (text: FilterType, id: string) => {
-        props.setFilterType(text, id)
+    const selectFilter = (filter: FilterType, id: string) => {
+        props.setFilterType(id ,filter)
     }
     const changeTodoListTitle = (text: string) => {
-        props.changeTodoListTitle(props.id, text)
+        props.changeFieldTodolistTitle(props.id, text)
     }
     const taskList = props.tasks.map((el: PropsType) => {
         const removeTask = () => {
             props.removeTask(el.id, props.id)
         }
-        const onChangeEditTitle = (title: string) => {
-            props.onChangeEditTitleFromTask(el.id, title, props.id)
+        const onChangeEditTitle = (text: string) => {
+            props.changeTaskTitle( props.id, el.id, text)
         }
 
         return <li className={el.isDone ? s.done : ''} key={el.id}><HiddenCheckbox
-            onChange={(e) => props.changeStatus(el.id, e.currentTarget.checked, props.id)}
+            onChange={(e) => props.changeStatus(props.id, el.id, e.currentTarget.checked, )}
             type="checkbox"
             checked={el.isDone}
         />
-            <EditableTitle title={el.title} onChangeEditTitle={onChangeEditTitle}/>
+            <EditableTitle title={el.title} callBack={onChangeEditTitle}/>
             <BtnStyle onClick={removeTask}>x</BtnStyle>
         </li>
     })
     return (
         <div className={s.todolishka}>
             <div className={s.flex}>
-                <EditableTitle title={props.title} onChangeEditTitle={changeTodoListTitle}></EditableTitle>
+                <EditableTitle title={props.title} callBack={changeTodoListTitle}></EditableTitle>
                 <BtnStyle onClick={() => props.removeTodoList(props.id)}>Remove</BtnStyle>
             </div>
-            <FullInput addTasks={props.addTasks}
+            <FullInput addTasks={props.addTask}
                        taskTitle={props.taskTitle}
-                       changeTaskTitle={props.changeTaskTitle}
+                       onChangedTodolistInput={props.onChangedTodolistInput}
                        error={props.error}
-                       setError={props.setError}
                        id={props.id}
             />
             {props.error && <div className={s.errorMessage}>Field is required</div>}

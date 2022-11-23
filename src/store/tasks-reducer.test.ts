@@ -1,12 +1,13 @@
 import {v1} from "uuid";
 import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC,
+    addTask,
+    changeTaskStatus,
+    changeTaskTitle,
+    removeTask,
     tasksReducer,
     TasksStateType
 } from "./tasks-reducer";
+import {addTodoList} from "./todulists-reducer";
 
 test('tasksReducer-remove',()=>{
 let startState:TasksStateType={
@@ -21,7 +22,7 @@ let startState:TasksStateType={
         {id: '2', title: "JS", isDone: true},
     ]
 }
-const action = removeTaskAC('1','todoListsId2')
+const action = removeTask('1','todoListsId2')
     const endState=tasksReducer(startState,action)
 
     expect(endState).toEqual({
@@ -50,7 +51,7 @@ test('tasksReducer-add',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = addTaskAC('choton novoe','todoListsId2')
+    const action = addTask('choton novoe','todoListsId2')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(3)
@@ -74,7 +75,7 @@ test('tasksReducer-change_title',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = changeTaskTitleAC('choton novoe','todoListsId2','1')
+    const action = changeTaskTitle('choton novoe','todoListsId2','1')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
@@ -83,8 +84,6 @@ test('tasksReducer-change_title',()=>{
 
 })
 test('tasksReducer-change_status',()=>{
-    let todoListsId1 = v1();
-    let todoListsId2 = v1();
 
     let startState:TasksStateType={
         "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
@@ -98,10 +97,34 @@ test('tasksReducer-change_status',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = changeTaskStatusAC(false,'todoListsId2','1')
+    const action = changeTaskStatus(false,'todoListsId2','1')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
     expect(endState['todoListsId2'][0].isDone).toBe(true)
+
+})
+test('tasksReducer-add_todoList-Tasks',()=>{
+
+    let startState:TasksStateType={
+        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
+            {id: '1', title: "JS", isDone: true},
+            {id: '2', title: "ReactJS", isDone: false},
+            {id: '3', title: "Hello world", isDone: true},
+            {id: '4', title: "I am Happy", isDone: false},
+        ],
+        'todoListsId2': [
+            {id: '1', title: "HTML&CSS", isDone: true},
+            {id: '2', title: "JS", isDone: true},
+        ]
+    }
+    const action = addTodoList('NEW TODOLIST ')
+    const endState=tasksReducer(startState,action)
+    const keys = Object.keys(endState)
+    const newKey = keys.find(k=>k!='todoListsId1'&&k!='todoListsId2')
+    if(!newKey) throw new Error("new key should be uniq")
+
+    expect(keys.length).toBe(3)
+    expect(endState[newKey]).toEqual([])
 
 })
