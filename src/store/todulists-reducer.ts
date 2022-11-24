@@ -57,17 +57,17 @@ export const todoListsReducer=(state:Array<TodoListType>=initialState,action:Act
         case REMOVE_TODOLIST:
             return state.filter(tl => tl.id !== action.todoListId);
         case CHANGE_TODOLIST_FILTER:
-            return state.map(el => el.id === action.todoListId
-                ? {...el,filter: action.status}
-                : {...el})
+            return state.map(tl => tl.id === action.todoListId
+                ? {...tl,filter: action.status}
+                : {...tl})
         case CHANGE_TODOLIST_INPUT:
-            return state.map(el => el.id === action.todoListId
-                ?{...el,text:action.text}
-                : {...el})
+            return state.map(tl => tl.id === action.todoListId
+                ?{...tl,text:action.text}
+                : {...tl})
         case CHANGE_TODOLIST_TITLE:
-            return state.map(el => el.id === action.todoListId
-                ?{...el,title:action.text}
-                : {...el})
+            return state.map(tl => tl.id === action.todoListId
+                ?{...tl,title:action.text}
+                : {...tl})
             default:
                 return state
 

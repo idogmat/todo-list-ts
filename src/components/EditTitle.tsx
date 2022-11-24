@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {Input, TodoTitle} from "../style/elements";
 
-type EditableTitle={
+type EditableTitleType={
     title:string
     callBack:(a:string)=>void
 
 }
-const EditableTitle=(props:EditableTitle)=>{
+const EditableTitle=React.memo((props:EditableTitleType)=>{
     let [editOption,setEditOption]=useState(false)
     let [title,setTitle]=useState(props.title)
     const activateEditMode=()=> {
@@ -27,5 +27,5 @@ const EditableTitle=(props:EditableTitle)=>{
             onChange={onChangeTitleHandler}
             autoFocus/>
         :<TodoTitle onDoubleClick={activateEditMode}>{props.title}</TodoTitle>
-}
+})
 export default EditableTitle

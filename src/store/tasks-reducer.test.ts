@@ -51,7 +51,7 @@ test('tasksReducer-add',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = addTask('choton novoe','todoListsId2')
+    const action = addTask('todoListsId2','choton novoe')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(3)
@@ -75,7 +75,7 @@ test('tasksReducer-change_title',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = changeTaskTitle('choton novoe','todoListsId2','1')
+    const action = changeTaskTitle('todoListsId2','1','choton novoe')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
@@ -97,11 +97,11 @@ test('tasksReducer-change_status',()=>{
             {id: '2', title: "JS", isDone: true},
         ]
     }
-    const action = changeTaskStatus(false,'todoListsId2','1')
+    const action = changeTaskStatus('todoListsId2','1',false)
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
-    expect(endState['todoListsId2'][0].isDone).toBe(true)
+    expect(endState['todoListsId2'][0].isDone).toBe(false)
 
 })
 test('tasksReducer-add_todoList-Tasks',()=>{

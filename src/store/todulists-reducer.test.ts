@@ -38,7 +38,7 @@ test('todolist-changeTitle',()=>{
         {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
     ]
 
-    const endState=todoListsReducer(startState,{type:"CHANGE-TODOLIST-TITLE",id:todoListsId2,text:'changed Title'})
+    const endState=todoListsReducer(startState,{type:"CHANGE-TODOLIST-TITLE",todoListId:todoListsId2,text:'changed Title'})
 
     expect(endState.length).toBe(2)
     expect(endState[1].title).toBe('changed Title')
@@ -52,7 +52,7 @@ test('todolist-Filter',()=>{
         {id: todoListsId2, title: 'first', filter: 'all', error: false, text: ''}
     ]
 
-    const endState=todoListsReducer(startState,{type:"CHANGE-TODOLIST-FILTER",id:todoListsId2,status:'completed'})
+    const endState=todoListsReducer(startState,{type:"CHANGE-TODOLIST-FILTER",todoListId:todoListsId2,status:'completed'})
 
     expect(endState.length).toBe(2)
     expect(endState[1].filter).toBe('completed')

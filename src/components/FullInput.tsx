@@ -1,32 +1,32 @@
-import React from "react";
+import React, {useCallback} from "react";
 import Button from "./Button";
 import {Input} from "../style/elements";
 import s from './style.module.css'
 type InputProps={
     addTasks:(todoListId: string,text: string) =>void
-    taskTitle:string
+    todolistInput:string
     onChangedTodolistInput:(todoListId:string,text:string)=>void
     error:boolean
     id:string
 }
 
 const FullInput=(props:InputProps)=>{
-    const changeInput=(text:string)=>{
+    const changeInput=useCallback((text:string)=>{
         props.onChangedTodolistInput(props.id,text)
-        if(props.taskTitle !== '' || props.taskTitle.trim() !== '') {
+        if(props.todolistInput !== '' || props.todolistInput.trim() !== '') {
 
         }
-    }
-    const addTask=()=>{
-        if(props.taskTitle === '' || props.taskTitle.trim() === ''){
+    },[props.id])
+    const addTask=useCallback(()=>{
+        if(props.todolistInput === '' || props.todolistInput.trim() === ''){
         } else {
-            props.addTasks(props.id,props.taskTitle)
+            props.addTasks(props.id,props.todolistInput)
             props.onChangedTodolistInput(props.id,'')
         }
-    }
+    },[props.id,props.todolistInput])
     return <div className={s.inputBlock}>
             <Input
-                   value={props.taskTitle}
+                   value={props.todolistInput}
                    onChange={(e:any)=>changeInput(e.currentTarget.value)}
                    onKeyDown={(e:any)=>e.key==="Enter" && addTask()}
                    className={props.error ? s.inputError : ''}

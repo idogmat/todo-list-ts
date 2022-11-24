@@ -21,16 +21,16 @@ export type TasksStateType = {
     [key: string]: TaskType[]
 }
 let initialState: TasksStateType = {
-    // ['todoListsId1']: [{id: v1(), title: "HTML&CSS", isDone: true},
-    //     {id: v1(), title: "JS", isDone: true},
-    //     {id: v1(), title: "ReactJS", isDone: false},
-    //     {id: v1(), title: "Hello world", isDone: true},
-    //     {id: v1(), title: "I am Happy", isDone: false},
-    // ],
-    // ['todoListsId2']: [
-    //     {id: v1(), title: "HTML&CSS", isDone: true},
-    //     {id: v1(), title: "JS", isDone: true},
-    // ]
+    ['todoListsId1']: [{id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+        {id: v1(), title: "Hello world", isDone: true},
+        {id: v1(), title: "I am Happy", isDone: false},
+    ],
+    ['todoListsId2']: [
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+    ]
 }
 
 
@@ -57,7 +57,9 @@ export const tasksReducer = (state: TasksStateType=initialState, action: Actions
         case CHANGE_TASK_TITLE:
             return {
                 ...state,
-                [action.todoListId]: state[action.todoListId].map(el => el.id === action.taskId ? {...el,title:action.text}:el)
+                [action.todoListId]: state[action.todoListId].map(el => el.id === action.taskId
+                    ? {...el,title:action.text}
+                    :el)
             }
         case "ADD_TODOLIST":
             return {
@@ -76,7 +78,7 @@ export const tasksReducer = (state: TasksStateType=initialState, action: Actions
 export const addTask = (todoListId: string,text: string ) => {
     return {type: ADD_TASK, todoListId, text} as const
 }
-export const removeTask = (taskId: string, todoListId: string) => {
+export const removeTask = (todoListId: string,taskId: string, ) => {
     return {type: REMOVE_TASK, taskId, todoListId} as const
 }
 export const changeTaskStatus = (todoListId: string, taskId: string, isDone: boolean, ) => {
