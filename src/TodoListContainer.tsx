@@ -69,8 +69,6 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
                     {!!props.todolists
                         ? props.todolists.map((tl) => {
                             let allTasks = props.tasks[tl.id]
-
-
                             return <TodoList key={tl.id}
                                              title={tl.title}
                                              id={tl.id}

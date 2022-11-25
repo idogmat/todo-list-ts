@@ -25,7 +25,7 @@ export const Task = React.memo((props: TaskElementType) => {
         props.changeStatus(props.todolistId, props.task.id, e.currentTarget.checked)
     }, [props.todolistId, props.task.id])
 
-    return <li className={props.task.isDone ? s.done : ''} key={props.task.id}><HiddenCheckbox
+    return <li className={s.task + ' ' + (props.task.isDone ? s.done+' ' : '') } key={props.task.id}><HiddenCheckbox
         onChange={(e) => onInputChange(e)}
         type="checkbox"
         checked={props.task.isDone}

@@ -19,7 +19,6 @@ const Template: ComponentStory<typeof MyButton> = (args) => <MyButton {...args} 
 export const ButtonsAdd = Template.bind({});
 
 ButtonsAdd.args = {
-
     title: '+'
 };
 export const ButtonsRemove = Template.bind({});

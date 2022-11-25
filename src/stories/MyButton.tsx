@@ -1,5 +1,5 @@
 import React from 'react';
-import {BtnStyle} from './elements'
+import {BtnStyle} from '../style/elements'
 /**
  * Primary UI component for user interaction
  */

@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import Button from "./Button";
 import {Input} from "../style/elements";
 import s from './style.module.css'
@@ -27,7 +27,7 @@ const FullInput=(props:InputProps)=>{
     return <div className={s.inputBlock}>
             <Input
                    value={props.todolistInput}
-                   onChange={(e:any)=>changeInput(e.currentTarget.value)}
+                   onChange={(e:ChangeEvent<HTMLInputElement>)=>changeInput(e.currentTarget.value)}
                    onKeyDown={(e:any)=>e.key==="Enter" && addTask()}
                    className={props.error ? s.inputError : ''}
             />

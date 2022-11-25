@@ -27,6 +27,11 @@ div .inputError{
 .done{
     opacity: .5;
 }
+.task{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .flex{
     display: flex;
     flex-wrap: wrap;
@@ -36,4 +41,5 @@ div .inputError{
 .todolishka{
     display: flex;
     flex-direction: column;
+    width: 35%;
 }

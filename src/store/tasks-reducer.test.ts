@@ -22,7 +22,7 @@ let startState:TasksStateType={
         {id: '2', title: "JS", isDone: true},
     ]
 }
-const action = removeTask('1','todoListsId2')
+const action = removeTask('todoListsId2','1')
     const endState=tasksReducer(startState,action)
 
     expect(endState).toEqual({

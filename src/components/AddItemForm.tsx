@@ -6,7 +6,7 @@ import Button from "./Button";
 type AddItemForm={
     addTodo:(title:string)=>void
 }
-function AddItemForm(props:AddItemForm){
+const AddItemForm=React.memo((props:AddItemForm)=>{
     let [title,setTitle]=useState('')
     let [error,setError]=useState(false)
     const onChangeHandler=(e:React.ChangeEvent<HTMLTextAreaElement>)=>{
@@ -33,5 +33,5 @@ function AddItemForm(props:AddItemForm){
             <Button callBack={addNewTodo}/>
         </div>
     </div>
-}
+})
 export default AddItemForm
