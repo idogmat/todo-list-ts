@@ -21,16 +21,16 @@ export type TasksStateType = {
     [key: string]: TaskType[]
 }
 let initialState: TasksStateType = {
-    ['todoListsId1']: [{id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false},
-        {id: v1(), title: "Hello world", isDone: true},
-        {id: v1(), title: "I am Happy", isDone: false},
-    ],
-    ['todoListsId2']: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-    ]
+    // ['todoListsId1']: [{id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "ReactJS", isDone: false},
+    //     {id: v1(), title: "Hello world", isDone: true},
+    //     {id: v1(), title: "I am Happy", isDone: false},
+    // ],
+    // ['todoListsId2']: [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    // ]
 }
 
 
