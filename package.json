@@ -27,7 +27,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:6006 jest:integration"
   },
   "resolutions": {
     "styled-components": "^5"
@@ -73,6 +75,10 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/uuid": "^8.3.4",
     "babel-loader": "8.1.0",
+    "jest-image-snapshot": "^6.0.0",
+    "jest-puppeteer": "^6.1.1",
+    "puppeteer": "^19.3.0",
+    "start-server-and-test": "^1.14.0",
     "webpack": "4.42.0"
   }
 }
