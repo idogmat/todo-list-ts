@@ -3,11 +3,11 @@ import {
     addTask,
     changeTaskStatus,
     changeTaskTitle,
-    removeTask,
+    removeTask, setTasksAC,
     tasksReducer,
     TasksStateType
 } from "./tasks-reducer";
-import {addTodoList} from "./todulists-reducer";
+import {addTodoList} from "./todolists-reducer";
 
 test('tasksReducer-remove',()=>{
 let startState:TasksStateType={
@@ -60,9 +60,6 @@ test('tasksReducer-add',()=>{
 
 })
 test('tasksReducer-change_title',()=>{
-    let todoListsId1 = v1();
-    let todoListsId2 = v1();
-
     let startState:TasksStateType={
         "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
             {id: '1', title: "JS", isDone: true},
@@ -84,7 +81,6 @@ test('tasksReducer-change_title',()=>{
 
 })
 test('tasksReducer-change_status',()=>{
-
     let startState:TasksStateType={
         "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
             {id: '1', title: "JS", isDone: true},
@@ -105,7 +101,6 @@ test('tasksReducer-change_status',()=>{
 
 })
 test('tasksReducer-add_todoList-Tasks',()=>{
-
     let startState:TasksStateType={
         "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
             {id: '1', title: "JS", isDone: true},
@@ -128,3 +123,21 @@ test('tasksReducer-add_todoList-Tasks',()=>{
     expect(endState[newKey]).toEqual([])
 
 })
+test('tasksReducer-add_todoList-Tasks-load',()=>{
+    let startState:TasksStateType={
+        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
+            {id: '1', title: "JS", isDone: true},
+            {id: '2', title: "ReactJS", isDone: false},
+            {id: '3', title: "Hello world", isDone: true},
+            {id: '4', title: "I am Happy", isDone: false},
+        ],
+        'todoListsId2': [
+            {id: '1', title: "HTML&CSS", isDone: true},
+            {id: '2', title: "JS", isDone: true},
+        ]
+    }
+    const action = setTasksAC("todoListsId1",startState["todoListsId1"])
+    const endState=tasksReducer({"todoListsId1":[],"todoListsId2":[]},action)
+    expect(endState["todoListsId1"].length).toBe(5)
+})
+

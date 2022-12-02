@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {addTodoList, removeTodoList, TodoListType, todoListsReducer, setTodoLists} from "./todulists-reducer";
+
+import {addTodoList, removeTodoList, TodoListType, todoListsReducer, setTodoLists} from "./todolists-reducer";
 
 
 test('todolist-remove', () => {

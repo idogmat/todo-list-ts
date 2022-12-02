@@ -1,5 +1,7 @@
 import {v1} from "uuid";
 import {FilterValuesType} from "../TodoListContainer";
+import {Dispatch} from "redux";
+import {API} from "../api/api";
 
 const ADD_TODOLIST = "ADD_TODOLIST"
 const REMOVE_TODOLIST = "REMOVE-TODOLIST"
@@ -119,6 +121,12 @@ export const changeFieldTodolistTitle = (todoListId: string, text: string) => {
     return {type: CHANGE_TODOLIST_TITLE, todoListId, text} as const
 }
 
-export const setTodoLists = (todoLists: todoListsFromAPIType[]) => {
+export const setTodoLists = (todoLists: todoListsFromAPIType[]|any) => {
     return {type: SET_TODOLISTS, todoLists} as const
+}
+
+export const fetchTodolist=()=>(dispatch:Dispatch)=>{
+    API.getTodolists()
+        // .then((e:todoListsFromAPIType[])=>console.log(e))
+        .then((data)=>dispatch(setTodoLists(data)))
 }

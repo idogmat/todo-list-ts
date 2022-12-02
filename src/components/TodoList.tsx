@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import FullInput from "./FullInput";
 import {BtnStyle} from "../style/elements";
 import s from './style.module.css'
@@ -27,7 +27,7 @@ export type TodolistType = {
     error: boolean
     removeTodoList: (s: string) => void
     filter: FilterType
-
+    fetchTasksTC:(s:string)=>void
 
 }
 export type TaskPropsType = {
@@ -36,6 +36,9 @@ export type TaskPropsType = {
     isDone: boolean
 }
 const TodoList =React.memo ((props: TodolistType) => {
+    useEffect(()=>{
+        props.fetchTasksTC(props.id)
+    },[])
     const selectFilter = (filter: FilterType, id: string) => {
         props.setFilterType(id, filter)
     }

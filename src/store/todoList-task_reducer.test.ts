@@ -1,5 +1,5 @@
 import {removeTask, tasksReducer, TasksStateType} from "./tasks-reducer";
-import {addTodoList, removeTodoList, TodoListType, todoListsReducer} from "./todulists-reducer";
+import {addTodoList, removeTodoList, TodoListType, todoListsReducer} from "./todolists-reducer";
 
 test('tasksReducer-add_todoList-Tasks', () => {
     const todoListState: Array<TodoListType> = [

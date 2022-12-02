@@ -2,19 +2,19 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import TodoList from "./components/TodoList";
 import AddItemForm from "./components/AddItemForm";
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "./store/store";
 import {
     addTask,
-    changeTaskStatus, changeTaskTitle,
+    changeTaskStatus, changeTaskTitle, fetchTasksTC,
     removeTask,
 } from "./store/tasks-reducer";
 import {
     addTodoList, changeFieldTodolistTitle,
-    changeTodoListFilter, changeTodoListInput,
-    removeTodoList, setTodoLists, todoListsFromAPIType,
-} from "./store/todulists-reducer";
-import {API} from "./api/api";
+    changeTodoListFilter, changeTodoListInput, fetchTodolist,
+    removeTodoList
+} from "./store/todolists-reducer";
+import {Dispatch} from "redux";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -24,20 +24,18 @@ type MapDispatchType = {
     removeTask: (taskId: string, todoListId: string) => void,
     addTodoList: (text: string) => void,
     removeTodoList: (todoListId: string) => void
-    setTodoLists: (todoListId: any) => void
+    fetchTodolist:()=>void
     changeTodoListFilter: (id: string, type: FilterValuesType) => void
     changeFieldTodolistTitle: (todoListId: string, text: string) => void
     changeTodoListInput: (todoListId: string, text: string) => void
     changeTaskTitle: (todoListId: string, taskId: string, text: string) => void
-
+    fetchTasksTC:(s:string)=>void
 }
 
 const TodoListComponent = (props: AppStateType & MapDispatchType) => {
+    //preload-list
     useEffect(()=>{
-        API.getTodolists()
-            // .then((e:todoListsFromAPIType[])=>console.log(e))
-            .then((data:todoListsFromAPIType[])=>props.setTodoLists(data))
-
+        props.fetchTodolist()
     },[])
     //tasks
     const addTask = useCallback((todoListId: string, text: string) => {
@@ -96,7 +94,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
                                              onChangedTodolistInput={onChangedTodolistInput}
                                              changeFieldTodolistTitle={changeFieldTodolistTitle}
                                              changeTaskTitle={changeTaskTitle}
-
+                                             fetchTasksTC={props.fetchTasksTC}
                             />
                         })
                         : <div></div>
@@ -123,7 +121,7 @@ const TodoListContainer = connect(mapStateToProps, {
     changeTodoListInput,
     changeTodoListFilter,
     changeFieldTodolistTitle,
-    changeTaskTitle,setTodoLists
+    changeTaskTitle,fetchTodolist,fetchTasksTC
 
 })(TodoListComponent);
 export default React.memo(TodoListContainer)
