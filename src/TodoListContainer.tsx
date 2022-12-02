@@ -12,7 +12,7 @@ import {
 import {
     addTodoList, changeFieldTodolistTitle,
     changeTodoListFilter, changeTodoListInput,
-    removeTodoList,
+    removeTodoList, setTodoLists, todoListsFromAPIType,
 } from "./store/todulists-reducer";
 import {API} from "./api/api";
 
@@ -24,6 +24,7 @@ type MapDispatchType = {
     removeTask: (taskId: string, todoListId: string) => void,
     addTodoList: (text: string) => void,
     removeTodoList: (todoListId: string) => void
+    setTodoLists: (todoListId: any) => void
     changeTodoListFilter: (id: string, type: FilterValuesType) => void
     changeFieldTodolistTitle: (todoListId: string, text: string) => void
     changeTodoListInput: (todoListId: string, text: string) => void
@@ -32,10 +33,12 @@ type MapDispatchType = {
 }
 
 const TodoListComponent = (props: AppStateType & MapDispatchType) => {
-    // useEffect(()=>{
-    //     API.getTodoLists()
-    //         .then((e)=>props.setTodoLists(e))
-    // },[])
+    useEffect(()=>{
+        API.getTodolists()
+            // .then((e:todoListsFromAPIType[])=>console.log(e))
+            .then((data:todoListsFromAPIType[])=>props.setTodoLists(data))
+
+    },[])
     //tasks
     const addTask = useCallback((todoListId: string, text: string) => {
         props.addTask(todoListId, text)
@@ -120,7 +123,7 @@ const TodoListContainer = connect(mapStateToProps, {
     changeTodoListInput,
     changeTodoListFilter,
     changeFieldTodolistTitle,
-    changeTaskTitle,
+    changeTaskTitle,setTodoLists
 
 })(TodoListComponent);
 export default React.memo(TodoListContainer)
