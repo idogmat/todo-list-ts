@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {FilterValuesType} from "../TodoListContainer";
 import {Dispatch} from "redux";
-import {API} from "../api/api";
+import {API, TodoListsAPIType} from "../api/api";
 
 const ADD_TODOLIST = "ADD_TODOLIST"
 const REMOVE_TODOLIST = "REMOVE-TODOLIST"
@@ -9,71 +9,45 @@ const CHANGE_TODOLIST_FILTER = "CHANGE-TODOLIST-FILTER"
 const CHANGE_TODOLIST_TITLE = "CHANGE-TODOLIST-TITLE"
 const CHANGE_TODOLIST_INPUT = "CHANGE-TODOLIST-INPUT"
 const SET_TODOLISTS = "SET-TODOLISTS"
-
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-    error: boolean
-    text: string
-    order?:number
-    addedDate?:string
-}
-export type AddActionType = {
-    type: "ADD_TODOLIST"
-    text: string
-    todoListId: string
-
-}
-export type RemoveActionType = {
-    type: "REMOVE-TODOLIST"
-    todoListId: string
-}
-export type ChangeActionType = {
-    todoListId: string
-    type: "CHANGE-TODOLIST-TITLE"
-    text: string
-
-}
-export type ChangeActionFilterType = {
-    todoListId: string
-    type: "CHANGE-TODOLIST-FILTER"
-    status: FilterValuesType
-
-}
-
-export type ChangeTodoListInputType = {
-    todoListId: string
-    type: "CHANGE-TODOLIST-INPUT"
-    text: string
-}
 export type todoListsFromAPIType={
     addedDate:string
     id:string
     order:number
     title:string
 }
-export type setTodolistsType = {
-    todoLists: todoListsFromAPIType[]
-    type: "SET-TODOLISTS"
+export type TodoListType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+    error: boolean
+    text: string
+    order:number
+    addedDate:string
 }
+export type AddTodoListType=ReturnType<typeof addTodoList>
+export type RemoveTodoListType=ReturnType<typeof removeTodoList>
+export type SetTodoListsType=ReturnType<typeof setTodoLists>
+type ChangeTodoListInputType=ReturnType<typeof changeTodoListInput>
+type ChangeTodoListFilterType=ReturnType<typeof changeTodoListFilter>
+type ChangeFieldTodolistTitleType=ReturnType<typeof changeFieldTodolistTitle>
 
-export type ActionType =
-    AddActionType
-    | RemoveActionType
-    | ChangeActionType
-    | ChangeActionFilterType
-    | ChangeTodoListInputType
-    | setTodolistsType
+type ActionsType=
+    AddTodoListType
+    |RemoveTodoListType
+|ChangeTodoListInputType
+|ChangeTodoListFilterType
+|ChangeFieldTodolistTitleType
+|SetTodoListsType
+
 const initialState: Array<TodoListType> = [
     // {id: 'todoListsId1', title: 'first', filter: 'all', error: false, text: ''},
     // {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}
 ]
 
-export const todoListsReducer = (state: Array<TodoListType> = initialState, action: ActionType): TodoListType[] => {
+export const todoListsReducer = (state: Array<TodoListType> = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {
         case ADD_TODOLIST:
-            return [{id: action.todoListId, title: action.text, filter: 'all', error: false, text: '',order:0},
+            return [{...action.todoList,filter:'all',error:false,text:''},
                 ...state];
         case REMOVE_TODOLIST:
             return state.filter(tl => tl.id !== action.todoListId);
@@ -87,7 +61,7 @@ export const todoListsReducer = (state: Array<TodoListType> = initialState, acti
                 : {...tl})
         case CHANGE_TODOLIST_TITLE:
             return state.map(tl => tl.id === action.todoListId
-                ? {...tl, title: action.text}
+                ? {...tl, title: action.title}
                 : {...tl})
         case SET_TODOLISTS:
             return action.todoLists.map(tl => ({
@@ -96,7 +70,8 @@ export const todoListsReducer = (state: Array<TodoListType> = initialState, acti
                 filter: 'all',
                 error: false,
                 text: '',
-                order:tl.order
+                order:tl.order,
+                addedDate:tl.addedDate
             }))
         default:
             return state
@@ -104,8 +79,8 @@ export const todoListsReducer = (state: Array<TodoListType> = initialState, acti
 
     }
 }
-export const addTodoList = (text: string) => {
-    return {type: ADD_TODOLIST, text, todoListId: v1()} as const
+export const addTodoList = (todoList: TodoListsAPIType) => {
+    return {type: ADD_TODOLIST, todoList} as const
 }
 //generate id for 2 reducers/important made action.type for both reducers
 export const removeTodoList = (todoListId: string) => {
@@ -117,16 +92,33 @@ export const changeTodoListInput = (todoListId: string, text: string) => {
 export const changeTodoListFilter = (todoListId: string, status: FilterValuesType) => {
     return {type: CHANGE_TODOLIST_FILTER, todoListId, status} as const
 }
-export const changeFieldTodolistTitle = (todoListId: string, text: string) => {
-    return {type: CHANGE_TODOLIST_TITLE, todoListId, text} as const
+export const changeFieldTodolistTitle = (todoListId: string, title: string) => {
+    return {type: CHANGE_TODOLIST_TITLE, todoListId, title} as const
 }
 
-export const setTodoLists = (todoLists: todoListsFromAPIType[]|void) => {
+export const setTodoLists = (todoLists: todoListsFromAPIType[]) => {
     return {type: SET_TODOLISTS, todoLists} as const
 }
 
 export const fetchTodolist=()=>(dispatch:Dispatch)=>{
     API.getTodolists()
-        // .then((e)=>console.log(e))
         .then((data)=>dispatch(setTodoLists(data)))
+}
+export const addTodolistTC=(title:string)=>(dispatch:Dispatch)=>{
+    API.addTodolist(title)
+        .then((data)=>dispatch(addTodoList(data)))
+}
+export const removeTodolistTC=(todolistId:string)=>(dispatch:Dispatch)=>{
+    API.deleteTodolist(todolistId)
+        .then((data)=> {
+            if(data.data.resultCode === 0)
+            dispatch(removeTodoList(todolistId))
+        }).catch(e=>console.log(e))
+}
+export const updateTodolistTitleTC=(todolistId:string,title:string)=>(dispatch:Dispatch)=>{
+    API.updateTodolistTitle(todolistId,title)
+        .then((resultCode)=> {
+            if(resultCode === 0)
+                dispatch(changeFieldTodolistTitle(todolistId,title))
+        }).catch(e=>console.log(e))
 }

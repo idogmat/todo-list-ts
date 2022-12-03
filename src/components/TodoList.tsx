@@ -11,7 +11,7 @@ type FilterType = 'all' | 'active' | 'completed'
 
 
 export type TodolistType = {
-    id: string
+    todolistId: string
     title: string
     tasks: Array<TaskType>
 
@@ -32,14 +32,15 @@ export type TodolistType = {
 
 }
 const TodoList =React.memo ((props: TodolistType) => {
+    //preload-tasks
     useEffect(()=>{
-        props.fetchTasksTC(props.id)
+        props.fetchTasksTC(props.todolistId)
     },[])
     const selectFilter = (filter: FilterType, id: string) => {
         props.setFilterType(id, filter)
     }
     const changeTodoListTitle = (text: string) => {
-        props.changeFieldTodolistTitle(props.id, text)
+        if(props.title !== text) props.changeFieldTodolistTitle(props.todolistId, text)
     }
     let tasksForTodolist = props.tasks;
     if (props.filter === 'completed') {
@@ -51,20 +52,20 @@ const TodoList =React.memo ((props: TodolistType) => {
         <div className={s.todolishka}>
             <div className={s.flex}>
                 <EditableTitle title={props.title} callBack={changeTodoListTitle}></EditableTitle>
-                <BtnStyle onClick={() => props.removeTodoList(props.id)}>Remove</BtnStyle>
+                <BtnStyle onClick={() => props.removeTodoList(props.todolistId)}>Remove</BtnStyle>
             </div>
             <FullInput addTasks={props.addTask}
                        todolistInput={props.todolistInput}
                        onChangedTodolistInput={props.onChangedTodolistInput}
                        error={props.error}
-                       id={props.id}
+                       todolistId={props.todolistId}
             />
             {props.error && <div className={s.errorMessage}>Field is required</div>}
 
             {props.tasks.length ?
                 <ul>{tasksForTodolist.map((el: TaskType) => {
                    return <Task key={el.id} task={el}
-                          todolistId={props.id}
+                          todolistId={props.todolistId}
                           removeTask={props.removeTask}
                           changeTaskTitle={props.changeTaskTitle}
                           changeStatus={props.changeStatus}
@@ -73,11 +74,11 @@ const TodoList =React.memo ((props: TodolistType) => {
                 <p>Your list is empty</p>}
             <div className={s.sort}>
                 <BtnStyle className={(props.filter === 'all') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('all', props.id)}>All</BtnStyle>
+                          onClick={() => selectFilter('all', props.todolistId)}>All</BtnStyle>
                 <BtnStyle className={(props.filter === 'active') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('active', props.id)}>Active</BtnStyle>
+                          onClick={() => selectFilter('active', props.todolistId)}>Active</BtnStyle>
                 <BtnStyle className={(props.filter === 'completed') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('completed', props.id)}>Completed</BtnStyle>
+                          onClick={() => selectFilter('completed', props.todolistId)}>Completed</BtnStyle>
             </div>
 
         </div>

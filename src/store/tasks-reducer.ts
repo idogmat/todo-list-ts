@@ -1,4 +1,4 @@
-import {AddActionType, RemoveActionType, setTodolistsType} from "./todolists-reducer";
+import {AddTodoListType, RemoveTodoListType, SetTodoListsType} from "./todolists-reducer";
 import {Dispatch} from "redux";
 import {API, TaskResponseType} from "../api/api";
 
@@ -17,9 +17,9 @@ type ActionsType = AddTaskACType
     | RemoveTaskACType
     | ChangeTaskStatusACType
     | ChangeTaskTitleACType
-    | AddActionType
-    | RemoveActionType
-    | setTodolistsType
+    | AddTodoListType
+    | RemoveTodoListType
+    | SetTodoListsType
     | setTasksACType
 export type TaskStatusType= 0|1
 export type TaskType = {
@@ -69,7 +69,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             }
         case "ADD_TODOLIST":
             return {
-                [action.todoListId]: [],
+                [action.todoList.id]: [],
                 ...state
             }
         case "REMOVE-TODOLIST":

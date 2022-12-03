@@ -22,7 +22,7 @@ div .inputError{
 }
 .sort .activeFilterBtn{
     font-weight: 700;
-    outline: 4px solid #DB7093FF;
+    outline: 3px solid #DB7093FF;
 }
 .done{
     opacity: .5;

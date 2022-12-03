@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
 import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
-type TodoListsFromAPIType = {
+export type TodoListsAPIType = {
     addedDate: string
     id: string
     order: number
@@ -45,7 +45,7 @@ type CreateTodolistResponseType = {
     messages: Array<string>
     fieldsErrors: Array<string>
     data: {
-        item: TodoListsFromAPIType
+        item: TodoListsAPIType
     }
 }
 type UpdateTodolistResponseType = {
@@ -78,17 +78,17 @@ export const API = {
     authMe: () => instance.get('/auth/me').then(response => response.data),
     //todolists
     getTodolists: () => {
-        return instance.get<TodoListsFromAPIType[]>('todo-lists')
+        return instance.get<TodoListsAPIType[]>('todo-lists')
             .then(resolve => {
                 console.log(resolve)
                 return resolve.data
             })
     },
-    addTodolist: (newTodolist: string) => {
-        return instance.post<CreateTodolistResponseType>('todo-lists', newTodolist)
+    addTodolist: (title: string) => {
+        return instance.post<CreateTodolistResponseType>('todo-lists', {Title: title})
             .then(resolve => {
                 console.log(resolve)
-                return resolve
+                return resolve.data.data.item
             })
     },
     deleteTodolist: (todolistId: string) => {
@@ -100,11 +100,11 @@ export const API = {
 
     },
     updateTodolistTitle: (todolistId: string, title: string) => {
-        return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, title)
+        return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, {Title: title})
             .then(resolve => {
                 console.log(resolve)
-                return resolve
-            }).catch((e) => console.warn(e))
+                return resolve.data.resultCode
+            })
     },
     //Tasks
     getTasks: (todolistId: string) => {

@@ -22,6 +22,7 @@ const EditableTitle=React.memo((props:EditableTitleType)=>{
     }
     return editOption
         ? <Input
+            size={'2rem'}
             onBlur={activateViewMode}
             value={title}
             onChange={onChangeTitleHandler}

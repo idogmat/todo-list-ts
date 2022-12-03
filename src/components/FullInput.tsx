@@ -7,23 +7,23 @@ type InputProps={
     todolistInput:string
     onChangedTodolistInput:(todoListId:string,text:string)=>void
     error:boolean
-    id:string
+    todolistId:string
 }
 
 const FullInput=(props:InputProps)=>{
     const changeInput=useCallback((text:string)=>{
-        props.onChangedTodolistInput(props.id,text)
+        props.onChangedTodolistInput(props.todolistId,text)
         if(props.todolistInput !== '' || props.todolistInput.trim() !== '') {
 
         }
-    },[props.id])
+    },[props.todolistId])
     const addTask=useCallback(()=>{
         if(props.todolistInput === '' || props.todolistInput.trim() === ''){
         } else {
-            props.addTasks(props.id,props.todolistInput)
-            props.onChangedTodolistInput(props.id,'')
+            props.addTasks(props.todolistId,props.todolistInput)
+            props.onChangedTodolistInput(props.todolistId,'')
         }
-    },[props.id,props.todolistInput])
+    },[props.todolistId,props.todolistInput])
     return <div className={s.inputBlock}>
             <Input
                    value={props.todolistInput}

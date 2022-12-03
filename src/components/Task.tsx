@@ -15,9 +15,11 @@ export const Task = React.memo((props: TaskElementType) => {
     const removeTask = useCallback(() => {
         props.removeTask(props.task.todoListId, props.task.id)
     }, [props.task.todoListId, props.task.id])
+
     const onChangeEditTitle = useCallback((text: string) => {
-        props.changeTaskTitle(props.todolistId, props.task.id, text)
+        if(props.task.title !== text) props.changeTaskTitle(props.todolistId, props.task.id, text)
     }, [props.task.todoListId, props.task.id])
+
     const onInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         let task = {...props.task,status:e.currentTarget.checked ? 1 : 0}
         props.changeStatus(props.task.todoListId, props.task.id, task as TaskType)
