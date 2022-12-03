@@ -17,15 +17,15 @@ let initialState: AppStateType = {
             {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}],
 
     tasks: {
-        ['todoListsId1']: [{id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Hello world", isDone: true},
-            {id: v1(), title: "I am Happy", isDone: false},
+        ['todoListsId1']: [{id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId1',order:1, priority:1, startDate:'1'},
+            {id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId1',order:1, priority:1, startDate:'1'},
+            {id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId1',order:1, priority:1, startDate:'1'},
+            {id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId1',order:1, priority:1, startDate:'1'},
+
         ],
         ['todoListsId2']: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
+            {id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId2',order:1, priority:1, startDate:'1'},
+            {id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'todoListsId2',order:1, priority:1, startDate:'1'}
         ]
     }
 }

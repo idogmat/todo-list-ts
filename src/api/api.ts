@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
+import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
 type TodoListsFromAPIType = {
     addedDate: string
@@ -10,7 +11,7 @@ type TodoListsFromAPIType = {
 export type TaskResponseType = {
     addedDate: string
     deadline: string | null
-    status: number
+    status: TaskStatusType
     id: string
     title: string,
     description: string | null,
@@ -31,6 +32,14 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     headers: {'API-KEY': key}
 });
+type CreateTaskResponseType = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: {
+        item: TaskResponseType
+    }
+}
 type CreateTodolistResponseType = {
     resultCode: number
     messages: Array<string>
@@ -51,6 +60,13 @@ type DeleteTodolistResponseType = {
     fieldsErrors: Array<string>
     data: {}
 }
+type DeleteTaskResponseType = {
+    data: {
+        resultCode: number
+        messages: Array<string>
+        fieldsErrors: Array<string>
+    }
+}
 export type ResponseType<D> = {
     resultCode: number
     messages: Array<string>
@@ -66,21 +82,21 @@ export const API = {
             .then(resolve => {
                 console.log(resolve)
                 return resolve.data
-            }).catch((e) => console.warn(e))
+            })
     },
     addTodolist: (newTodolist: string) => {
         return instance.post<CreateTodolistResponseType>('todo-lists', newTodolist)
             .then(resolve => {
                 console.log(resolve)
                 return resolve
-            }).catch((e) => console.warn(e))
+            })
     },
     deleteTodolist: (todolistId: string) => {
         return instance.delete<DeleteTodolistResponseType>(`todo-lists/${todolistId}`)
             .then(resolve => {
                 console.log(resolve)
                 return resolve
-            }).catch((e) => console.warn(e))
+            })
 
     },
     updateTodolistTitle: (todolistId: string, title: string) => {
@@ -95,28 +111,35 @@ export const API = {
         return instance.get<TasksObjType>(`todo-lists/${todolistId}/tasks`)
             .then(resolve => {
                 console.log(resolve)
-                return resolve.data.items
-            }).catch((e) => console.log(e))
+                return resolve.data
+            })
     },
-    addTask: (todolistId: string) => {
-        instance.post(`todo-lists/${todolistId}/tasks`, {title: 'testTask'})
+    addTask: (todolistId: string,title:string) => {
+        return instance.post<CreateTaskResponseType>(`todo-lists/${todolistId}/tasks`, {Title: title})
             .then(resolve => {
                 console.log(resolve)
-                // return resolve.data
-            }).catch((e) => console.log(e))
+                return resolve.data
+            })
     },
-    updateTask: (todolistId: string, taskId: string) => {
-        instance.put(`todo-lists/${todolistId}/tasks/${taskId}`, {title: 'Changed from put Task'})
+    updateTaskTitle: (todolistId: string, taskId: string,title:string) => {
+       return instance.put<CreateTaskResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`, {Title:title})
             .then(resolve => {
                 console.log(resolve)
-                // setState(resolve.data)
-            }).catch((e) => console.log(e))
+                return resolve.data
+            })
+    },
+    updateTaskStatus: (todolistId: string, taskId: string,task:TaskType) => {
+        return instance.put<CreateTaskResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`, task)
+            .then(resolve => {
+                console.log(resolve)
+                return resolve.data
+            })
     },
     deleteTask: (todolistId: string, taskId: string) => {
-        instance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
+       return instance.delete<ResponseType<DeleteTaskResponseType>>(`todo-lists/${todolistId}/tasks/${taskId}`)
             .then(resolve => {
                 console.log(resolve)
-                // setState(resolve.data)
+                return resolve.data.resultCode
             }).catch((e) => console.log(e))
 
     },

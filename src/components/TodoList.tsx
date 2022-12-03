@@ -5,6 +5,7 @@ import s from './style.module.css'
 import {FilterValuesType} from "../TodoListContainer";
 import EditableTitle from "./EditTitle";
 import {Task} from "./Task";
+import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
 type FilterType = 'all' | 'active' | 'completed'
 
@@ -12,7 +13,7 @@ type FilterType = 'all' | 'active' | 'completed'
 export type TodolistType = {
     id: string
     title: string
-    tasks: Array<TaskPropsType>
+    tasks: Array<TaskType>
 
     setFilterType: (id: string, f: FilterValuesType) => void
     onChangedTodolistInput: (todoListId: string, text: string) => void
@@ -21,7 +22,7 @@ export type TodolistType = {
 
     addTask: (todoListId: string, text: string) => void
     removeTask: (el: string, id: string) => void
-    changeStatus: (a: string, c: string, b: boolean) => void
+    changeStatus: (a: string, c: string, b: TaskType) => void
     todolistInput: string
 
     error: boolean
@@ -29,11 +30,6 @@ export type TodolistType = {
     filter: FilterType
     fetchTasksTC:(s:string)=>void
 
-}
-export type TaskPropsType = {
-    id: string
-    title: string
-    isDone: boolean
 }
 const TodoList =React.memo ((props: TodolistType) => {
     useEffect(()=>{
@@ -47,9 +43,9 @@ const TodoList =React.memo ((props: TodolistType) => {
     }
     let tasksForTodolist = props.tasks;
     if (props.filter === 'completed') {
-        tasksForTodolist= props.tasks.filter((el: TaskPropsType) => el.isDone === true)
+        tasksForTodolist= props.tasks.filter((el: TaskType) => el.status)
     } else if (props.filter === 'active') {
-        tasksForTodolist= props.tasks.filter((el: TaskPropsType) => el.isDone === false)
+        tasksForTodolist= props.tasks.filter((el: TaskType) => el.status)
     }
     return (
         <div className={s.todolishka}>
@@ -66,7 +62,7 @@ const TodoList =React.memo ((props: TodolistType) => {
             {props.error && <div className={s.errorMessage}>Field is required</div>}
 
             {props.tasks.length ?
-                <ul>{tasksForTodolist.map((el: TaskPropsType) => {
+                <ul>{tasksForTodolist.map((el: TaskType) => {
                    return <Task key={el.id} task={el}
                           todolistId={props.id}
                           removeTask={props.removeTask}

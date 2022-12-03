@@ -2,33 +2,31 @@ import React, {useCallback} from "react";
 import s from "./style.module.css";
 import {BtnStyle, HiddenCheckbox} from "../style/elements";
 import EditableTitle from "./EditTitle";
-import {TaskPropsType} from "./TodoList";
+import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
 type TaskElementType = {
-    task: TaskPropsType
+    task: TaskType
     todolistId: string
     changeTaskTitle: (t: string, id: string, text: string) => void
     removeTask: (el: string, id: string) => void
-    changeStatus: (a: string, c: string, b: boolean) => void
+    changeStatus: (a: string, c: string, b: TaskType) => void
 }
 export const Task = React.memo((props: TaskElementType) => {
-
     const removeTask = useCallback(() => {
-        props.removeTask(props.todolistId, props.task.id)
-    }, [props.todolistId, props.task.id])
-
+        props.removeTask(props.task.todoListId, props.task.id)
+    }, [props.task.todoListId, props.task.id])
     const onChangeEditTitle = useCallback((text: string) => {
         props.changeTaskTitle(props.todolistId, props.task.id, text)
-    }, [props.todolistId, props.task.id])
-
+    }, [props.task.todoListId, props.task.id])
     const onInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        props.changeStatus(props.todolistId, props.task.id, e.currentTarget.checked)
-    }, [props.todolistId, props.task.id])
+        let task = {...props.task,status:e.currentTarget.checked ? 1 : 0}
+        props.changeStatus(props.task.todoListId, props.task.id, task as TaskType)
+    }, [props.task.todoListId, props.task.id])
 
-    return <li className={s.task + ' ' + (props.task.isDone ? s.done+' ' : '') } key={props.task.id}><HiddenCheckbox
+    return <li className={s.task + ' ' + (props.task.status ? s.done+' ' : '') } key={props.task.id}><HiddenCheckbox
         onChange={(e) => onInputChange(e)}
         type="checkbox"
-        checked={props.task.isDone}
+        checked={!!props.task.status}
     />
         <EditableTitle title={props.task.title} callBack={onChangeEditTitle}/>
         <BtnStyle onClick={removeTask}>x</BtnStyle>

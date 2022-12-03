@@ -66,15 +66,15 @@ test('todolist-Filter', () => {
     expect(endState[1].filter).toBe('completed')
 
 })
-test('todolist-set-todolists', () => {
-    const newTodoLists = [
-        {id: 'todoListsId1', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'},
-        {id: 'todoListsId2', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'}
-    ]
-
-
-    const endState = todoListsReducer([], setTodoLists(newTodoLists))
-
-    expect(endState.length).toBe(2)
-
-})
+// test('todolist-set-todolists', () => {
+//     const newTodoLists = [
+//         {id: 'todoListsId1', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'},
+//         {id: 'todoListsId2', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'}
+//     ]
+//
+//
+//     const endState = todoListsReducer([], setTodoLists(newTodoLists))
+//
+//     expect(endState.length).toBe(2)
+//
+// })

@@ -18,9 +18,7 @@ export const BtnStyle = styled.button`
   display: inline-block;
   color: palevioletred;
   cursor: pointer;
-  font-size: 1rem;
   margin: 1rem;
-  padding:0 1rem;
   box-sizing: border-box;
   border: 2px solid palevioletred;
   border-radius: 30px;

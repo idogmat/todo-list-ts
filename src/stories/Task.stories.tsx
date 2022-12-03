@@ -19,13 +19,13 @@ export const TaskBaseExample = (props:any) => {
 
     return (
         <ul>
-        <Task task={{id:'1',isDone:true,title:'React'}}
+        <Task task={{id:'1',status:1,title:'React',addedDate:'1', deadline:'1', description:'1', todoListId:'1',order:1, priority:1, startDate:'1'}}
               todolistId={'todolist1'}
               removeTask={taskRemoved}
               changeTaskTitle={changeTaskTitleCallBack}
               changeStatus={changeTaskStatusCallBack}
         />
-            <Task task={{id:'1',isDone:false,title:'Angular'}}
+            <Task task={{id:'1',status:0,title:'Angular',addedDate:'1', deadline:'1', description:'1', todoListId:'1',order:1, priority:1, startDate:'1'}}
                   todolistId={'todolist2'}
                   removeTask={taskRemoved2}
                   changeTaskTitle={changeTaskTitleCallBack2}

@@ -121,12 +121,12 @@ export const changeFieldTodolistTitle = (todoListId: string, text: string) => {
     return {type: CHANGE_TODOLIST_TITLE, todoListId, text} as const
 }
 
-export const setTodoLists = (todoLists: todoListsFromAPIType[]|any) => {
+export const setTodoLists = (todoLists: todoListsFromAPIType[]|void) => {
     return {type: SET_TODOLISTS, todoLists} as const
 }
 
 export const fetchTodolist=()=>(dispatch:Dispatch)=>{
     API.getTodolists()
-        // .then((e:todoListsFromAPIType[])=>console.log(e))
+        // .then((e)=>console.log(e))
         .then((data)=>dispatch(setTodoLists(data)))
 }
