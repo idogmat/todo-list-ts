@@ -7,7 +7,7 @@ import {AppStateType} from "./store/store";
 import {
     addTaskTC,
     changeStatusTitleTC,
-    changeTaskTitle,
+
     changeTaskTitleTC,
     deleteTaskTC,
     fetchTasksTC,
@@ -25,13 +25,9 @@ import {
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
 type MapDispatchType = {
-
     fetchTodolist: () => void
     changeTodoListFilter: (id: string, type: FilterValuesType) => void
     changeTodoListInput: (todoListId: string, text: string) => void
-    changeTaskTitle: (todoListId: string, taskId: string, text: string) => void
-
-
 
     addTaskTC: (todoListId: string, title: string) => void,
     fetchTasksTC: (s: string) => void
@@ -125,7 +121,6 @@ function mapStateToProps(state: AppStateType) {
 const TodoListContainer = connect(mapStateToProps, {
     changeTodoListInput,
     changeTodoListFilter,
-    changeTaskTitle,
 
     fetchTodolist,
     fetchTasksTC,

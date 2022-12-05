@@ -22,6 +22,11 @@
     "typescript": "^4.9.3",
     "uuid": "^9.0.0"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

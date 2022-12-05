@@ -40,9 +40,10 @@ type ActionsType=
 |SetTodoListsType
 
 const initialState: Array<TodoListType> = [
-    // {id: 'todoListsId1', title: 'first', filter: 'all', error: false, text: ''},
-    // {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}
+    // {id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
+    // {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }
 ]
+
 
 export const todoListsReducer = (state: Array<TodoListType> = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {

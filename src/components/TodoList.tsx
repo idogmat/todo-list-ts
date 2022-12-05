@@ -14,20 +14,22 @@ export type TodolistType = {
     todolistId: string
     title: string
     tasks: Array<TaskType>
-
-    setFilterType: (id: string, f: FilterValuesType) => void
-    onChangedTodolistInput: (todoListId: string, text: string) => void
-    changeFieldTodolistTitle: (todoListId: string, text: string) => void
-    changeTaskTitle: (t: string, id: string, text: string) => void
-
-    addTask: (todoListId: string, text: string) => void
-    removeTask: (el: string, id: string) => void
-    changeStatus: (a: string, c: string, b: TaskType) => void
+    error: boolean
+    filter: FilterType
     todolistInput: string
 
-    error: boolean
-    removeTodoList: (s: string) => void
-    filter: FilterType
+    setFilterType: (id: string, filter: FilterValuesType) => void
+    onChangedTodolistInput: (todoListId: string, text: string) => void
+    changeFieldTodolistTitle: (todoListId: string, text: string) => void
+    removeTodoList: (todoListId: string) => void
+
+    changeTaskTitle: (todoListId: string, id: string, text: string) => void
+    addTask: (todoListId: string, text: string) => void
+    removeTask: (todoListId: string, id: string) => void
+    changeStatus: (todoListId: string, id: string, b: TaskType) => void
+
+
+
     fetchTasksTC:(s:string)=>void
 
 }

@@ -1,24 +1,21 @@
 import {removeTask, tasksReducer, TasksStateType} from "./tasks-reducer";
 import {addTodoList, removeTodoList, TodoListType, todoListsReducer} from "./todolists-reducer";
-
+import axios from "axios";//for tests
 test('tasksReducer-add_todoList-Tasks', () => {
     const todoListState: Array<TodoListType> = [
-        {id: 'todoListsId1', title: 'first', filter: 'all', error: false, text: ''},
-        {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}
+{id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
+        {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }
     ]
     let startState: TasksStateType = {
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
         ]
     }
-    const action = addTodoList('NEW TODOLIST ')
+    const action = addTodoList({id:'111', title: "HTML&CSS",addedDate:'1',order:0})
     const endTasksState = tasksReducer(startState, action)
     const endTodoListState = todoListsReducer(todoListState, action)
     const keys = Object.keys(endTasksState)
@@ -29,26 +26,22 @@ test('tasksReducer-add_todoList-Tasks', () => {
     const idFromTasks = keys[0]
     const idFromTodoLists = endTodoListState[0].id
     expect(keys.length).toBe(3)
-    expect(idFromTasks).toBe(action.todoListId)
-    expect(idFromTodoLists).toBe(action.todoListId)
+    expect(idFromTasks).toBe(action.todoList.id)
+    // expect(idFromTodoLists).toBe(action.todoListId)
 
 
 })
 test('tasksReducer-remove_todoList-Tasks', () => {
     const todoListState: Array<TodoListType> = [
-        {id: 'todoListsId1', title: 'first', filter: 'all', error: false, text: ''},
-        {id: 'todoListsId2', title: 'first', filter: 'all', error: false, text: ''}
-    ]
+        {id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
+        {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }]
     let startState: TasksStateType = {
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
         ]
     }
     const action = removeTodoList('todoListsId1')

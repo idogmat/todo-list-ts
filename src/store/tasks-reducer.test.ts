@@ -1,4 +1,5 @@
-import {v1} from "uuid";
+import axios from "axios";//for tests
+
 import {
     addTask,
     changeTaskStatus,
@@ -11,68 +12,55 @@ import {addTodoList} from "./todolists-reducer";
 
 test('tasksReducer-remove',()=>{
 let startState:TasksStateType={
-    "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-        {id: '1', title: "JS", isDone: true},
-        {id: '2', title: "ReactJS", isDone: false},
-        {id: '3', title: "Hello world", isDone: true},
-        {id: '4', title: "I am Happy", isDone: false},
+    "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+        {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
     ],
     'todoListsId2': [
-        {id: '1', title: "HTML&CSS", isDone: true},
-        {id: '2', title: "JS", isDone: true},
+        {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+        {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
     ]
 }
-const action = removeTask('todoListsId2','1')
+const action = removeTask('todoListsId2','222')
     const endState=tasksReducer(startState,action)
 
     expect(endState).toEqual({
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '2', title: "JS", isDone: true},
-        ]
+            {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}]
     })
 
 })
 test('tasksReducer-add',()=>{
     let startState:TasksStateType={
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: 'todoListsId2',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: 'todoListsId2',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: 'todoListsId2',id:'333', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ]
     }
-    const action = addTask('todoListsId2','choton novoe')
+    const action = addTask('todoListsId2',{todoListId: 'todoListsId2',id:'777', title: 'choton novoe', status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0})
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(3)
     expect(endState['todoListsId2'][0].title).toBe('choton novoe')
-    expect(endState['todoListsId2'][0].isDone).toBe(false)
+    expect(endState['todoListsId2'][0].id).toBe('777')
 
 })
 test('tasksReducer-change_title',()=>{
     let startState:TasksStateType={
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'333', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ]
     }
-    const action = changeTaskTitle('todoListsId2','1','choton novoe')
+    const action = changeTaskTitle('todoListsId2','444','choton novoe')
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
@@ -82,38 +70,33 @@ test('tasksReducer-change_title',()=>{
 })
 test('tasksReducer-change_status',()=>{
     let startState:TasksStateType={
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [{todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ]
     }
-    const action = changeTaskStatus('todoListsId2','1',false)
+    const action = changeTaskStatus('todoListsId2','444',1)
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
-    expect(endState['todoListsId2'][0].isDone).toBe(false)
+    expect(endState['todoListsId2'][0].status).toBe(1)
 
 })
 test('tasksReducer-add_todoList-Tasks',()=>{
     let startState:TasksStateType={
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0}
         ]
     }
-    const action = addTodoList('NEW TODOLIST ')
+    const action = addTodoList({id:'444', title: "HTML&CSS", addedDate:'1',order:0})
     const endState=tasksReducer(startState,action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k=>k!='todoListsId1'&&k!='todoListsId2')
@@ -125,19 +108,16 @@ test('tasksReducer-add_todoList-Tasks',()=>{
 })
 test('tasksReducer-add_todoList-Tasks-load',()=>{
     let startState:TasksStateType={
-        "todoListsId1": [{id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Hello world", isDone: true},
-            {id: '4', title: "I am Happy", isDone: false},
+        "todoListsId1": [
         ],
         'todoListsId2': [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+            {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0},
+
         ]
     }
-    const action = setTasksAC("todoListsId1",startState["todoListsId1"])
+    const action = setTasksAC("todoListsId1",startState["todoListsId2"])
     const endState=tasksReducer({"todoListsId1":[],"todoListsId2":[]},action)
-    expect(endState["todoListsId1"].length).toBe(5)
+    expect(endState["todoListsId1"].length).toBe(2)
 })
 

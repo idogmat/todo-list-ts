@@ -1,5 +1,4 @@
-import axios, {AxiosResponse} from "axios";
-import React, {useEffect, useState} from "react";
+import axios from "axios";
 import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
 export type TodoListsAPIType = {
