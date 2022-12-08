@@ -1,5 +1,5 @@
 
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 export const Input = styled.input.attrs(props => ({
     type: "text",
     size: props.size || "2rem",
@@ -52,11 +52,38 @@ export const TodoTitle = styled.p`
   font-weight: 600;
   height: 2rem;
   margin: auto;
-  color: linear-gradient(#ec6262,#251212);
+  color: #ec6262;
   background: -webkit-linear-gradient(#ec6262,#251212);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
   box-sizing: border-box;
-
-
 `
+
+const rotate360 = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Spinner = styled.div.attrs((props:any) => ({
+    size: props.size || "none",
+}))`
+  animation: ${rotate360} 1s linear infinite;
+  transform: translateZ(0);
+  margin: auto;
+  border-top: 2px solid palevioletred;
+  border-right: 2px solid palevioletred;
+  border-bottom: 2px solid palevioletred;
+  border-left: 4px solid palevioletred;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  opacity: 1;
+`;
+
+export default Spinner;

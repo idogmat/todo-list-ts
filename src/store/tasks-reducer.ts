@@ -121,9 +121,9 @@ export const deleteTaskTC=(todolistId: string,taskId:string)=>(dispatch:Dispatch
 }
 export const addTaskTC=(todolistId: string,title:string)=>(dispatch:Dispatch)=>{
     API.addTask(todolistId,title)
-        .then((data)=> {
-            if(data.resultCode===0){
-                dispatch(addTask(todolistId, data.data.item))
+        .then((res)=> {
+            if(res.resultCode===0){
+                dispatch(addTask(todolistId,res.data.item))
             }
         }).catch(e=>console.log(e))
 }

@@ -18,7 +18,7 @@ export type TodolistType = {
     filter: FilterType
     todolistInput: string
 
-    setFilterType: (id: string, filter: FilterValuesType) => void
+    setFilterType: (todoListId: string, filter: FilterValuesType) => void
     onChangedTodolistInput: (todoListId: string, text: string) => void
     changeFieldTodolistTitle: (todoListId: string, text: string) => void
     removeTodoList: (todoListId: string) => void
@@ -27,8 +27,6 @@ export type TodolistType = {
     addTask: (todoListId: string, text: string) => void
     removeTask: (todoListId: string, id: string) => void
     changeStatus: (todoListId: string, id: string, b: TaskType) => void
-
-
 
     fetchTasksTC:(s:string)=>void
 
@@ -45,10 +43,11 @@ const TodoList =React.memo ((props: TodolistType) => {
         if(props.title !== text) props.changeFieldTodolistTitle(props.todolistId, text)
     }
     let tasksForTodolist = props.tasks;
+
     if (props.filter === 'completed') {
         tasksForTodolist= props.tasks.filter((el: TaskType) => el.status)
     } else if (props.filter === 'active') {
-        tasksForTodolist= props.tasks.filter((el: TaskType) => el.status)
+        tasksForTodolist = props.tasks.filter((el: TaskType) => !el.status)
     }
     return (
         <div className={s.todolishka}>

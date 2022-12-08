@@ -25,41 +25,51 @@ export const GetTodolists = () => {
 }
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: 'New-TodoList1'},settings)
-            .then(resolve=>{
+    const add=()=> {
+        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: state}, settings)
+            .then(resolve => {
                 console.log(resolve)
                 // setState(resolve.data)
-            }).catch((e)=>console.log(e))
-    }, [])
+            }).catch((e) => console.log(e))
+    }
 
-    return <div>{state && JSON.stringify(state)}</div>
+    return <div>
+        <input placeholder={'title'} type="text" value={state} onChange={(e)=>setState(e.currentTarget.value)}/>
+        <button onClick={add}>CreateTodolist</button>
+    </div>
 }
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
-    let del = 'b580df2a-aca3-4473-999b-00e6a359848e'
-    useEffect(() => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${del}`,settings)
-            .then(resolve=>{
+    const remove=() => {
+        console.log(state)
+        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${state}`, settings)
+            .then(resolve => {
                 console.log(resolve)
                 // setState(resolve.data)
-            }).catch((e)=>console.log(e))
-    }, [])
+            }).catch((e) => console.log(e))
+    }
 
-    return <div>{state && JSON.stringify(state)}</div>
+    return <div>
+        TodoListId
+        <input placeholder={'id'} type="text" value={state} onChange={(e)=>setState(e.currentTarget.value)}/>
+        <button onClick={remove}>CreateTodolist</button>
+    </div>
 }
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
-    let changeId = 'abfc0fe5-20d6-4327-8bd6-d33b3a7769c1'
-    useEffect(() => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${changeId}`,{title:'Changed from put request'},settings)
-            .then(resolve=>{
+    const change=() => {
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${state}`, {title: 'Changed from put request'}, settings)
+            .then(resolve => {
                 console.log(resolve)
                 // setState(resolve.data)
-            }).catch((e)=>console.log(e))
-    }, [])
+            }).catch((e) => console.log(e))
+    }
 
-    return <div>{state && JSON.stringify(state)}</div>
+    return <div>
+        TodoListId
+        <input placeholder={'id'} type="text" value={state} onChange={(e)=>setState(e.currentTarget.value)}/>
+        <button onClick={change}>CreateTodolist</button>
+    </div>
 }
 ///----------------------------------------------------------------
 export const GetTodolistsTask = () => {
@@ -99,7 +109,7 @@ export const UpdateTodolistsTask = () => {
     }, [])
     return <div>{state && state.map((e:any,i:number)=><li key={i}>id={e.id}|| title={e.title}</li>)}</div>
 }
-export const deleteTodolistsTask = () => {
+export const DeleteTodolistsTask = () => {
     const [state, setState] = useState<any>(null)
     let todolistId='cf05020c-1fde-4333-822f-9338b0bf2c8c'
     let taskId='5e08b78a-d134-4381-b838-c421a7d119b6'

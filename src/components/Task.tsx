@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import s from "./style.module.css";
-import {BtnStyle, HiddenCheckbox} from "../style/elements";
+import Spinner, {BtnStyle, HiddenCheckbox} from "../style/elements";
 import EditableTitle from "./EditTitle";
 import {TaskStatusType, TaskType} from "../store/tasks-reducer";
 
@@ -25,7 +25,9 @@ export const Task = React.memo((props: TaskElementType) => {
         props.changeStatus(props.task.todoListId, props.task.id, task as TaskType)
     }, [props.task.todoListId, props.task.id])
 
-    return <li className={s.task + ' ' + (props.task.status ? s.done+' ' : '') } key={props.task.id}><HiddenCheckbox
+    return <li className={s.task + ' ' + (props.task.status ? s.done+' ' : '') } key={props.task.id}>
+        <Spinner/>
+        <HiddenCheckbox
         onChange={(e) => onInputChange(e)}
         type="checkbox"
         checked={!!props.task.status}

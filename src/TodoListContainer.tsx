@@ -10,7 +10,7 @@ import {
 
     changeTaskTitleTC,
     deleteTaskTC,
-    fetchTasksTC,
+    fetchTasksTC, TasksStateType,
     TaskType,
 } from "./store/tasks-reducer";
 import {
@@ -18,7 +18,7 @@ import {
     changeTodoListFilter,
     changeTodoListInput,
     fetchTodolist,
-    removeTodolistTC,
+    removeTodolistTC, TodoListType,
     updateTodolistTitleTC
 } from "./store/todolists-reducer";
 
@@ -83,7 +83,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
             <div className="App">
                 <div className={'container'}>
                     {!!props.todolists
-                        ? props.todolists.map((tl) => {
+                        ? props.todolists.map((tl:TodoListType) => {
                             let allTasks = props.tasks[tl.id]
                             return <TodoList key={tl.id}
                                              title={tl.title}
@@ -111,7 +111,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
     );
 }
 
-function mapStateToProps(state: AppStateType) {
+function mapStateToProps(state: AppStateType): { todolists:TodoListType[],tasks:TasksStateType } {
     return {
         tasks: state.tasks,
         todolists: state.todolists
@@ -121,7 +121,6 @@ function mapStateToProps(state: AppStateType) {
 const TodoListContainer = connect(mapStateToProps, {
     changeTodoListInput,
     changeTodoListFilter,
-
     fetchTodolist,
     fetchTasksTC,
     deleteTaskTC, addTaskTC, changeTaskTitleTC,

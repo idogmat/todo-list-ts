@@ -43,9 +43,8 @@ type CreateTodolistResponseType = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
-    data: {
-        item: TodoListsAPIType
-    }
+    item: TodoListsAPIType
+
 }
 type UpdateTodolistResponseType = {
     resultCode: number
@@ -53,17 +52,13 @@ type UpdateTodolistResponseType = {
     fieldsErrors: Array<string>
     data: {}
 }
-type DeleteTodolistResponseType = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: {}
-}
+
 type DeleteTaskResponseType = {
     data: {
         resultCode: number
         messages: Array<string>
         fieldsErrors: Array<string>
+        data:{}
     }
 }
 export type ResponseType<D> = {
@@ -84,14 +79,14 @@ export const API = {
             })
     },
     addTodolist: (title: string) => {
-        return instance.post<CreateTodolistResponseType>('todo-lists', {Title: title})
+        return instance.post<ResponseType<CreateTodolistResponseType>>('todo-lists', {Title: title})
             .then(resolve => {
                 console.log(resolve)
                 return resolve.data.data.item
             })
     },
     deleteTodolist: (todolistId: string) => {
-        return instance.delete<DeleteTodolistResponseType>(`todo-lists/${todolistId}`)
+        return instance.delete<ResponseType<DeleteTaskResponseType>>(`todo-lists/${todolistId}`)
             .then(resolve => {
                 console.log(resolve)
                 return resolve
@@ -99,7 +94,7 @@ export const API = {
 
     },
     updateTodolistTitle: (todolistId: string, title: string) => {
-        return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, {Title: title})
+        return instance.put<ResponseType<UpdateTodolistResponseType>>(`todo-lists/${todolistId}`, {Title: title})
             .then(resolve => {
                 console.log(resolve)
                 return resolve.data.resultCode
@@ -139,7 +134,7 @@ export const API = {
             .then(resolve => {
                 console.log(resolve)
                 return resolve.data.resultCode
-            }).catch((e) => console.log(e))
+            })
 
     },
 }
