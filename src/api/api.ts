@@ -133,7 +133,7 @@ export const API = {
        return instance.delete<ResponseType<DeleteTaskResponseType>>(`todo-lists/${todolistId}/tasks/${taskId}`)
             .then(resolve => {
                 console.log(resolve)
-                return resolve.data.resultCode
+                return resolve.data
             })
 
     },

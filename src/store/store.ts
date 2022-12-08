@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
-import {tasksReducer} from "./tasks-reducer";
-import {todoListsReducer} from "./todolists-reducer";
-import thunk from "redux-thunk";
+import {TaskActionType, tasksReducer} from "./tasks-reducer";
+import {TodolistActionType, todoListsReducer} from "./todolists-reducer";
+import thunk, {ThunkAction} from "redux-thunk";
 const rootReducer=combineReducers({
     tasks:tasksReducer,
     todolists:todoListsReducer
@@ -11,6 +11,13 @@ const store=createStore(rootReducer,applyMiddleware(thunk))
 export default store
 export type AppStateType= ReturnType<typeof rootReducer>
 
+export type RootState= ReturnType<typeof store.getState>
+//type for all thunks
+// export type AppThunkActionType = ThunkAction<void,AppStateType,unknown,AppActionTypes>
+export type AppThunkActionType<ReturnType = void> = ThunkAction<ReturnType,AppStateType,unknown,AppActionTypes>
+export type AppDispatch = typeof store.dispatch
+//all actionTypes
+export type AppActionTypes =TodolistActionType | TaskActionType
 //@ts-ignore
 window.store=store
 
