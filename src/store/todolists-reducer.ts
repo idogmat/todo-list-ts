@@ -1,7 +1,7 @@
 import {FilterValuesType} from "../TodoListContainer";
-import {Dispatch} from "redux";
 import {API, TodoListsAPIType} from "../api/api";
-import {AppActionTypes, AppThunkActionType} from "./store";
+import {AppThunkActionType} from "./store";
+import {changeStatusError} from "./app-reducer";
 
 
 const ADD_TODOLIST = "ADD_TODOLIST"
@@ -103,11 +103,14 @@ export const setTodoLists = (todoLists: todoListsFromAPIType[]) => {
 }
 
 export const fetchTodolist = ():AppThunkActionType => async (dispatch) => {
+    dispatch(changeStatusError('loading'))
     try {
         const res = await API.getTodolists()
         dispatch(setTodoLists(res))
+        dispatch(changeStatusError('succeeded'))
     }catch (e){
         console.log(e)
+        dispatch(changeStatusError('failed'))
     }
 
 }
@@ -118,29 +121,44 @@ export const fetchTodolist = ():AppThunkActionType => async (dispatch) => {
 //     A extends Action // known types of actions that can be dispatched
 //     > = (dispatch: ThunkDispatch<S, E, A>, getState: () => S, extraArgument: E) => R
 export const addTodolistTC = (title: string): AppThunkActionType => async (dispatch) => {
+    dispatch(changeStatusError('loading'))
     try {
         const res = await API.addTodolist(title)
         dispatch(addTodoList(res))
+                dispatch(changeStatusError('succeeded'))
+
     }catch (e){
         console.log(e)
+                dispatch(changeStatusError('failed'))
+
     }
 }
 export const removeTodolistTC = (todolistId: string): AppThunkActionType => async (dispatch) => {
+    dispatch(changeStatusError('loading'))
     try {
         const res = await API.deleteTodolist(todolistId)
         if (res.data.resultCode === 0){
             dispatch(removeTodoList(todolistId))
+                    dispatch(changeStatusError('succeeded'))
+
         }
     }catch (e){
         console.log(e)
+                dispatch(changeStatusError('failed'))
+
     }
 }
 export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunkActionType => async (dispatch) => {
+    dispatch(changeStatusError('loading'))
     try {
         const res = await API.updateTodolistTitle(todolistId, title)
         if (res === 0)
             dispatch(changeFieldTodolistTitle(todolistId, title))
+                dispatch(changeStatusError('succeeded'))
+
     }catch (e){
         console.log(e)
+                dispatch(changeStatusError('failed'))
+
     }
 }

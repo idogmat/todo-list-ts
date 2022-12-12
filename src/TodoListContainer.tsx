@@ -21,6 +21,8 @@ import {
     removeTodolistTC, TodoListType,
     updateTodolistTitleTC
 } from "./store/todolists-reducer";
+import {changeStatusError, RequestStatusType} from "./store/app-reducer";
+import Spinner, {Skeleton} from "./style/elements";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -37,6 +39,8 @@ type MapDispatchType = {
     updateTodolistTitleTC: (todoListId: string, title: string) => void
     addTodolistTC: (title: string) => void
     removeTodolistTC: (todolistId: string) => void
+    appStatus: { status: RequestStatusType }
+
 }
 
 const TodoListComponent = (props: AppStateType & MapDispatchType) => {
@@ -76,45 +80,51 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
     }, [])
 
 
-    return (
-        <>
-            <AddItemForm addTodo={addTodo}/>
-            <hr/>
-            <div className="App">
-                <div className={'container'}>
-                    {!!props.todolists
-                        ? props.todolists.map((tl:TodoListType) => {
-                            let allTasks = props.tasks[tl.id]
-                            return <TodoList key={tl.id}
-                                             title={tl.title}
-                                             todolistId={tl.id}
-                                             tasks={allTasks}
-                                             todolistInput={tl.text}
-                                             error={tl.error}
-                                             filter={tl.filter}
-                                             removeTask={removeTask}
-                                             setFilterType={setFilterType}
-                                             changeStatus={changeStatus}
-                                             removeTodoList={removeTodoList}
-                                             addTask={addTask}
-                                             onChangedTodolistInput={onChangedTodolistInput}
-                                             changeFieldTodolistTitle={changeFieldTodolistTitle}
-                                             changeTaskTitle={changeTaskTitle}
-                                             fetchTasksTC={props.fetchTasksTC}
-                            />
-                        })
-                        : <div></div>
-                    }
+    return <>
+        <AddItemForm addTodo={addTodo}/>
+        {
+            props.appStatus.status === 'loading'
+
+                ? <Skeleton/>
+                : <hr/>
+        }
+                 <Spinner/>
+                <div className="App">
+                    <div className={'container'}>
+                        {!!props.todolists
+                            ? props.todolists.map((tl: TodoListType) => {
+                                let allTasks = props.tasks[tl.id]
+                                return <TodoList key={tl.id}
+                                                 title={tl.title}
+                                                 todolistId={tl.id}
+                                                 tasks={allTasks}
+                                                 todolistInput={tl.text}
+                                                 error={tl.error}
+                                                 filter={tl.filter}
+                                                 removeTask={removeTask}
+                                                 setFilterType={setFilterType}
+                                                 changeStatus={changeStatus}
+                                                 removeTodoList={removeTodoList}
+                                                 addTask={addTask}
+                                                 onChangedTodolistInput={onChangedTodolistInput}
+                                                 changeFieldTodolistTitle={changeFieldTodolistTitle}
+                                                 changeTaskTitle={changeTaskTitle}
+                                                 fetchTasksTC={props.fetchTasksTC}
+                                />
+                            })
+                            : <div></div>
+                        }
+                    </div>
                 </div>
-            </div>
-        </>
-    );
+
+    </>
 }
 
-function mapStateToProps(state: AppStateType): { todolists:TodoListType[],tasks:TasksStateType } {
+function mapStateToProps(state: AppStateType) {
     return {
         tasks: state.tasks,
-        todolists: state.todolists
+        todolists: state.todolists,
+        appStatus: state.appStatus
     }
 }
 
@@ -125,7 +135,8 @@ const TodoListContainer = connect(mapStateToProps, {
     fetchTasksTC,
     deleteTaskTC, addTaskTC, changeTaskTitleTC,
     changeStatusTitleTC, addTodolistTC,
-    removeTodolistTC, updateTodolistTitleTC
+    removeTodolistTC, updateTodolistTitleTC,
+
 
 })(TodoListComponent);
 export default React.memo(TodoListContainer)
