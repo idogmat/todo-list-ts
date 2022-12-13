@@ -74,8 +74,8 @@ export const API = {
     getTodolists: () => {
         return instance.get<TodoListsAPIType[]>('todo-lists')
             .then(resolve => {
-                console.log(resolve)
-                return resolve.data
+                console.log(resolve,'get')
+                return resolve
             })
     },
     addTodolist: (title: string) => {

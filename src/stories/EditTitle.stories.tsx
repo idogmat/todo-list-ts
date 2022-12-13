@@ -16,9 +16,9 @@ export const EditTitleBaseExample = (props:any) => {
 
     return (
         <div style={{width: '50%'}}>
-            <EditTitle title={'Test'} callBack={changeTitleCallBack}/>
-            <EditTitle title={'Test2'} callBack={changeTitleCallBack}/>
-            <EditTitle title={'Test3'} callBack={changeTitleCallBack}/>
+            <EditTitle entityStatus={'idle'} title={'Test'} callBack={changeTitleCallBack}/>
+            <EditTitle entityStatus={'idle'} title={'Test2'} callBack={changeTitleCallBack}/>
+            <EditTitle entityStatus={'idle'} title={'Test3'} callBack={changeTitleCallBack}/>
         </div>
     );
 };

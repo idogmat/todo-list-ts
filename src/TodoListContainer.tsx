@@ -23,6 +23,7 @@ import {
 } from "./store/todolists-reducer";
 import {changeStatusError, RequestStatusType} from "./store/app-reducer";
 import Spinner, {Skeleton} from "./style/elements";
+import Snackbar from "./components/Snackbar";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -81,6 +82,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
 
 
     return <>
+        <Snackbar status={props.appStatus.status} error={props.appStatus.error}/>
         <AddItemForm addTodo={addTodo}/>
         {
             props.appStatus.status === 'loading'
@@ -88,34 +90,34 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
                 ? <Skeleton/>
                 : <hr/>
         }
-                 <Spinner/>
-                <div className="App">
-                    <div className={'container'}>
-                        {!!props.todolists
-                            ? props.todolists.map((tl: TodoListType) => {
-                                let allTasks = props.tasks[tl.id]
-                                return <TodoList key={tl.id}
-                                                 title={tl.title}
-                                                 todolistId={tl.id}
-                                                 tasks={allTasks}
-                                                 todolistInput={tl.text}
-                                                 error={tl.error}
-                                                 filter={tl.filter}
-                                                 removeTask={removeTask}
-                                                 setFilterType={setFilterType}
-                                                 changeStatus={changeStatus}
-                                                 removeTodoList={removeTodoList}
-                                                 addTask={addTask}
-                                                 onChangedTodolistInput={onChangedTodolistInput}
-                                                 changeFieldTodolistTitle={changeFieldTodolistTitle}
-                                                 changeTaskTitle={changeTaskTitle}
-                                                 fetchTasksTC={props.fetchTasksTC}
-                                />
-                            })
-                            : <div></div>
-                        }
-                    </div>
-                </div>
+        <div className="App">
+            <div className={'container'}>
+                {!!props.todolists
+                    ? props.todolists.map((tl: TodoListType) => {
+                        let allTasks = props.tasks[tl.id]
+                        return <TodoList key={tl.id}
+                                         title={tl.title}
+                                         entityStatus={tl.entityStatus}
+                                         todolistId={tl.id}
+                                         tasks={allTasks}
+                                         todolistInput={tl.text}
+                                         error={tl.error}
+                                         filter={tl.filter}
+                                         removeTask={removeTask}
+                                         setFilterType={setFilterType}
+                                         changeStatus={changeStatus}
+                                         removeTodoList={removeTodoList}
+                                         addTask={addTask}
+                                         onChangedTodolistInput={onChangedTodolistInput}
+                                         changeFieldTodolistTitle={changeFieldTodolistTitle}
+                                         changeTaskTitle={changeTaskTitle}
+                                         fetchTasksTC={props.fetchTasksTC}
+                        />
+                    })
+                    : <div></div>
+                }
+            </div>
+        </div>
 
     </>
 }

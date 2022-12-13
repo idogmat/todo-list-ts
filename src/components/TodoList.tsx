@@ -6,6 +6,7 @@ import {FilterValuesType} from "../TodoListContainer";
 import EditableTitle from "./EditTitle";
 import {Task} from "./Task";
 import {TaskStatusType, TaskType} from "../store/tasks-reducer";
+import {RequestStatusType} from "../store/app-reducer";
 
 type FilterType = 'all' | 'active' | 'completed'
 
@@ -17,6 +18,8 @@ export type TodolistType = {
     error: boolean
     filter: FilterType
     todolistInput: string
+    entityStatus:RequestStatusType
+
 
     setFilterType: (todoListId: string, filter: FilterValuesType) => void
     onChangedTodolistInput: (todoListId: string, text: string) => void
@@ -52,8 +55,8 @@ const TodoList =React.memo ((props: TodolistType) => {
     return (
         <div className={s.todolishka}>
             <div className={s.flex}>
-                <EditableTitle title={props.title} callBack={changeTodoListTitle}></EditableTitle>
-                <BtnStyle onClick={() => props.removeTodoList(props.todolistId)}>Remove</BtnStyle>
+                <EditableTitle entityStatus={props.entityStatus} title={props.title} callBack={changeTodoListTitle}></EditableTitle>
+                <BtnStyle disabled={props.entityStatus === 'loading'} onClick={() => props.removeTodoList(props.todolistId)}>Remove</BtnStyle>
             </div>
             <FullInput addTasks={props.addTask}
                        todolistInput={props.todolistInput}

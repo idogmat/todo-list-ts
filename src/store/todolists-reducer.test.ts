@@ -12,8 +12,8 @@ import {
 
 test('todolist-remove', () => {
 
-    const startState: Array<TodoListType> = [{id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
-        {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }]
+    const startState: Array<TodoListType> = [{id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'' ,entityStatus:'idle' },
+        {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
     const endState = todoListsReducer(startState, removeTodoList('todoListsId1'))
 
     expect(endState.length).toBe(1)
@@ -25,8 +25,8 @@ test('todolist-Add', () => {
     let todoListsId1 = v1();
     let todoListsId2 = v1();
     const startState: Array<TodoListType> =
-        [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
-            {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }]
+        [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'' ,entityStatus:'idle' },
+            {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
 
 
     const endState = todoListsReducer(startState, addTodoList({id:todoListsId2,title:'test text',addedDate:'1',order:1 }))
@@ -38,8 +38,8 @@ test('todolist-Add', () => {
 test('todolist-changeTitle', () => {
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    const startState: Array<TodoListType> = [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
-        {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }]
+    const startState: Array<TodoListType> = [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'',entityStatus:'idle'  },
+        {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
 
     const endState = todoListsReducer(startState, changeFieldTodolistTitle(todoListsId2, 'changed Title'))
 
@@ -50,8 +50,8 @@ test('todolist-changeTitle', () => {
 test('todolist-Filter', () => {
     let todoListsId1 = v1();
     let todoListsId2 = v1();
-    const startState: Array<TodoListType> = [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
-        {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }]
+    const startState: Array<TodoListType> = [{id:todoListsId1,title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'',entityStatus:'idle'  },
+        {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
 
 
     const endState = todoListsReducer(startState, changeTodoListFilter(todoListsId2,'completed'))
@@ -63,8 +63,8 @@ test('todolist-Filter', () => {
 })
 test('todolist-set-todolists', () => {
     const newTodoLists = [
-        {id: 'todoListsId1', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'},
-        {id: 'todoListsId2', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212'}
+        {id: 'todoListsId1', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212',entityStatus:'idle'},
+        {id: 'todoListsId2', title: 'first', filter:'all', error: false, text: '', order: 1,addedDate:'212',entityStatus:'idle'}
     ]
 
 
