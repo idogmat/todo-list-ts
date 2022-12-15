@@ -4,12 +4,15 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import store from "./store/store";
-import TodoListContainer from "./TodoListContainer";
+import App from "./App";
+import {BrowserRouter} from "react-router-dom";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
     <Provider store={store}>
-    <TodoListContainer />
+        <BrowserRouter>
+    <App/>
+        </BrowserRouter>
     </Provider>);
 
 // If you want your app to work offline and load faster, you can change

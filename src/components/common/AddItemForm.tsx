@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import s from "./style.module.css";
-import {Input} from "../style/elements";
+import s from "../style.module.css";
+import {Input} from "../../style/elements";
 import Button from "./Button";
 
 type AddItemForm={

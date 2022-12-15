@@ -1,4 +1,4 @@
-import {FilterValuesType} from "../TodoListContainer";
+import {FilterValuesType} from "../components/TodoListContainer";
 import {API, TodoListsAPIType} from "../api/api";
 import {AppThunkActionType} from "./store";
 import {changeStatusError, RequestStatusType} from "./app-reducer";
@@ -110,9 +110,12 @@ export const changeFieldTodolistTitle = (todoListId: string, title: string) => {
 export const setTodoLists = (todoLists: todoListsFromAPIType[]) => {
     return {type: SET_TODOLISTS, todoLists} as const
 }
+
 export const changeEntityStatusTodolist = (todoListId: string, entityStatus: RequestStatusType) => {
     return {type: CHANGE_ENTITY_STATUS, todoListId, entityStatus} as const
 }
+
+
 export const fetchTodolist = (): AppThunkActionType => async (dispatch) => {
     dispatch(changeStatusError('loading'))
     try {
@@ -120,9 +123,10 @@ export const fetchTodolist = (): AppThunkActionType => async (dispatch) => {
         console.log(res)
         dispatch(setTodoLists(res.data))
         dispatch(changeStatusError('succeeded'))
-    } catch (e:any) {
-        console.log(e,'errr')
-        handleServerNetworkError(e,dispatch)
+        // setResultUtils<todoListsFromAPIType[]>(setTodoLists,res.data,dispatch)
+    } catch (e: any) {
+        console.log(e, 'errr')
+        handleServerNetworkError(e.message, dispatch)
     }
 
 }
@@ -138,10 +142,10 @@ export const addTodolistTC = (title: string): AppThunkActionType => async (dispa
         const res = await API.addTodolist(title)
         dispatch(addTodoList(res))
         dispatch(changeStatusError('succeeded'))
-
+        // setResultUtils<TodoListsAPIType>(addTodoList,res,dispatch)
     } catch (e: any) {
         // console.log(e)
-        handleServerNetworkError(e,dispatch)
+        handleServerNetworkError(e.message, dispatch)
 
     }
 }
@@ -156,7 +160,7 @@ export const removeTodolistTC = (todolistId: string): AppThunkActionType => asyn
             dispatch(changeStatusError('succeeded'))
         }
     } catch (e: any) {
-        handleServerNetworkError(e,dispatch)
+        handleServerNetworkError(e.message, dispatch)
     }
 }
 export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunkActionType => async (dispatch) => {
@@ -164,11 +168,12 @@ export const updateTodolistTitleTC = (todolistId: string, title: string): AppThu
     dispatch(changeEntityStatusTodolist(todolistId, 'loading'))
     try {
         const res = await API.updateTodolistTitle(todolistId, title)
-        if (res === 0)
+        if (res === 0) {
             dispatch(changeFieldTodolistTitle(todolistId, title))
-        dispatch(changeEntityStatusTodolist(todolistId, 'succeeded'))
-        dispatch(changeStatusError('succeeded'))
+            dispatch(changeEntityStatusTodolist(todolistId, 'succeeded'))
+            dispatch(changeStatusError('succeeded'))
+        }
     } catch (e: any) {
-        handleServerNetworkError(e,dispatch)
+        handleServerNetworkError(e.message, dispatch)
     }
 }

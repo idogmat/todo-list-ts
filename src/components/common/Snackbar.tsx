@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {ButtonSnackbar, Container} from "../style/elements";
-import {RequestStatusType} from "../store/app-reducer";
+import {ButtonSnackbar, Container} from "../../style/elements";
+import {RequestStatusType} from "../../store/app-reducer";
 
 
 const Snackbar = (props:{status:RequestStatusType,error:null|string}) => {

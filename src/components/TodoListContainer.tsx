@@ -1,29 +1,31 @@
 import React, {useCallback, useEffect} from 'react';
-import './App.css';
-import TodoList from "./components/TodoList";
-import AddItemForm from "./components/AddItemForm";
+import '../App.css';
+import TodoList from "./Todolists/TodoList";
+import AddItemForm from "./common/AddItemForm";
 import {connect} from "react-redux";
-import {AppStateType} from "./store/store";
+import {AppStateType} from "../store/store";
 import {
     addTaskTC,
     changeStatusTitleTC,
-
     changeTaskTitleTC,
     deleteTaskTC,
-    fetchTasksTC, TasksStateType,
+    fetchTasksTC,
     TaskType,
-} from "./store/tasks-reducer";
+} from "../store/tasks-reducer";
 import {
     addTodolistTC,
     changeTodoListFilter,
     changeTodoListInput,
     fetchTodolist,
-    removeTodolistTC, TodoListType,
+    removeTodolistTC,
+    TodoListType,
     updateTodolistTitleTC
-} from "./store/todolists-reducer";
-import {changeStatusError, RequestStatusType} from "./store/app-reducer";
-import Spinner, {Skeleton} from "./style/elements";
-import Snackbar from "./components/Snackbar";
+} from "../store/todolists-reducer";
+import {RequestStatusType} from "../store/app-reducer";
+import {Skeleton} from "../style/elements";
+import Snackbar from "./common/Snackbar";
+import {logoutThunk} from "../store/auth-reducer";
+import {useNavigate} from "react-router-dom";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -31,6 +33,7 @@ type MapDispatchType = {
     fetchTodolist: () => void
     changeTodoListFilter: (id: string, type: FilterValuesType) => void
     changeTodoListInput: (todoListId: string, text: string) => void
+    logoutThunk:()=>void
 
     addTaskTC: (todoListId: string, title: string) => void,
     fetchTasksTC: (s: string) => void
@@ -40,11 +43,13 @@ type MapDispatchType = {
     updateTodolistTitleTC: (todoListId: string, title: string) => void
     addTodolistTC: (title: string) => void
     removeTodolistTC: (todolistId: string) => void
+
     appStatus: { status: RequestStatusType }
 
 }
 
 const TodoListComponent = (props: AppStateType & MapDispatchType) => {
+    const navigate = useNavigate()
     //preload-list
     useEffect(() => {
         props.fetchTodolist()
@@ -79,9 +84,14 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
     const changeFieldTodolistTitle = useCallback((todoListId: string, newText: string) => {
         props.updateTodolistTitleTC(todoListId, newText)
     }, [])
-
-
+    const logout=()=>{
+        props.logoutThunk()
+    }
+    if(!props.auth.isLoggedIn){
+        navigate('/login')
+    }
     return <>
+        <button onClick={logout}>logout</button>
         <Snackbar status={props.appStatus.status} error={props.appStatus.error}/>
         <AddItemForm addTodo={addTodo}/>
         {
@@ -126,7 +136,8 @@ function mapStateToProps(state: AppStateType) {
     return {
         tasks: state.tasks,
         todolists: state.todolists,
-        appStatus: state.appStatus
+        appStatus: state.appStatus,
+        auth:state.auth
     }
 }
 
@@ -138,6 +149,9 @@ const TodoListContainer = connect(mapStateToProps, {
     deleteTaskTC, addTaskTC, changeTaskTitleTC,
     changeStatusTitleTC, addTodolistTC,
     removeTodolistTC, updateTodolistTitleTC,
+
+
+    logoutThunk
 
 
 })(TodoListComponent);

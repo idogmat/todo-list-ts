@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
-import FullInput from "./FullInput";
-import {BtnStyle} from "../style/elements";
-import s from './style.module.css'
+import FullInput from "../common/FullInput";
+import {BtnStyle} from "../../style/elements";
+import s from '../style.module.css'
 import {FilterValuesType} from "../TodoListContainer";
-import EditableTitle from "./EditTitle";
-import {Task} from "./Task";
-import {TaskStatusType, TaskType} from "../store/tasks-reducer";
-import {RequestStatusType} from "../store/app-reducer";
+import EditableTitle from "../common/EditTitle";
+import {Task} from "../Tasks/Task";
+import {TaskStatusType, TaskType} from "../../store/tasks-reducer";
+import {RequestStatusType} from "../../store/app-reducer";
 
 type FilterType = 'all' | 'active' | 'completed'
 
@@ -73,6 +73,7 @@ const TodoList =React.memo ((props: TodolistType) => {
                           removeTask={props.removeTask}
                           changeTaskTitle={props.changeTaskTitle}
                           changeStatus={props.changeStatus}
+                                entityStatus={el.entityStatus}
                     />
                 })}</ul> :
                 <p>Your list is empty</p>}

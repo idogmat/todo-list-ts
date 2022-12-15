@@ -1,5 +1,5 @@
 import React from 'react'
-import {BtnStyle} from "../style/elements";
+import {BtnStyle} from "../../style/elements";
 
 
 type ButtonTypeProps={

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {Input, TodoTitle} from "../style/elements";
-import {RequestStatusType} from "../store/app-reducer";
+import React, {useState} from "react";
+import {Input, TodoTitle} from "../../style/elements";
+import {RequestStatusType} from "../../store/app-reducer";
 
 type EditableTitleType={
     title:string

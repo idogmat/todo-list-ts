@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {action} from "@storybook/addon-actions";
-import {Task} from "../components/Task";
+import {Task} from "../components/Tasks/Task";
 /**
  * Primary UI component for user interaction
  */
@@ -24,12 +24,14 @@ export const TaskBaseExample = (props:any) => {
               removeTask={taskRemoved}
               changeTaskTitle={changeTaskTitleCallBack}
               changeStatus={changeTaskStatusCallBack}
+              entityStatus={'idle'}
         />
             <Task task={{id:'1',status:0,title:'Angular',addedDate:'1', deadline:'1', description:'1', todoListId:'1',order:1, priority:1, startDate:'1',entityStatus: 'idle'}}
                   todolistId={'todolist2'}
                   removeTask={taskRemoved2}
                   changeTaskTitle={changeTaskTitleCallBack2}
                   changeStatus={changeTaskStatusCallBack2}
+                  entityStatus={'idle'}
             />
         </ul>
     );

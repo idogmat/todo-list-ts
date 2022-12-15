@@ -1,6 +1,9 @@
 import axios from "axios";
 import {TaskStatusType, TaskType} from "../store/tasks-reducer";
-
+import {UserType} from "../store/auth-reducer";
+export type ResponseUserType={
+    userId:number
+}
 export type TodoListsAPIType = {
     addedDate: string
     id: string
@@ -70,6 +73,8 @@ export type ResponseType<D> = {
 
 export const API = {
     authMe: () => instance.get('/auth/me').then(response => response.data),
+    login:(user:UserType)=>instance.post<ResponseType<ResponseUserType>>('/auth/login',user),
+    logout:()=>instance.delete('/auth/login'),
     //todolists
     getTodolists: () => {
         return instance.get<TodoListsAPIType[]>('todo-lists')
