@@ -5,6 +5,7 @@ import Button from "./Button";
 
 type AddItemForm={
     addTodo:(title:string)=>void
+    logout:()=>void
 }
 const AddItemForm=React.memo((props:AddItemForm)=>{
     let [title,setTitle]=useState('')
@@ -22,7 +23,7 @@ const AddItemForm=React.memo((props:AddItemForm)=>{
         }
     }
     return <div >
-        <h3>Add new TodoList</h3>
+        <h3>Add new TodoList <Button callBack={props.logout} name={'logout'}></Button></h3>
         <div className={s.inputBlock}>
             <Input
                 value={title}
