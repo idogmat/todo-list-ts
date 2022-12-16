@@ -7,9 +7,9 @@ import {AuthMeThunk} from "./store/auth-reducer";
 import {CircularProgress} from "@mui/material";
 
 const App = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state=>state.auth.isLoggedIn)
+    // const isLoggedIn = useAppSelector(state=>state.auth.isLoggedIn)
     const isInitialized = useAppSelector(state=>state.appStatus.isInitialized)
     useEffect(()=>{
         dispatch(AuthMeThunk())

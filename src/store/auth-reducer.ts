@@ -48,6 +48,7 @@ export const loginThunk = (user: UserType): AppThunkActionType => async (dispatc
     dispatch(changeStatusError('loading'))
     try {
         const res = await API.login(user)
+        console.log(res)
         if (res.data.resultCode === 0) {
             dispatch(loginAC(true))
             dispatch(changeStatusError('succeeded'))

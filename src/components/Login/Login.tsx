@@ -11,6 +11,7 @@ import {useFormik} from "formik";
 import {loginThunk} from "../../store/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import {Navigate} from "react-router-dom";
+import Snackbar from "../common/Snackbar";
 
 type FormikErrorType = {
     email?: string
@@ -18,6 +19,8 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 export const Login = () => {
+    const status=useAppSelector(state=>state.appStatus.status)
+    const error=useAppSelector(state=>state.appStatus.error)
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state=>state.auth.isLoggedIn)
     // const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -37,8 +40,9 @@ const formik = useFormik({
         return errors
     },
         onSubmit: (values, {resetForm}) => {
+            console.log(values)
             dispatch(loginThunk(values))
-            resetForm();
+            // resetForm();
             // console.log(JSON.stringify(values));
         },
     })
@@ -46,6 +50,7 @@ const formik = useFormik({
         return <Navigate to={'/'}/>
     }
     return <Grid container justifyContent={'center'}>
+        <Snackbar status={status} error={error}/>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
             <FormControl  >

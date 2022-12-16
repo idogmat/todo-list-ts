@@ -195,6 +195,6 @@ export const ButtonSnackbar = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: hsl(200, 100%, 60%);
+    background-color: hsla(0, 0%, 100%,.5);
   }
 `;
