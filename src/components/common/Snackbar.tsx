@@ -3,11 +3,12 @@ import {ButtonSnackbar, Container} from "../../style/elements";
 import {RequestStatusType} from "../../store/app-reducer";
 
 
-const Snackbar = (props:{status:RequestStatusType,error:null|string}) => {
-    const [show,setShow] = useState<boolean>(!!props.status);
+const Snackbar = (props: { status: RequestStatusType, error: null | string }) => {
+    const [show, setShow] = useState<boolean>(!!props.status);
 
     let TIME = 2000;
-    let TIMER:NodeJS.Timeout;
+    let TIMER: NodeJS.Timeout;
+
     function handleTimeout() {
         TIMER = setTimeout(() => {
             setShow(false)
@@ -18,6 +19,7 @@ const Snackbar = (props:{status:RequestStatusType,error:null|string}) => {
     function handleClose() {
         clearTimeout(TIMER);
     }
+
     useEffect(() => {
 
         if (!!props.status) {
@@ -27,16 +29,16 @@ const Snackbar = (props:{status:RequestStatusType,error:null|string}) => {
         return () => {
             clearTimeout(TIMER);
         };
-    }, [props.status,props.error]);
+    }, [props.status, props.error]);
     return (
         show ? (
-            <Container status={props.status}>
-                <p>{props.status}</p>
-                {!!props.error && <p>{props.error}</p>}
-                <ButtonSnackbar onClick={handleClose}>x</ButtonSnackbar>
-            </Container>
-        )
-           : <></>
+                <Container status={props.status}>
+                    <p>{props.status}</p>
+                    {!!props.error && <p>{props.error}</p>}
+                    <ButtonSnackbar onClick={handleClose}>x</ButtonSnackbar>
+                </Container>
+            )
+            : <></>
     );
 };
 

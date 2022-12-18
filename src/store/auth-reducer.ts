@@ -15,6 +15,14 @@ const initialState = {
 type InitialStateType = typeof initialState
 export type AuthActionsType = ReturnType<typeof loginAC>
 
+// const slice = createSlice({
+//     name:'auth',
+//     initialState:initialState,
+//     reducers:{
+//
+//     }
+// })
+// export const authReducer
 export const authReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-USER':
