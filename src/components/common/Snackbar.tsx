@@ -12,7 +12,6 @@ const Snackbar = (props: { status: RequestStatusType, error: null | string }) =>
     function handleTimeout() {
         TIMER = setTimeout(() => {
             setShow(false)
-            console.log(props.status)
         }, TIME);
     }
 
@@ -21,7 +20,6 @@ const Snackbar = (props: { status: RequestStatusType, error: null | string }) =>
     }
 
     useEffect(() => {
-
         if (!!props.status) {
             setShow(!!props.status)
             handleTimeout();

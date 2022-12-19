@@ -1,6 +1,6 @@
-import {removeTask, tasksReducer, TasksStateType} from "./tasks-reducer";
-import {addTodoList, removeTodoList, TodoListType, todoListsReducer} from "./todolists-reducer";
-import axios from "axios";//for tests
+import {tasksReducer, TasksStateType} from "./tasks-reducer";
+import {addTodoList, removeTodoList, todoListsReducer, TodoListType} from "./todolists-reducer";
+
 test('tasksReducer-add_todoList-Tasks', () => {
     const todoListState: Array<TodoListType> = [
 {id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'',entityStatus:'idle'  },
@@ -15,7 +15,7 @@ test('tasksReducer-add_todoList-Tasks', () => {
             {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'},
         ]
     }
-    const action = addTodoList({id:'111', title: "HTML&CSS",addedDate:'1',order:0})
+    const action = addTodoList({todolist: {id: '111', title: "HTML&CSS", addedDate: '1', order: 0}})
     const endTasksState = tasksReducer(startState, action)
     const endTodoListState = todoListsReducer(todoListState, action)
     const keys = Object.keys(endTasksState)
@@ -26,8 +26,8 @@ test('tasksReducer-add_todoList-Tasks', () => {
     const idFromTasks = keys[0]
     const idFromTodoLists = endTodoListState[0].id
     expect(keys.length).toBe(3)
-    expect(idFromTasks).toBe(action.todoList.id)
-    // expect(idFromTodoLists).toBe(action.todoListId)
+    expect(idFromTasks).toBe(action.payload.todolist.id)
+    // expect(idFromTodoLists).toBe(action.todolistId)
 
 
 })
@@ -44,7 +44,7 @@ test('tasksReducer-remove_todoList-Tasks', () => {
             {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'},
         ]
     }
-    const action = removeTodoList('todoListsId1')
+    const action = removeTodoList({todolistId: 'todoListsId1'})
     const endTasksState = tasksReducer(startState, action)
     const endTodoListState = todoListsReducer(todoListState, action)
     const keys = Object.keys(endTodoListState)

@@ -1,10 +1,11 @@
-import {AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
-import {TaskActionType, tasksReducer} from "./tasks-reducer";
-import {TodolistActionType, todoListsReducer} from "./todolists-reducer";
+import {AnyAction, combineReducers} from 'redux'
+import {tasksReducer} from "./tasks-reducer";
+import {todoListsReducer} from "./todolists-reducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppActionsType, appReducer} from "./app-reducer";
-import {AuthActionsType, authReducer} from "./auth-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {configureStore} from "@reduxjs/toolkit";
+import {appReducer} from "./app-reducer";
+import {authReducer} from "./auth-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -12,22 +13,19 @@ const rootReducer = combineReducers({
     appStatus: appReducer,
     auth: authReducer
 })
-const store = createStore(rootReducer, applyMiddleware(thunk))
-// const store = configureStore({
-//     reducer:rootReducer,
-//     middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk),
-// })
+
 //for use thunk like pro add middleware type thunk
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk),
+})
 export default store
 export type AppStateType = ReturnType<typeof rootReducer>
-// console.log(rootReducer)
 export type RootState = ReturnType<typeof store.getState>
 //type for all thunks
-// export type AppThunkActionType = ThunkAction<void,AppStateType,unknown,AppActionTypes>
-export type AppThunkActionType<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppActionTypes>
+export type AppThunkActionType<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AnyAction>
 
-
-export type AppThunkDispatch = ThunkDispatch<AppStateType, unknown, AppActionTypes>
+export type AppThunkDispatch = ThunkDispatch<AppStateType, unknown, AnyAction>
 export type AppDispatch = ThunkDispatch<AppStateType, any, AnyAction>;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -36,7 +34,6 @@ export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
 //use that for select params without connect
 //all actionTypes
 
-export type AppActionTypes = TodolistActionType | TaskActionType | AppActionsType | AuthActionsType
 
 //@ts-ignore
 window.store = store

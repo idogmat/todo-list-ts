@@ -17,9 +17,9 @@ const AddItemForm=React.memo((props:AddItemForm)=>{
         if(title === '' || title.trim() === ''){
             setError(true)
         } else {
-            // props.setError(false,props.id)
             props.addTodo(title)
             setTitle('')
+            setError(false)
         }
     }
     return <div >

@@ -40,10 +40,7 @@ const formik = useFormik({
         return errors
     },
         onSubmit: (values, {resetForm}) => {
-            console.log(values)
             dispatch(loginThunk(values))
-            // resetForm();
-            // console.log(JSON.stringify(values));
         },
     })
     if(isLoggedIn){
