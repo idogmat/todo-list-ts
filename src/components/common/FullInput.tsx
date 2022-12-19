@@ -3,7 +3,7 @@ import Button from "./Button";
 import {Input} from "../../style/elements";
 import s from '../style.module.css'
 type InputProps={
-    addTasks:(todoListId: string,text: string) =>void
+    addTasks:(todolistId: string,title: string) =>void
     todolistInput:string
     onChangedTodolistInput:(todoListId:string,text:string)=>void
     error:boolean

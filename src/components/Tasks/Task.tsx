@@ -9,14 +9,16 @@ type TaskElementType = {
     task: TaskType
     todolistId: string
     changeTaskTitle: (t: string, id: string, text: string) => void
-    removeTask: (el: string, id: string) => void
+    removeTask: (todolistId: string, taskId: string) => void
     changeStatus: (a: string, c: string, b: TaskType) => void
     entityStatus: RequestStatusType
 }
 export const Task = React.memo((props: TaskElementType) => {
+
     const removeTask = useCallback(() => {
         if (props.entityStatus !== 'loading') {
-            props.removeTask(props.task.todoListId, props.task.id)
+            // console.log(props.task.todoListId,props.task.id)
+            props.removeTask(props.task.todoListId,props.task.id)
         }
     }, [props.task.todoListId, props.task.id])
 

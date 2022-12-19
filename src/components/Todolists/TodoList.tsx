@@ -2,11 +2,11 @@ import React, {useEffect} from "react";
 import FullInput from "../common/FullInput";
 import {BtnStyle} from "../../style/elements";
 import s from '../style.module.css'
-import {FilterValuesType} from "../TodoListContainer";
 import EditableTitle from "../common/EditTitle";
 import {Task} from "../Tasks/Task";
-import {TaskStatusType, TaskType} from "../../store/tasks-reducer";
+import {TaskType} from "../../store/tasks-reducer";
 import {RequestStatusType} from "../../store/app-reducer";
+import {FilterValuesType} from "../../store/todolists-reducer";
 
 type FilterType = 'all' | 'active' | 'completed'
 
@@ -27,20 +27,21 @@ export type TodolistType = {
     removeTodoList: (todoListId: string) => void
 
     changeTaskTitle: (todoListId: string, id: string, text: string) => void
-    addTask: (todoListId: string, text: string) => void
-    removeTask: (todoListId: string, id: string) => void
-    changeStatus: (todoListId: string, id: string, b: TaskType) => void
+    addTask: (todolistId: string, title: string) => void
+    removeTask: (todolistId: string, taskId: string) => void
+    changeStatus: (todolistId: string, id: string, b: TaskType) => void
 
     fetchTasksTC:(s:string)=>void
 
 }
 const TodoList =React.memo ((props: TodolistType) => {
+    // console.log(props.todolistId,'test')
     //preload-tasks
     useEffect(()=>{
         props.fetchTasksTC(props.todolistId)
-    },[])
-    const selectFilter = (filter: FilterType, id: string) => {
-        props.setFilterType(id, filter)
+    },[props.todolistId])
+    const selectFilter = ( todoListId: string,filter: FilterType) => {
+        props.setFilterType(todoListId, filter)
     }
     const changeTodoListTitle = (text: string) => {
         if(props.title !== text) props.changeFieldTodolistTitle(props.todolistId, text)
@@ -79,11 +80,11 @@ const TodoList =React.memo ((props: TodolistType) => {
                 <p>Your list is empty</p>}
             <div className={s.sort}>
                 <BtnStyle className={(props.filter === 'all') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('all', props.todolistId)}>All</BtnStyle>
+                          onClick={() => selectFilter( props.todolistId,'all')}>All</BtnStyle>
                 <BtnStyle className={(props.filter === 'active') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('active', props.todolistId)}>Active</BtnStyle>
+                          onClick={() => selectFilter( props.todolistId,'active')}>Active</BtnStyle>
                 <BtnStyle className={(props.filter === 'completed') ? s.activeFilterBtn : ''}
-                          onClick={() => selectFilter('completed', props.todolistId)}>Completed</BtnStyle>
+                          onClick={() => selectFilter( props.todolistId,'completed')}>Completed</BtnStyle>
             </div>
 
         </div>

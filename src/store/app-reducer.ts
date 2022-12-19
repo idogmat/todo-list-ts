@@ -1,3 +1,5 @@
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 const initialState = {
@@ -7,30 +9,29 @@ const initialState = {
 }
 
 export type AppActionsType= ReturnType<typeof changeStatusError>
- | ReturnType<typeof setError>
- | ReturnType<typeof setInitialized>
+    | ReturnType<typeof setError>
+    | ReturnType<typeof setInitialized>
 
-type InitialStateType = typeof initialState
+const slice = createSlice({
+    name:'app',
+    initialState:initialState,
+    reducers:{
+        changeStatusError(state,action:PayloadAction<{ status: RequestStatusType }>){
+            state.status = action.payload.status
+        },
+        setError(state,action:PayloadAction<{ error:null|string }>){
+            state.error = action.payload.error
+        },
+        setInitialized(state,action:PayloadAction<{ initialized:boolean }>){
+            state.isInitialized = action.payload.initialized
+        },
 
-export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state,error:action.error}
-        case 'APP/SET-INITIALIZED':
-            return {...state,isInitialized:action.initialized}
-        default:
-            return state
     }
-}
+})
 
-export const changeStatusError = (status:RequestStatusType) => {
-    return {type: 'APP/SET-STATUS', status} as const
-}
-export const setError = (error:null|string) => {
-    return {type: 'APP/SET-ERROR', error} as const
-}
-export const setInitialized = (initialized:boolean) => {
-    return {type: 'APP/SET-INITIALIZED', initialized} as const
-}
+export const changeStatusError = slice.actions.changeStatusError
+export const setError= slice.actions.setError
+export const  setInitialized = slice.actions.setInitialized
+export const appReducer = slice.reducer
+
+
