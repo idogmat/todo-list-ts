@@ -5,12 +5,21 @@
 /.pnp
 .pnp.js
 yarn.lock
+package.json
+package-lock.json
+.env
+.npmrc
+tsconfig.json
+/src
+public
+integration
+.storybook
 
 # testing
 /coverage
 
 # production
-/build
+
 
 # misc
 .DS_Store
