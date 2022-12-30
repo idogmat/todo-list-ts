@@ -5,20 +5,20 @@ import AddItemForm from "./common/AddItemForm";
 import {connect} from "react-redux";
 import {AppStateType} from "../store/store";
 import {
-    addTaskTC,
+    addTask,
     changeStatusTitleTC,
-    changeTaskTitleTC,
-    deleteTaskTC,
-    fetchTasksTC,
+    changeTaskTitle,
+    deleteTask,
+    fetchTasks,
     TaskType,
 } from "../store/tasks-reducer";
 import {
-    addTodolistTC,
+    addTodolist,
     changeTodoListFilter,
     changeTodoListInput,
     fetchTodolist,
     FilterValuesType,
-    removeTodolistTC,
+    removeTodolist,
     TodoListType,
     updateTodolistTitleTC
 } from "../store/todolists-reducer";
@@ -26,7 +26,7 @@ import {RequestStatusType} from "../store/app-reducer";
 import {Skeleton} from "../style/elements";
 import Snackbar from "./common/Snackbar";
 import {logoutThunk} from "../store/auth-reducer";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 
 type MapDispatchType = {
@@ -34,14 +34,14 @@ type MapDispatchType = {
     changeTodoListFilter: (payload:{todolistId: string, filter: FilterValuesType}) => void
     changeTodoListInput: (payload:{ todolistId: string, text: string }) => void
     updateTodolistTitleTC: (todolistId: string, title: string) => void
-    addTodolistTC: (title: string) => void
+    addTodolist: (title: string) => void
     logoutThunk: () => void
-    addTaskTC: (todolistId: string, title: string) => any,
-    deleteTaskTC: (todolistId: string, taskId: string) => any
-    fetchTasksTC: (s: string) => any
-    changeTaskTitleTC: (todolistId: string, taskId: string, title: string) => any
+    addTask: (param:{todolistId: string, title: string})=> any
+    deleteTask:(param:{todolistId: string, taskId: string})=> any
+    fetchTasks: (s: string) => any
+    changeTaskTitle: (param: { todolistId: string, taskId: string, title: string }) => any
     changeStatusTitleTC: (todolistId: string, taskId: string, text: TaskType) => any
-    removeTodolistTC: (todolistId: string) => void
+    removeTodolist: (todolistId: string) => void
     appStatus: { status: RequestStatusType }
 
 }
@@ -53,16 +53,16 @@ const TodoListComponent = (props: AppStateType & MapDispatchType):any => {
     }, [])
     //tasks
     const addTask = useCallback((todolistId: string, title: string) => {
-        props.addTaskTC(todolistId, title)
+        props.addTask({todolistId, title})
     }, [])
     const removeTask = useCallback((todolistId: string, taskId: string) => {
-        props.deleteTaskTC(todolistId,taskId)
+        props.deleteTask({todolistId, taskId})
     }, [])
     const changeStatus = useCallback((todolistId: string, id: string, task: TaskType,) => {
         props.changeStatusTitleTC(todolistId, id, task)
     }, [])
-    const changeTaskTitle = useCallback((todolistId: string, taskId: string, text: string) => {
-        props.changeTaskTitleTC(todolistId, taskId, text)
+    const changeTaskTitle = useCallback((todolistId: string, taskId: string, title: string) => {
+        props.changeTaskTitle({todolistId, taskId, title})
     }, [])
 
     //todolist
@@ -70,13 +70,13 @@ const TodoListComponent = (props: AppStateType & MapDispatchType):any => {
         props.changeTodoListInput({todolistId, text})
     }, [])
     const addTodo = useCallback((title: string) => {
-        props.addTodolistTC(title)
+        props.addTodolist(title)
     }, [])
     const setFilterType = useCallback((todolistId: string, filter: FilterValuesType) => {
         props.changeTodoListFilter({todolistId, filter})
     }, [])
     const removeTodoList = useCallback((todolistId: string) => {
-        props.removeTodolistTC(todolistId)
+        props.removeTodolist(todolistId)
     }, [])
     const changeFieldTodolistTitle = useCallback((todolistId: string, newText: string) => {
         props.updateTodolistTitleTC(todolistId, newText)
@@ -117,7 +117,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType):any => {
                                              onChangedTodolistInput={onChangedTodolistInput}
                                              changeFieldTodolistTitle={changeFieldTodolistTitle}
                                              changeTaskTitle={changeTaskTitle}
-                                             fetchTasksTC={props.fetchTasksTC}
+                                             fetchTasks={props.fetchTasks}
                             />
                         })
                         : <div></div>
@@ -142,10 +142,11 @@ const TodoListContainer = connect(mapStateToProps, {
     changeTodoListInput,
     changeTodoListFilter,
     fetchTodolist,
-    fetchTasksTC,
-    deleteTaskTC, addTaskTC, changeTaskTitleTC,
-    changeStatusTitleTC, addTodolistTC,
-    removeTodolistTC, updateTodolistTitleTC,
-    logoutThunk
+    fetchTasks,
+    deleteTask, changeTaskTitle,
+    changeStatusTitleTC, addTodolist,
+    removeTodolist, updateTodolistTitleTC,
+    logoutThunk,
+    addTask
 })(TodoListComponent);
 export default React.memo(TodoListContainer)

@@ -3,14 +3,14 @@ import TodoListContainer from "./components/TodoListContainer";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./components/Login/Login";
 import {useAppDispatch, useAppSelector} from "./store/store";
-import {AuthMeThunk} from "./store/auth-reducer";
+import {authMeThunk} from "./store/auth-reducer";
 import {CircularProgress} from "@mui/material";
 
 const App = () => {
     const dispatch = useAppDispatch()
     const isInitialized = useAppSelector(state=>state.appStatus.isInitialized)
     useEffect(()=>{
-        dispatch(AuthMeThunk())
+        dispatch(authMeThunk())
     },[])
     if (!isInitialized) {
         return <div

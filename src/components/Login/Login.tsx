@@ -40,7 +40,7 @@ const formik = useFormik({
         return errors
     },
         onSubmit: (values, {resetForm}) => {
-            dispatch(loginThunk(values))
+            dispatch(loginThunk({user:values}))
         },
     })
     if(isLoggedIn){

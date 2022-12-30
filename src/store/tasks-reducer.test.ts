@@ -1,14 +1,13 @@
-import axios from "axios";//for tests
-
 import {
     addTask,
     changeTaskStatus,
     changeTaskTitle,
-    removeTask, setTasksAC,
+    deleteTask,
+    fetchTasks,
     tasksReducer,
     TasksStateType
 } from "./tasks-reducer";
-import {addTodoList} from "./todolists-reducer";
+import {addTodolist} from "./todolists-reducer";
 import {TaskResponseType} from "../api/api";
 
 test('tasksReducer-remove',()=>{
@@ -21,7 +20,7 @@ let startState:TasksStateType={
         {todoListId: '0',id:'111', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'},
     ]
 }
-const action = removeTask({todolistId:'todoListsId2',taskId: '222'})
+const action = deleteTask.fulfilled({todolistId:'todoListsId2',taskId: '222'},"requestId",{todolistId:'todoListsId2',taskId: '222'})
     const endState=tasksReducer(startState,action)
 
     expect(endState).toEqual({
@@ -43,7 +42,7 @@ test('tasksReducer-add',()=>{
             {todoListId: 'todoListsId2',id:'333', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'}
         ]
     }
-    const action = addTask({
+    const param = {
         todolistId: 'todoListsId2',
         task: {
             todoListId: 'todoListsId2',
@@ -57,7 +56,22 @@ test('tasksReducer-add',()=>{
             description: 'omg',
             priority: 0
         }
-    })
+    }
+    const action = addTask.fulfilled({ todolistId: 'todoListsId2',
+        task: {
+            todoListId: 'todoListsId2',
+            id: '777',
+            title: 'choton novoe',
+            status: 0,
+            addedDate: '1',
+            order: 0,
+            startDate: '1',
+            deadline: '2',
+            description: 'omg',
+            priority: 0
+        }},"requestId",{ todolistId: 'todoListsId2',
+        title:  'choton novoe',
+        })
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(3)
@@ -75,7 +89,7 @@ test('tasksReducer-change_title',()=>{
             {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'}
         ]
     }
-    const action = changeTaskTitle({todolistId:'todoListsId2', taskId:'444', title:'choton novoe'})
+    const action = changeTaskTitle.fulfilled({todolistId:'todoListsId2', taskId:'444', title:'choton novoe'},'test',{todolistId:'todoListsId2', taskId:'444', title:'choton novoe'})
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)
@@ -111,7 +125,7 @@ test('tasksReducer-add_todoList-Tasks',()=>{
             {todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'}
         ]
     }
-    const action = addTodoList({todolist: {id: '444', title: "HTML&CSS", addedDate: '1', order: 0}})
+    const action = addTodolist.fulfilled({todolist: {id: '444', title: "HTML&CSS", addedDate: '1', order: 0}},'type',"HTML&CSS")
     const endState=tasksReducer(startState,action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k=>k!='todoListsId1'&&k!='todoListsId2')
@@ -132,7 +146,7 @@ test('tasksReducer-add_todoList-Tasks-load',()=>{
         ],
 
     }
-    const action = setTasksAC({todolistId:"todoListsId1", tasks:add})
+    const action = fetchTasks.fulfilled({todolistId:"todoListsId1", tasks:add},"","todoListsId1")
     const endState=tasksReducer({"todoListsId1":[],"todoListsId2":[]},action)
     expect(endState["todoListsId1"].length).toBe(2)
 })

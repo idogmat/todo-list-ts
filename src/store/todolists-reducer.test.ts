@@ -1,12 +1,11 @@
 import {v1} from "uuid";
 import axios from "axios";//for tests
 import {
-    addTodoList,
-    removeTodoList,
+    addTodolist,
+    removeTodolist,
     TodoListType,
     todoListsReducer,
-    setTodoLists,
-    changeFieldTodolistTitle, changeTodoListFilter
+    changeFieldTodolistTitle, changeTodoListFilter, fetchTodolist
 } from "./todolists-reducer";
 
 
@@ -14,7 +13,7 @@ test('todolist-remove', () => {
 
     const startState: Array<TodoListType> = [{id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:'' ,entityStatus:'idle' },
         {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
-    const endState = todoListsReducer(startState, removeTodoList({todolistId:'todoListsId1'}))
+    const endState = todoListsReducer(startState, removeTodolist.fulfilled({todolistId:'todoListsId1'},'type','todoListsId1'))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe('todoListsId2')
@@ -29,12 +28,14 @@ test('todolist-Add', () => {
             {id:todoListsId2,title:'React',addedDate:'1',order:1,filter:'all', error:false, text:'',entityStatus:'idle'  }]
 
 
-    const endState = todoListsReducer(startState, addTodoList({todolist: {
+    const endState = todoListsReducer(startState, addTodolist.fulfilled({todolist: {
             id: 'todoListsId2',
             title: 'test text',
             addedDate: '1',
             order: 1
-        } }))
+        } },'type',
+            'test text'
+        ))
 
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe('test text')
@@ -73,7 +74,7 @@ test('todolist-set-todolists', () => {
     ]
 
 
-    const endState = todoListsReducer([], setTodoLists({todolists:newTodoLists}))
+    const endState = todoListsReducer([], fetchTodolist.fulfilled({todolists:newTodoLists},'type'))
 
     expect(endState.length).toBe(2)
 

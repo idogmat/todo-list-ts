@@ -1,6 +1,7 @@
 {
   "name": "it-incubator-todolist-ts",
   "version": "0.1.0",
+  "homepage": "http://idogmat.github.io/todo-list-ts",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -43,7 +44,8 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "jest:integration": "jest -c integration/jest.config.js",
-    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
+    "deploy": "gh-pages -d build"
   },
   "resolutions": {
     "styled-components": "^5"
@@ -96,6 +98,7 @@
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "8.1.0",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "gh-pages": "^4.0.0",
     "jest": "^29.3.1",
     "jest-image-snapshot": "^6.0.0",
     "jest-puppeteer": "^6.1.1",

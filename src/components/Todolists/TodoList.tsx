@@ -31,15 +31,15 @@ export type TodolistType = {
     removeTask: (todolistId: string, taskId: string) => void
     changeStatus: (todolistId: string, id: string, b: TaskType) => void
 
-    fetchTasksTC:(s:string)=>void
+    fetchTasks:(s:string)=>void
 
 }
 const TodoList =React.memo ((props: TodolistType) => {
     // console.log(props.todolistId,'test')
     //preload-tasks
     useEffect(()=>{
-        props.fetchTasksTC(props.todolistId)
-    },[props.todolistId])
+        props.fetchTasks(props.todolistId)
+    },[])
     const selectFilter = ( todoListId: string,filter: FilterType) => {
         props.setFilterType(todoListId, filter)
     }
