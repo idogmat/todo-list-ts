@@ -107,7 +107,7 @@ test('tasksReducer-change_status',()=>{
             {todoListId: '0',id:'222', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'}
         ]
     }
-    const action = changeTaskStatus({todolistId:'todoListsId2',taskId: '444',status: 1})
+    const action = changeTaskStatus.fulfilled({todolistId:'todoListsId2',taskId: '444',status: 1},'sss',{todolistId:'todoListsId2',taskId: '444', task:{todoListId: '0',id:'444', title: "HTML&CSS", status: 0,addedDate:'1',order:0,startDate:'1',deadline:'2',description:'omg',priority:0,entityStatus: 'idle'}})
     const endState=tasksReducer(startState,action)
 
     expect(endState['todoListsId2'].length).toBe(2)

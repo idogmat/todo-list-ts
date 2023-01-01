@@ -66,23 +66,18 @@ const slice = createSlice({
     },
     extraReducers:(builder) => {
         builder.addCase(loginThunk.fulfilled, (state, action ) => {
-            console.log('loginThunk.fulfilled')
             action.payload && (state.isLoggedIn = action.payload?.value)
         });
         builder.addCase(authMeThunk.fulfilled, (state, action ) => {
-            console.log('authMeThunk.fulfilled')
             action.payload && (state.isLoggedIn = action.payload?.value)
         });
         builder.addCase(logoutThunk.fulfilled, (state, action ) => {
-            console.log('logoutThunk.fulfilled')
             action.payload && (state.isLoggedIn = action.payload?.value)
         });
     }
 
 })
 export const authReducer = slice.reducer
-// export const loginAC: ActionCreatorWithPayload<any, "auth/loginAC">= slice.actions.loginAC
-// export const loginAC= slice.actions.loginAC
 
 
 
