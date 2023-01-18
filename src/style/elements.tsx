@@ -143,16 +143,6 @@ const fadein = keyframes`
     }
 `;
 
-// const fadeout = keyframes`
-//     from {
-//       bottom: 1rem;
-//       opacity: 1;
-//     }
-//     to {
-//       bottom: 0;
-//       opacity: 0;
-//     }
-// `;
 
 export const Container = styled.div.attrs((props: any) => ({
 

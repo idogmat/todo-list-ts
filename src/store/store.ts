@@ -36,5 +36,5 @@ export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
 
 
 //@ts-ignore
-window.store = store
+// window.store = store
 

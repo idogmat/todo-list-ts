@@ -29,9 +29,7 @@ const slice = createSlice({
     }
 })
 
-export const changeStatusError = slice.actions.changeStatusError
-export const setError= slice.actions.setError
-export const  setInitialized = slice.actions.setInitialized
+export const {changeStatusError, setError, setInitialized} = slice.actions
 export const appReducer = slice.reducer
 
 

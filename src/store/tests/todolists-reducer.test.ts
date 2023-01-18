@@ -1,12 +1,11 @@
 import {v1} from "uuid";
 import axios from "axios";//for tests
 import {
-    addTodolist,
-    removeTodolist,
     TodoListType,
     todoListsReducer,
-    changeFieldTodolistTitle, changeTodoListFilter, fetchTodolist
-} from "./todolists-reducer";
+    changeFieldTodolistTitle, changeTodoListFilter
+} from "../todolists-reducer";
+import {addTodolist, fetchTodolist, removeTodolist} from "../todolistsThunks";
 
 
 test('todolist-remove', () => {

@@ -4,29 +4,27 @@ import TodoList from "./Todolists/TodoList";
 import AddItemForm from "./common/AddItemForm";
 import {connect} from "react-redux";
 import {AppStateType} from "../store/store";
-import {addTask, changeTaskStatus, changeTaskTitle, deleteTask, fetchTasks, TaskType,} from "../store/tasks-reducer";
+import { fetchTasks, TaskType,} from "../store/tasks-reducer";
 import {
-    addTodolist,
     changeTodoListFilter,
     changeTodoListInput,
-    fetchTodolist,
     FilterValuesType,
-    removeTodolist,
     TodoListType,
-    updateTodolistTitleTC
 } from "../store/todolists-reducer";
 import {RequestStatusType} from "../store/app-reducer";
 import {Skeleton} from "../style/elements";
 import Snackbar from "./common/Snackbar";
-import {logoutThunk} from "../store/auth-reducer";
+import {logoutThunk} from "../store/authThunks";
 import {Navigate} from "react-router-dom";
+import {addTodolist, fetchTodolist, removeTodolist, updateTodolistTitle} from "../store/todolistsThunks";
+import {addTask, changeTaskStatus, changeTaskTitle, deleteTask} from "../store/tasksThunks";
 
 
 type MapDispatchType = {
     fetchTodolist: () => void
     changeTodoListFilter: (payload:{todolistId: string, filter: FilterValuesType}) => void
     changeTodoListInput: (payload:{ todolistId: string, text: string }) => void
-    updateTodolistTitleTC: (todolistId: string, title: string) => void
+    updateTodolistTitle: (todolistId: string, title: string) => void
     addTodolist: (title: string) => void
     logoutThunk: () => void
     addTask: (param:{todolistId: string, title: string})=> any
@@ -72,7 +70,7 @@ const TodoListComponent = (props: AppStateType & MapDispatchType):any => {
         props.removeTodolist(todolistId)
     }, [])
     const changeFieldTodolistTitle = useCallback((todolistId: string, newText: string) => {
-        props.updateTodolistTitleTC(todolistId, newText)
+        props.updateTodolistTitle(todolistId, newText)
     }, [])
     const logout = () => {
         props.logoutThunk()
@@ -138,7 +136,7 @@ const TodoListContainer = connect(mapStateToProps, {
     fetchTasks,
     deleteTask, changeTaskTitle,
     changeTaskStatus, addTodolist,
-    removeTodolist, updateTodolistTitleTC,
+    removeTodolist, updateTodolistTitle,
     logoutThunk,
     addTask
 })(TodoListComponent);

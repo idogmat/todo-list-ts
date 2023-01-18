@@ -3,7 +3,7 @@ import TodoListContainer from "./components/TodoListContainer";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./components/Login/Login";
 import {useAppDispatch, useAppSelector} from "./store/store";
-import {authMeThunk} from "./store/auth-reducer";
+import {authMeThunk} from "./store/authThunks";
 import {CircularProgress} from "@mui/material";
 
 const App = () => {
