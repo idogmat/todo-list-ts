@@ -1,29 +1,29 @@
-import React from 'react';
-import styled, {keyframes} from "styled-components";
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
-export const Input = styled.input.attrs(props => ({
-    type: "text",
-    size: props.size || "2rem",
+export const Input = styled.input.attrs((props) => ({
+  type: "text",
+  size: props.size || "2rem",
 }))`
   border: 2px solid palevioletred;
   background: transparent;
   border-radius: 30px;
   width: 100%;
-  height: ${props => props.size};
+  height: ${(props) => props.size};
   margin: auto;
   outline: none;
-  color: #DB7093FF;
+  color: #db7093ff;
   font-size: 1.5rem;
   box-sizing: border-box;
 `;
 
 export const BtnStyle = styled.button.attrs((props: any) => ({
-    size: props.size || "none",
+  size: props.size || "none",
 }))`
   display: inline-block;
   color: palevioletred;
   cursor: pointer;
-  height: ${props => props.size};
+  height: ${(props) => props.size || "none"};
   margin: 1rem;
   box-sizing: border-box;
   border: 2px solid palevioletred;
@@ -33,10 +33,9 @@ export const BtnStyle = styled.button.attrs((props: any) => ({
     background: palevioletred;
     color: #fff;
   }
-  :disabled{
-    opacity: .1;
+  :disabled {
+    opacity: 0.1;
   }
-
 `;
 export const HiddenCheckbox = styled.input`
   box-sizing: border-box;
@@ -61,9 +60,8 @@ export const TodoTitle = styled.p`
   background: -webkit-linear-gradient(#ec6262, #251212);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   box-sizing: border-box;
-`
+`;
 
 const rotate360 = keyframes`
   from {
@@ -74,9 +72,7 @@ const rotate360 = keyframes`
   }
 `;
 
-const Spinner = styled.div.attrs((props: any) => ({
-    size: props.size || "none",
-}))`
+export const Spinner = styled.div`
   animation: ${rotate360} 1s linear infinite;
   transform: translateZ(0);
   margin: auto;
@@ -91,32 +87,27 @@ const Spinner = styled.div.attrs((props: any) => ({
   opacity: 1;
 `;
 
-export default Spinner;
-
-
 const loading = keyframes`
   from {
     right: 100%
   }
   to {
-    right: 0%
+    right: 0
   }
-`
+`;
 //
-export const Loader = styled.div.attrs((props: any) => ({
-    width: props.width,
-    height: props.height
-}))`
-  width: ${(width: any) => width};
-  height: ${(height: any) => height};
-  box-shadow: 1px 1px 18px rgba(0, 0, 0, .2);
+
+export const Loader = styled.div<{ width: string; height: string }>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  box-shadow: 1px 1px 18px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   position: relative;
   overflow: hidden;
-  box-sizing:border-box;
+  box-sizing: border-box;
 
   ::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     rigth: 0%;
@@ -126,12 +117,12 @@ export const Loader = styled.div.attrs((props: any) => ({
     background: linear-gradient(to left, #ec6262, #830505);
     animation: ${loading} 1s ease-in-out infinite;
   }
-`
+`;
 
 export const Skeleton = () => {
-    return <Loader width={'98%'} height={'18px'}/>
-}
-//snackbar
+  return <Loader width={"98%"} height={"18px"} />;
+};
+
 const fadein = keyframes`
     from {
       bottom: 0;
@@ -143,10 +134,8 @@ const fadein = keyframes`
     }
 `;
 
-
 export const Container = styled.div.attrs((props: any) => ({
-
-    status:props.status
+  status: props.status,
 }))`
   position: fixed;
   z-index: 1000;
@@ -159,20 +148,22 @@ export const Container = styled.div.attrs((props: any) => ({
   border: transparent;
   color: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   animation: ${fadein} 0.5s;
-  background-color: ${(status:any)=>status.status === "succeeded" || status.status === "loading" || status.status ==='idle'? 'hsl(200, 100%, 65%)' : 'hsl(0,100%,50%)'};
-    `
+  background-color: ${(status: any) =>
+    status.status === "succeeded" ||
+    status.status === "loading" ||
+    status.status === "idle"
+      ? "hsl(200, 100%, 65%)"
+      : "hsl(0,100%,50%)"};
+`;
 
 export const ButtonSnackbar = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 0.875rem;
   padding: 0;
   margin-left: 1rem;
   height: 1.75rem;
@@ -185,6 +176,6 @@ export const ButtonSnackbar = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: hsla(0, 0%, 100%,.5);
+    background-color: hsla(0, 0%, 100%, 0.5);
   }
 `;

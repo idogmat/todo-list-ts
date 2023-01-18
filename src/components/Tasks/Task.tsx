@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import s from "../style.module.css";
-import Spinner, { BtnStyle, HiddenCheckbox } from "../../style/elements";
+import { BtnStyle, HiddenCheckbox, Spinner } from "../../style/elements";
 import EditableTitle from "../common/EditTitle";
 import { TaskType } from "../../store/tasks-reducer";
 import { RequestStatusType } from "../../store/app-reducer";

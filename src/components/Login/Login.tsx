@@ -80,8 +80,6 @@ export const Login = () => {
                 label="Password"
                 margin="normal"
                 {...formik.getFieldProps("password")}
-                // name={'password'} onChange={formik.handleChange}
-                // value={formik.values.password}
               />
 
               <FormControlLabel
