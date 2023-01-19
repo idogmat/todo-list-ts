@@ -1,54 +1,64 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {changeStatusError, setInitialized} from "./app-reducer";
-import {API} from "../api/api";
-import {handleServerNetworkError} from "../utils/errorUtils";
-import {UserType} from "./auth-reducer";
+import { changeStatusError, setInitialized } from "./app-reducer";
+import { API } from "../api/api";
+import { handleServerNetworkError } from "../utils/errorUtils";
+import { UserType } from "./auth-reducer";
+import { createAppAsyncThunk } from "./type";
 
-export const authMeThunk = createAsyncThunk('auth/authMe', async (value,thunkAPI) => {
-    thunkAPI.dispatch(changeStatusError({status:'loading'}))
-    thunkAPI.dispatch(setInitialized({initialized: false}))
+export const authMeThunk = createAppAsyncThunk(
+  "auth/authMe",
+  async (value, thunkAPI) => {
+    const { isInitialized } = thunkAPI.getState().appStatus;
+    isInitialized &&
+      thunkAPI.dispatch(changeStatusError({ status: "loading" }));
     try {
-        const res = await API.authMe()
-        if (res.resultCode === 0) {
-            thunkAPI.dispatch(changeStatusError({status:'succeeded'}))
-            return {value: true}
-        } else {
-            handleServerNetworkError(res.statusText, thunkAPI.dispatch)
-        }
+      const res = await API.authMe();
+      if (res.resultCode === 0) {
+        thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
+        return { value: true };
+      } else {
+        isInitialized &&
+          handleServerNetworkError(res.statusText, thunkAPI.dispatch);
+      }
     } catch (e: any) {
-        handleServerNetworkError(e, thunkAPI.dispatch)
-
+      handleServerNetworkError(e, thunkAPI.dispatch);
     } finally {
-        thunkAPI.dispatch(setInitialized({initialized: true}))
+      thunkAPI.dispatch(setInitialized({ initialized: true }));
     }
-})
-export const logoutThunk = createAsyncThunk('auth/logoutThunk',async (value,thunkAPI)=>{
-    thunkAPI.dispatch(changeStatusError({status:'loading'}))
+  }
+);
+export const logoutThunk = createAppAsyncThunk(
+  "auth/logoutThunk",
+  async (value, thunkAPI) => {
+    thunkAPI.dispatch(changeStatusError({ status: "loading" }));
     try {
-        const res = await API.logout()
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(changeStatusError({status:'succeeded'}))
-            return {value: false}
-        } else {
-            handleServerNetworkError(res.statusText, thunkAPI.dispatch)
-            thunkAPI.rejectWithValue({})
-        }
+      const res = await API.logout();
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
+        return { value: false };
+      } else {
+        handleServerNetworkError(res.statusText, thunkAPI.dispatch);
+        thunkAPI.rejectWithValue({});
+      }
     } catch (e: any) {
-        handleServerNetworkError(e, thunkAPI.dispatch)
-        thunkAPI.rejectWithValue({})
+      handleServerNetworkError(e, thunkAPI.dispatch);
+      thunkAPI.rejectWithValue({});
     }
-})
-export const loginThunk = createAsyncThunk('auth/loginThunk',async (param:{ user: UserType },thunkAPI)=>{
-    thunkAPI.dispatch(changeStatusError({status:'loading'}))
+  }
+);
+export const loginThunk = createAppAsyncThunk(
+  "auth/loginThunk",
+  async (param: { user: UserType }, thunkAPI) => {
+    thunkAPI.dispatch(changeStatusError({ status: "loading" }));
     try {
-        const res = await API.login(param.user)
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(changeStatusError({status:'succeeded'}))
-            return {value: true}
-        } else {
-            handleServerNetworkError(res.statusText, thunkAPI.dispatch)
-        }
+      const res = await API.login(param.user);
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
+        return { value: true };
+      } else {
+        handleServerNetworkError(res.statusText, thunkAPI.dispatch);
+      }
     } catch (e: any) {
-        handleServerNetworkError(e, thunkAPI.dispatch)
+      handleServerNetworkError(e, thunkAPI.dispatch);
     }
-})
+  }
+);

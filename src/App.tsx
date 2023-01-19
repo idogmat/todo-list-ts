@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import TodoListContainer from "./components/TodoListContainer";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "./components/Login/Login";
-import { useAppDispatch, useAppSelector } from "./store/store";
 import { authMeThunk } from "./store/authThunks";
 import { CircularProgress } from "@mui/material";
 import { getIsInitialized } from "./store/selectors";
+import { useAppDispatch, useAppSelector } from "./store/type";
 
 const App = () => {
   const isInitialized = useAppSelector(getIsInitialized);
