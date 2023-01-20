@@ -7,29 +7,16 @@ import {
 import { TaskActionType, tasksReducer } from "./tasks-reducer";
 import { TodolistActionType, todoListsReducer } from "./todolists-reducer";
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { appReducer, AppActionsType } from "./app-reducer";
+import { AppActionsType, appReducer } from "./app-reducer";
 import { AuthActionsType, authReducer } from "./auth-reducer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { all } from "redux-saga/effects";
 import createSagaMiddleware from "redux-saga";
-import { takeEvery } from "redux-saga/effects";
 import {
-  authMeWorkerSaga,
-  loginWorkerSaga,
-  logoutWorkerSaga,
-} from "./sagaWorkers/auth";
-import {
-  addTaskWorkerSaga,
-  changeStatusWorkerSaga,
-  changeTaskTitleWorkerSaga,
-  fetchTaskWorkerSaga,
-  removeTaskWorkerSaga,
-} from "./sagaWorkers/tasks";
-import {
-  addTodolistWorkerSaga,
-  fetchTodolistWorkerSaga,
-  removeTodolistWorkerSaga,
-  updateTodolistTitleWorkerSaga,
-} from "./sagaWorkers/todolists";
+  appWatcherSaga,
+  tasksWatcherSaga,
+  todolistsWatcherSaga,
+} from "./watchers";
 
 //store
 
@@ -40,27 +27,13 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(thunk, sagaMiddleware));
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 //for use thunk like pro add middleware type thunk
 sagaMiddleware.run(rootWatcher);
 
 function* rootWatcher() {
-  yield takeEvery("INITIALIZE-CALL", authMeWorkerSaga);
-  yield takeEvery("LOGIN-CALL", loginWorkerSaga);
-  yield takeEvery("LOGOUT-CALL", logoutWorkerSaga);
-
-  yield takeEvery("FETCH-TASKS-CALL", fetchTaskWorkerSaga);
-  yield takeEvery("REMOVE-TASK-CALL", removeTaskWorkerSaga);
-  yield takeEvery("ADD-TASK-CALL", addTaskWorkerSaga);
-  yield takeEvery("CHANGE-TITLE-TASK-CALL", changeTaskTitleWorkerSaga);
-  yield takeEvery("CHANGE-STATUS-TASK-CALL", changeStatusWorkerSaga);
-
-  yield takeEvery("FETCH-TODOLIST-CALL", fetchTodolistWorkerSaga);
-  yield takeEvery("ADD-TODOLIST-CALL", addTodolistWorkerSaga);
-  yield takeEvery("REMOVE-TODOLIST-CALL", removeTodolistWorkerSaga);
-  yield takeEvery("UPDATE-TODOLIST-CALL", updateTodolistTitleWorkerSaga);
+  yield all([appWatcherSaga(), todolistsWatcherSaga(), tasksWatcherSaga()]);
 }
-
 export default store;
 //store
 
