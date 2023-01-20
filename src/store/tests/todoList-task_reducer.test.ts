@@ -1,7 +1,7 @@
-import { tasksReducer, TasksStateType } from "./tasks-reducer";
+import { tasksReducer, TasksStateType } from "../tasks-reducer";
 import axios from "axios";
-import { todoListsReducer, TodoListType } from "./todolists-reducer";
-import { addTodoList, removeTodoList } from "./actions/todolists";
+import { todoListsReducer, TodoListType } from "../todolists-reducer";
+import { addTodoList, removeTodoList } from "../actions/todolists";
 //for tests
 test("tasksReducer-add_todoList-Tasks", () => {
   const todoListState: Array<TodoListType> = [

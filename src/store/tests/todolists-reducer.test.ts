@@ -1,13 +1,13 @@
 import { v1 } from "uuid";
 import axios from "axios"; //for tests
-import { TodoListType, todoListsReducer } from "./todolists-reducer";
+import { TodoListType, todoListsReducer } from "../todolists-reducer";
 import {
   addTodoList,
   changeFieldTodolistTitle,
   changeTodoListFilter,
   removeTodoList,
   setTodoLists,
-} from "./actions/todolists";
+} from "../actions/todolists";
 
 test("todolist-remove", () => {
   const startState: Array<TodoListType> = [

@@ -8,8 +8,8 @@ import {
   setTasksAC,
   tasksReducer,
   TasksStateType,
-} from "./tasks-reducer";
-import { addTodoList } from "./actions/todolists";
+} from "../tasks-reducer";
+import { addTodoList } from "../actions/todolists";
 
 test("tasksReducer-remove", () => {
   let startState: TasksStateType = {

@@ -13,19 +13,19 @@ import { AxiosResponse } from "axios";
 import { loginAC } from "../actions/auth";
 
 export function* authMeWorkerSaga() {
-  put(changeStatusError("loading"));
-  put(setInitialized(false));
+  yield put(changeStatusError("loading"));
+  yield put(setInitialized(false));
   try {
     const res: AuthMeType = yield call(API.authMe);
     if (res.resultCode === 0) {
       yield put(loginAC(true));
       yield put(changeStatusError("succeeded"));
     } else {
-      yield put(changeStatusError("succeeded"));
+      yield put(changeStatusError("failed"));
       handleServerNetworkError(res.statusText, put);
     }
   } catch (e: any) {
-    // handleServerNetworkError(e, put);
+    handleServerNetworkError(e, put);
   } finally {
     yield put(setInitialized(true));
   }
@@ -42,7 +42,7 @@ export function* loginWorkerSaga({ user }: UserParamsType) {
       yield put(loginAC(true));
       yield put(changeStatusError("succeeded"));
     } else {
-      handleServerNetworkError(res.statusText, put);
+      yield put(changeStatusError("failed"));
     }
   } catch (e: any) {
     handleServerNetworkError(e, put);
