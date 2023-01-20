@@ -63,7 +63,7 @@ export const API = {
         { Title: title }
       )
       .then((resolve) => {
-        return resolve.data.resultCode;
+        return resolve.data;
       });
   },
   //Tasks

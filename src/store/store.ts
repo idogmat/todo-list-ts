@@ -4,13 +4,7 @@ import {
   combineReducers,
   legacy_createStore as createStore,
 } from "redux";
-import {
-  addTaskWorkerSaga,
-  fetchTaskWorkerSaga,
-  removeTaskWorkerSaga,
-  TaskActionType,
-  tasksReducer,
-} from "./tasks-reducer";
+import { TaskActionType, tasksReducer } from "./tasks-reducer";
 import { TodolistActionType, todoListsReducer } from "./todolists-reducer";
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { appReducer, AppActionsType } from "./app-reducer";
@@ -23,6 +17,19 @@ import {
   loginWorkerSaga,
   logoutWorkerSaga,
 } from "./sagaWorkers/auth";
+import {
+  addTaskWorkerSaga,
+  changeStatusWorkerSaga,
+  changeTaskTitleWorkerSaga,
+  fetchTaskWorkerSaga,
+  removeTaskWorkerSaga,
+} from "./sagaWorkers/tasks";
+import {
+  addTodolistWorkerSaga,
+  fetchTodolistWorkerSaga,
+  removeTodolistWorkerSaga,
+  updateTodolistTitleWorkerSaga,
+} from "./sagaWorkers/todolists";
 
 //store
 
@@ -41,9 +48,17 @@ function* rootWatcher() {
   yield takeEvery("INITIALIZE-CALL", authMeWorkerSaga);
   yield takeEvery("LOGIN-CALL", loginWorkerSaga);
   yield takeEvery("LOGOUT-CALL", logoutWorkerSaga);
+
   yield takeEvery("FETCH-TASKS-CALL", fetchTaskWorkerSaga);
   yield takeEvery("REMOVE-TASK-CALL", removeTaskWorkerSaga);
   yield takeEvery("ADD-TASK-CALL", addTaskWorkerSaga);
+  yield takeEvery("CHANGE-TITLE-TASK-CALL", changeTaskTitleWorkerSaga);
+  yield takeEvery("CHANGE-STATUS-TASK-CALL", changeStatusWorkerSaga);
+
+  yield takeEvery("FETCH-TODOLIST-CALL", fetchTodolistWorkerSaga);
+  yield takeEvery("ADD-TODOLIST-CALL", addTodolistWorkerSaga);
+  yield takeEvery("REMOVE-TODOLIST-CALL", removeTodolistWorkerSaga);
+  yield takeEvery("UPDATE-TODOLIST-CALL", updateTodolistTitleWorkerSaga);
 }
 
 export default store;

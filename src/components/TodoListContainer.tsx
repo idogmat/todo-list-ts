@@ -4,48 +4,33 @@ import TodoList from "./Todolists/TodoList";
 import AddItemForm from "./common/AddItemForm";
 import { connect } from "react-redux";
 import { AppStateType, useAppDispatch } from "../store/store";
-import {
-  addTaskCallWorkerSaga,
-  changeStatusTitleTC,
-  changeTaskTitleTC,
-  removeTaskCallWorkerSaga,
-  TaskType,
-} from "../store/tasks-reducer";
-import {
-  addTodolistTC,
-  changeTodoListFilter,
-  changeTodoListInput,
-  fetchTodolist,
-  removeTodolistTC,
-  TodoListType,
-  updateTodolistTitleTC,
-} from "../store/todolists-reducer";
+import { TaskType } from "../store/tasks-reducer";
 import { RequestStatusType } from "../store/app-reducer";
 import { Skeleton } from "../style/elements";
 import Snackbar from "./common/Snackbar";
 import { Navigate } from "react-router-dom";
 import { logoutCallWorkerSaga } from "../store/actions/auth";
+import {
+  addTaskCallWorkerSaga,
+  changeStatusCallWorkerSaga,
+  changeTaskTitleCallWorkerSaga,
+  removeTaskCallWorkerSaga,
+} from "../store/actions/tasks";
+import { TodoListType } from "../store/todolists-reducer";
+import {
+  addTodolistCallWorkerSaga,
+  changeTodoListFilter,
+  changeTodoListInput,
+  fetchTodolistCallWorkerSaga,
+  removeTodolistCallWorkerSaga,
+  updateTodolistTitleCallWorkerSaga,
+} from "../store/actions/todolists";
 
 export type FilterValuesType = "all" | "completed" | "active";
 
 type MapDispatchType = {
-  fetchTodolist: () => void;
   changeTodoListFilter: (id: string, type: FilterValuesType) => void;
   changeTodoListInput: (todoListId: string, text: string) => void;
-  changeTaskTitleTC: (
-    todoListId: string,
-    taskId: string,
-    title: string
-  ) => void;
-  changeStatusTitleTC: (
-    todoListId: string,
-    taskId: string,
-    text: TaskType
-  ) => void;
-  updateTodolistTitleTC: (todoListId: string, title: string) => void;
-  addTodolistTC: (title: string) => void;
-  removeTodolistTC: (todolistId: string) => void;
-
   appStatus: { status: RequestStatusType };
 };
 
@@ -53,24 +38,27 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
   const dispatch = useAppDispatch();
   //preload-list
   useEffect(() => {
-    props.fetchTodolist();
+    dispatch(fetchTodolistCallWorkerSaga());
   }, []);
   //tasks
   const addTask = useCallback((todoListId: string, title: string) => {
     dispatch(addTaskCallWorkerSaga(todoListId, title));
   }, []);
+
   const removeTask = useCallback((todoListId: string, id: string) => {
     dispatch(removeTaskCallWorkerSaga(todoListId, id));
   }, []);
+
   const changeStatus = useCallback(
     (todoListId: string, id: string, task: TaskType) => {
-      props.changeStatusTitleTC(todoListId, id, task);
+      dispatch(changeStatusCallWorkerSaga(todoListId, id, task));
     },
     []
   );
+
   const changeTaskTitle = useCallback(
     (todoListId: string, taskId: string, text: string) => {
-      props.changeTaskTitleTC(todoListId, taskId, text);
+      dispatch(changeTaskTitleCallWorkerSaga(todoListId, taskId, text));
     },
     []
   );
@@ -82,24 +70,29 @@ const TodoListComponent = (props: AppStateType & MapDispatchType) => {
     },
     []
   );
+
   const addTodo = useCallback((title: string) => {
-    props.addTodolistTC(title);
+    dispatch(addTodolistCallWorkerSaga(title));
   }, []);
+
   const setFilterType = useCallback(
     (todoListId: string, filter: FilterValuesType) => {
       props.changeTodoListFilter(todoListId, filter);
     },
     []
   );
+
   const removeTodoList = useCallback((todoListId: string) => {
-    props.removeTodolistTC(todoListId);
+    dispatch(removeTodolistCallWorkerSaga(todoListId));
   }, []);
+
   const changeFieldTodolistTitle = useCallback(
     (todoListId: string, newText: string) => {
-      props.updateTodolistTitleTC(todoListId, newText);
+      dispatch(updateTodolistTitleCallWorkerSaga(todoListId, newText));
     },
     []
   );
+
   const logout = () => {
     dispatch(logoutCallWorkerSaga());
   };
@@ -160,13 +153,7 @@ function mapStateToProps(state: AppStateType) {
 }
 
 const TodoListContainer = connect(mapStateToProps, {
-  changeTodoListInput,
   changeTodoListFilter,
-  fetchTodolist,
-  changeTaskTitleTC,
-  changeStatusTitleTC,
-  addTodolistTC,
-  removeTodolistTC,
-  updateTodolistTitleTC,
+  changeTodoListInput,
 })(TodoListComponent);
 export default React.memo(TodoListContainer);

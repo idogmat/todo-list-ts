@@ -5,13 +5,10 @@ import s from "../style.module.css";
 import { FilterValuesType } from "../TodoListContainer";
 import EditableTitle from "../common/EditTitle";
 import { Task } from "../Tasks/Task";
-import {
-  fetchTaskCallWorkerSaga,
-  TaskStatusType,
-  TaskType,
-} from "../../store/tasks-reducer";
+import { TaskType } from "../../store/tasks-reducer";
 import { RequestStatusType } from "../../store/app-reducer";
 import { useAppDispatch } from "../../store/store";
+import { fetchTaskCallWorkerSaga } from "../../store/actions/tasks";
 
 type FilterType = "all" | "active" | "completed";
 
@@ -29,7 +26,7 @@ export type TodolistType = {
   changeFieldTodolistTitle: (todoListId: string, text: string) => void;
   removeTodoList: (todoListId: string) => void;
 
-  changeTaskTitle: (todoListId: string, id: string, text: string) => void;
+  changeTaskTitle: (todoListId: string, taskId: string, text: string) => void;
   addTask: (todoListId: string, text: string) => void;
   removeTask: (todoListId: string, id: string) => void;
   changeStatus: (todoListId: string, id: string, b: TaskType) => void;
