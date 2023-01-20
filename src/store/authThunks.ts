@@ -20,7 +20,7 @@ export const authMeThunk = createAppAsyncThunk(
           handleServerNetworkError(res.statusText, thunkAPI.dispatch);
       }
     } catch (e: any) {
-      handleServerNetworkError(e, thunkAPI.dispatch);
+      isInitialized && handleServerNetworkError(e, thunkAPI.dispatch);
     } finally {
       thunkAPI.dispatch(setInitialized({ initialized: true }));
     }
