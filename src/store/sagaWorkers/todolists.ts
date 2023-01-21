@@ -56,6 +56,8 @@ export function* removeTodolistWorkerSaga({
       yield put(removeTodoList(todolistId));
       yield put(changeEntityStatusTodolist(todolistId, "succeeded"));
       yield put(changeStatusError("succeeded"));
+    } else {
+      yield put(changeStatusError("failed"));
     }
   } catch (e: any) {
     handleServerNetworkError(e.message, put);
@@ -79,6 +81,7 @@ export function* updateTodolistTitleWorkerSaga({
       yield put(changeEntityStatusTodolist(todolistId, "succeeded"));
       yield put(changeStatusError("succeeded"));
     }
+    yield put(changeStatusError("failed"));
   } catch (e: any) {
     handleServerNetworkError(e.message, put);
   }

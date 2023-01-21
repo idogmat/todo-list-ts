@@ -57,6 +57,7 @@ export function* logoutWorkerSaga() {
       yield put(loginAC(false));
       yield put(changeStatusError("succeeded"));
     } else {
+      yield put(changeStatusError("failed"));
       handleServerNetworkError(res.statusTest, put);
     }
   } catch (e: any) {

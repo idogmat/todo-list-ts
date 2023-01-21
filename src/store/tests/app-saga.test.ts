@@ -1,8 +1,16 @@
-import { authMeWorkerSaga, loginWorkerSaga } from "../sagaWorkers/auth";
+import {
+  authMeWorkerSaga,
+  loginWorkerSaga,
+  logoutWorkerSaga,
+} from "../sagaWorkers/auth";
 import { API } from "../../api/api";
 import { call, put } from "redux-saga/effects";
 import { AuthMeType, ResponseType, ResponseUserType } from "../../api/type";
-import { loginAC, loginCallWorkerSaga } from "../actions/auth";
+import {
+  loginAC,
+  loginCallWorkerSaga,
+  logoutCallWorkerSaga,
+} from "../actions/auth";
 import { changeStatusError, setInitialized } from "../app-reducer";
 import { AxiosResponse } from "axios";
 
@@ -73,6 +81,38 @@ describe("app-saga test", () => {
 
     res = gen.next();
     expect(res.value).toEqual(call(API.login, user));
+    const meResponse = {
+      data: {
+        resultCode: 1,
+      },
+    } as AxiosResponse<ResponseType<ResponseUserType>>;
+    res = gen.next(meResponse as any);
+    expect(res.value).toEqual(put(changeStatusError("failed")));
+  });
+  it("logoutWorkerSaga resolved", () => {
+    const gen = logoutWorkerSaga();
+    let res = gen.next();
+    expect(res.value).toEqual(put(changeStatusError("loading")));
+    res = gen.next();
+    expect(res.value).toEqual(call(API.logout));
+    const meResponse = {
+      data: {
+        resultCode: 0,
+      },
+    } as AxiosResponse<ResponseType<ResponseUserType>>;
+    res = gen.next(meResponse as any);
+
+    expect(res.value).toEqual(put(loginAC(false)));
+    res = gen.next();
+    expect(res.value).toEqual(put(changeStatusError("succeeded")));
+  });
+  it("logoutWorkerSaga rejected", () => {
+    const gen = logoutWorkerSaga();
+    let res = gen.next();
+    expect(res.value).toEqual(put(changeStatusError("loading")));
+
+    res = gen.next();
+    expect(res.value).toEqual(call(API.logout));
     const meResponse = {
       data: {
         resultCode: 1,
