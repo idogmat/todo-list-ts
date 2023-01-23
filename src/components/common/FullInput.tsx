@@ -1,37 +1,49 @@
-import React, {ChangeEvent, useCallback} from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import Button from "./Button";
-import {Input} from "../../style/elements";
-import s from '../style.module.css'
-type InputProps={
-    addTasks:(todolistId: string,title: string) =>void
-    todolistInput:string
-    onChangedTodolistInput:(todoListId:string,text:string)=>void
-    error:boolean
-    todolistId:string
-}
+import { Input } from "../../style/elements";
+import s from "../style.module.css";
+type InputProps = {
+  addTasks: (todolistId: string, title: string) => void;
+  todolistInput: string;
+  onChangedTodolistInput: (todoListId: string, text: string) => void;
+  error: boolean;
+  todolistId: string;
+};
 
-const FullInput=(props:InputProps)=>{
-    const changeInput=useCallback((text:string)=>{
-        props.onChangedTodolistInput(props.todolistId,text)
-        if(props.todolistInput !== '' || props.todolistInput.trim() !== '') {
-
+const FullInput: React.FC<InputProps> = ({
+  addTasks,
+  todolistInput,
+  todolistId,
+  onChangedTodolistInput,
+  error,
+}) => {
+  const changeInput = useCallback(
+    (text: string) => {
+      onChangedTodolistInput(todolistId, text);
+      if (todolistInput !== "" || todolistInput.trim() !== "") {
+      }
+    },
+    [todolistId]
+  );
+  const addTask = useCallback(() => {
+    if (todolistInput === "" || todolistInput.trim() === "") {
+    } else {
+      addTasks(todolistId, todolistInput);
+      onChangedTodolistInput(todolistId, "");
+    }
+  }, [todolistId, todolistInput]);
+  return (
+    <div className={s.inputBlock}>
+      <Input
+        value={todolistInput}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          changeInput(e.currentTarget.value)
         }
-    },[props.todolistId])
-    const addTask=useCallback(()=>{
-        if(props.todolistInput === '' || props.todolistInput.trim() === ''){
-        } else {
-            props.addTasks(props.todolistId,props.todolistInput)
-            props.onChangedTodolistInput(props.todolistId,'')
-        }
-    },[props.todolistId,props.todolistInput])
-    return <div className={s.inputBlock}>
-            <Input
-                   value={props.todolistInput}
-                   onChange={(e:ChangeEvent<HTMLInputElement>)=>changeInput(e.currentTarget.value)}
-                   onKeyDown={(e:any)=>e.key==="Enter" && addTask()}
-                   className={props.error ? s.inputError : ''}
-            />
-            <Button callBack={addTask}/>
-        </div>
-}
-export default FullInput
+        onKeyDown={(e: any) => e.key === "Enter" && addTask()}
+        className={error ? s.inputError : ""}
+      />
+      <Button callBack={addTask} />
+    </div>
+  );
+};
+export default FullInput;

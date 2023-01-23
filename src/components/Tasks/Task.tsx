@@ -13,58 +13,68 @@ type TaskElementType = {
   changeStatus: (a: string, c: string, b: TaskType) => void;
   entityStatus: RequestStatusType;
 };
-export const Task = React.memo((props: TaskElementType) => {
-  const removeTask = useCallback(() => {
-    if (props.entityStatus !== "loading") {
-      props.removeTask(props.task.todoListId, props.task.id);
-    }
-  }, [props.task.todoListId, props.task.id]);
-
-  const onChangeEditTitle = useCallback(
-    (text: string) => {
-      if (props.entityStatus !== "loading") {
-        if (props.task.title !== text)
-          props.changeTaskTitle(props.todolistId, props.task.id, text);
+export const Task: React.FC<TaskElementType> = React.memo(
+  ({
+    task,
+    removeTask,
+    changeTaskTitle,
+    changeStatus,
+    entityStatus,
+    todolistId,
+  }) => {
+    const removeTaskHandler = useCallback(() => {
+      if (entityStatus !== "loading") {
+        removeTask(task.todoListId, task.id);
       }
-    },
-    [props.task.todoListId, props.task.id]
-  );
+    }, [task.todoListId, task.id]);
 
-  const onInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (props.entityStatus !== "loading") {
-        let task = { ...props.task, status: e.currentTarget.checked ? 1 : 0 };
-        props.changeStatus(
-          props.task.todoListId,
-          props.task.id,
-          task as TaskType
-        );
-      }
-    },
-    [props.task.todoListId, props.task.id]
-  );
+    const onChangeEditTitle = useCallback(
+      (text: string) => {
+        if (entityStatus !== "loading") {
+          if (task.title !== text) changeTaskTitle(todolistId, task.id, text);
+        }
+      },
+      [task.todoListId, task.id]
+    );
 
-  return (
-    <li
-      className={s.task + " " + (props.task.status ? s.done + " " : "")}
-      key={props.task.id}
-    >
-      {props.task.entityStatus === "loading" ? (
-        <Spinner />
-      ) : (
-        <HiddenCheckbox
-          onChange={(e) => onInputChange(e)}
-          type="checkbox"
-          checked={!!props.task.status}
+    const onInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (entityStatus !== "loading") {
+          let taskChanged = {
+            ...task,
+            status: e.currentTarget.checked ? 1 : 0,
+          };
+          changeStatus(
+            taskChanged.todoListId,
+            taskChanged.id,
+            taskChanged as TaskType
+          );
+        }
+      },
+      [task.todoListId, task.id]
+    );
+    return (
+      <li
+        className={s.task + " " + (task.status ? s.done + " " : "")}
+        key={task.id}
+      >
+        {task.entityStatus === "loading" ? (
+          <Spinner />
+        ) : (
+          <HiddenCheckbox
+            onChange={(e) => onInputChange(e)}
+            type="checkbox"
+            checked={!!task.status}
+          />
+        )}
+
+        <EditableTitle
+          entityStatus={task.entityStatus}
+          title={task.title}
+          callBack={onChangeEditTitle}
         />
-      )}
-
-      <EditableTitle
-        entityStatus={props.task.entityStatus}
-        title={props.task.title}
-        callBack={onChangeEditTitle}
-      />
-      <BtnStyle onClick={removeTask}>x</BtnStyle>
-    </li>
-  );
-});
+        <BtnStyle onClick={removeTaskHandler}>x</BtnStyle>
+      </li>
+    );
+  }
+);

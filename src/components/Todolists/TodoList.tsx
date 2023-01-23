@@ -30,89 +30,107 @@ export type TodolistType = {
   changeStatus: (todolistId: string, id: string, b: TaskType) => void;
   fetchTasks: (s: string) => void;
 };
-const TodoList = React.memo((props: TodolistType) => {
-  useEffect(() => {
-    props.fetchTasks(props.todolistId);
-  }, []);
-  const selectFilter = (todoListId: string, filter: FilterType) => {
-    props.setFilterType(todoListId, filter);
-  };
-  const changeTodoListTitle = (text: string) => {
-    if (props.title !== text)
-      props.changeFieldTodolistTitle(props.todolistId, text);
-  };
-  let tasksForTodolist = props.tasks;
+const TodoList: React.FC<TodolistType> = React.memo(
+  ({
+    todolistId,
+    title,
+    error,
+    tasks,
+    filter,
+    todolistInput,
+    entityStatus,
+    setFilterType,
+    onChangedTodolistInput,
+    changeFieldTodolistTitle,
+    removeTodoList,
+    changeTaskTitle,
+    addTask,
+    removeTask,
+    changeStatus,
+    fetchTasks,
+  }) => {
+    useEffect(() => {
+      fetchTasks(todolistId);
+    }, []);
+    const selectFilter = (todoListId: string, filter: FilterType) => {
+      setFilterType(todoListId, filter);
+    };
+    const changeTodoListTitle = (text: string) => {
+      if (title !== text) changeFieldTodolistTitle(todolistId, text);
+    };
+    let tasksForTodolist = tasks;
 
-  if (props.filter === "completed") {
-    tasksForTodolist = props.tasks.filter((el: TaskType) => el.status);
-  } else if (props.filter === "active") {
-    tasksForTodolist = props.tasks.filter((el: TaskType) => !el.status);
+    if (filter === "completed") {
+      tasksForTodolist = tasks.filter((el: TaskType) => el.status);
+    } else if (filter === "active") {
+      tasksForTodolist = tasks.filter((el: TaskType) => !el.status);
+    }
+    return (
+      <div className={s.todolishka}>
+        <div className={s.flex}>
+          <EditableTitle
+            entityStatus={entityStatus}
+            title={title}
+            callBack={changeTodoListTitle}
+          ></EditableTitle>
+          <BtnStyle
+            disabled={entityStatus === "loading"}
+            onClick={() => removeTodoList(todolistId)}
+          >
+            Remove
+          </BtnStyle>
+        </div>
+        <FullInput
+          addTasks={addTask}
+          todolistInput={todolistInput}
+          onChangedTodolistInput={onChangedTodolistInput}
+          error={error}
+          todolistId={todolistId}
+        />
+        {error && <div className={s.errorMessage}>Field is required</div>}
+
+        {tasks.length ? (
+          <ul>
+            {tasksForTodolist.map((el: TaskType) => {
+              return (
+                <Task
+                  key={el.id}
+                  task={el}
+                  todolistId={todolistId}
+                  removeTask={removeTask}
+                  changeTaskTitle={changeTaskTitle}
+                  changeStatus={changeStatus}
+                  entityStatus={el.entityStatus}
+                />
+              );
+            })}
+          </ul>
+        ) : (
+          <p>Your list is empty</p>
+        )}
+        <div className={s.sort}>
+          <BtnStyle
+            className={filter === "all" ? s.activeFilterBtn : ""}
+            onClick={() => selectFilter(todolistId, "all")}
+          >
+            All
+          </BtnStyle>
+          <BtnStyle
+            className={filter === "active" ? s.activeFilterBtn : ""}
+            onClick={() => selectFilter(todolistId, "active")}
+          >
+            Active
+          </BtnStyle>
+          <BtnStyle
+            className={filter === "completed" ? s.activeFilterBtn : ""}
+            onClick={() => selectFilter(todolistId, "completed")}
+          >
+            Completed
+          </BtnStyle>
+        </div>
+      </div>
+    );
   }
-  return (
-    <div className={s.todolishka}>
-      <div className={s.flex}>
-        <EditableTitle
-          entityStatus={props.entityStatus}
-          title={props.title}
-          callBack={changeTodoListTitle}
-        ></EditableTitle>
-        <BtnStyle
-          disabled={props.entityStatus === "loading"}
-          onClick={() => props.removeTodoList(props.todolistId)}
-        >
-          Remove
-        </BtnStyle>
-      </div>
-      <FullInput
-        addTasks={props.addTask}
-        todolistInput={props.todolistInput}
-        onChangedTodolistInput={props.onChangedTodolistInput}
-        error={props.error}
-        todolistId={props.todolistId}
-      />
-      {props.error && <div className={s.errorMessage}>Field is required</div>}
-
-      {props.tasks.length ? (
-        <ul>
-          {tasksForTodolist.map((el: TaskType) => {
-            return (
-              <Task
-                key={el.id}
-                task={el}
-                todolistId={props.todolistId}
-                removeTask={props.removeTask}
-                changeTaskTitle={props.changeTaskTitle}
-                changeStatus={props.changeStatus}
-                entityStatus={el.entityStatus}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        <p>Your list is empty</p>
-      )}
-      <div className={s.sort}>
-        <BtnStyle
-          className={props.filter === "all" ? s.activeFilterBtn : ""}
-          onClick={() => selectFilter(props.todolistId, "all")}
-        >
-          All
-        </BtnStyle>
-        <BtnStyle
-          className={props.filter === "active" ? s.activeFilterBtn : ""}
-          onClick={() => selectFilter(props.todolistId, "active")}
-        >
-          Active
-        </BtnStyle>
-        <BtnStyle
-          className={props.filter === "completed" ? s.activeFilterBtn : ""}
-          onClick={() => selectFilter(props.todolistId, "completed")}
-        >
-          Completed
-        </BtnStyle>
-      </div>
-    </div>
-  );
-});
+);
 
 export default TodoList;

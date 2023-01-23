@@ -22,9 +22,14 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
 //use that for select params without connect
 //all actionTypes
-export const createAppAsyncThunk = createAsyncThunk.withTypes<{
-  state: AppStateType;
-  dispatch: AppDispatch;
-  rejectValue: any;
-}>();
-//for use thunk like pro add middleware type thunk
+export const createAppAsyncThunk =
+  createAsyncThunk.withTypes<{
+    state: AppStateType;
+    dispatch: AppDispatch;
+    rejectValue: any;
+  }>();
+export type UserType = {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+};

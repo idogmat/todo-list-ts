@@ -1,8 +1,8 @@
-import { changeStatusError } from "./app-reducer";
-import { API } from "../api/api";
-import { handleServerNetworkError } from "../utils/errorUtils";
-import { changeEntityStatusTask, TaskType } from "./tasks-reducer";
-import { createAppAsyncThunk } from "./type";
+import { changeStatusError } from "../app-reducer";
+import { API } from "../../api/api";
+import { handleServerNetworkError } from "../../utils/errorUtils";
+import { changeEntityStatusTask, TaskType } from "../tasks-reducer";
+import { createAppAsyncThunk } from "../type";
 
 export const deleteTask = createAppAsyncThunk(
   "tasks/deleteTask",
@@ -114,7 +114,7 @@ export const changeTaskStatus = createAppAsyncThunk(
       changeEntityStatusTask({
         todolistId: param.todolistId,
         taskId: param.taskId,
-        entityStatus: "failed",
+        entityStatus: "loading",
       })
     );
     try {

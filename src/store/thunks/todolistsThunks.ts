@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { changeStatusError } from "./app-reducer";
-import { API } from "../api/api";
-import { handleServerNetworkError } from "../utils/errorUtils";
+import { changeStatusError } from "../app-reducer";
+import { API } from "../../api/api";
+import { handleServerNetworkError } from "../../utils/errorUtils";
 import {
   changeEntityStatusTodolist,
   changeFieldTodolistTitle,
-} from "./todolists-reducer";
-import { AppThunkActionType } from "./type";
+} from "../todolists-reducer";
+import { AppThunkActionType } from "../type";
 
 export const fetchTodolist = createAsyncThunk(
   "todolist/fetchTodolist",

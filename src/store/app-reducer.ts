@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authMeThunk } from "./authThunks";
+import { authMeThunk } from "./thunks/authThunks";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 

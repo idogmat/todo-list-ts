@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authMeThunk, loginThunk, logoutThunk } from "./authThunks";
+import { authMeThunk, loginThunk, logoutThunk } from "./thunks/authThunks";
 
-export type UserType = {
-  email: string;
-  password: string;
-  rememberMe?: boolean;
-};
 const initialState = {
   isLoggedIn: false as boolean,
 };

@@ -1,8 +1,7 @@
-import { changeStatusError, setInitialized } from "./app-reducer";
-import { API } from "../api/api";
-import { handleServerNetworkError } from "../utils/errorUtils";
-import { UserType } from "./auth-reducer";
-import { createAppAsyncThunk } from "./type";
+import { changeStatusError, setInitialized } from "../app-reducer";
+import { API } from "../../api/api";
+import { handleServerNetworkError } from "../../utils/errorUtils";
+import { createAppAsyncThunk, UserType } from "../type";
 
 export const authMeThunk = createAppAsyncThunk(
   "auth/authMe",

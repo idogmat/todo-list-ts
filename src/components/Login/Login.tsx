@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { Navigate } from "react-router-dom";
 import Snackbar from "../common/Snackbar";
-import { loginThunk } from "../../store/authThunks";
+import { loginThunk } from "../../store/thunks/authThunks";
 import { getError, getIsLoggedIn, getStatus } from "../../store/selectors";
 import { useAppDispatch, useAppSelector } from "../../store/type";
 

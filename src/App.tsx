@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import TodoListContainer from "./components/TodoListContainer";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "./components/Login/Login";
-import { authMeThunk } from "./store/authThunks";
+import { authMeThunk } from "./store/thunks/authThunks";
 import { CircularProgress } from "@mui/material";
 import { getIsInitialized } from "./store/selectors";
 import { useAppDispatch, useAppSelector } from "./store/type";
