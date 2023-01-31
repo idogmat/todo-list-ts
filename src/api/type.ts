@@ -3,12 +3,10 @@ import { TaskStatusType } from "../store/tasks-reducer";
 export type ResponseUserType = {
   userId: number;
 };
-export type TodoListsAPIType = {
-  addedDate: string;
-  id: string;
-  order: number;
-  title: string;
-};
+export type TodoListsAPIType = Pick<
+  TaskResponseType,
+  "addedDate" | "id" | "order" | "title"
+>;
 export type TaskResponseType = {
   addedDate: string;
   deadline: string | null;

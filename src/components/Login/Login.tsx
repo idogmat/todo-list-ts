@@ -41,6 +41,9 @@ export const Login = () => {
       ) {
         errors.email = "Invalid email address";
       }
+      if (values.password.length < 8 && values.password !== "free") {
+        errors.password = "Short password";
+      }
       return errors;
     },
     onSubmit: (values, { resetForm }) => {
@@ -50,6 +53,8 @@ export const Login = () => {
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
   }
+  const fieldsChecker = (field: keyof typeof formik.initialValues) =>
+    formik.touched[field] && formik.errors[field] ? true : false;
   return (
     <Grid container justifyContent={"center"}>
       <Snackbar status={status} error={error} />
@@ -68,16 +73,21 @@ export const Login = () => {
             </FormLabel>
             <FormGroup>
               <TextField
-                label="Email"
+                label={fieldsChecker("email") ? formik.errors.email : "Email"}
+                error={fieldsChecker("email") ? !!formik.errors.email : false}
                 margin="normal"
                 {...formik.getFieldProps("email")}
               />
-              {formik.touched.email && formik.errors.email ? (
-                <div style={{ color: "red" }}>{formik.errors.email}</div>
-              ) : null}
               <TextField
+                label={
+                  fieldsChecker("password")
+                    ? formik.errors.password
+                    : "Password"
+                }
+                error={
+                  fieldsChecker("password") ? !!formik.errors.password : false
+                }
                 type="password"
-                label="Password"
                 margin="normal"
                 {...formik.getFieldProps("password")}
               />
