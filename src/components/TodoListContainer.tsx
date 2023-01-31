@@ -28,7 +28,7 @@ import {
   deleteTask,
 } from "../store/thunks/tasksThunks";
 import { AppStateType, useAppSelector } from "../store/type";
-import { getIsInitialized } from "../store/selectors";
+import { getIsInitialized, getIsLoggedIn } from "../store/selectors";
 
 type MapDispatchType = {
   fetchTodolist: () => void;
@@ -75,10 +75,11 @@ const TodoListComponent: React.FC<AppStateType & MapDispatchType> = ({
   todolists,
   auth,
 }) => {
-  // const initialized = useAppSelector(getIsInitialized);
+  const initialized = useAppSelector(getIsInitialized);
+  const isLoggedIn = useAppSelector(getIsLoggedIn);
   //preload-list
   useEffect(() => {
-    fetchTodolist();
+    initialized && isLoggedIn && fetchTodolist();
   }, []);
   //tasks
   const addTaskHandler = useCallback((todolistId: string, title: string) => {

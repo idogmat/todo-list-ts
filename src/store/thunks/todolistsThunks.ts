@@ -11,17 +11,14 @@ import { AppThunkActionType, createAppAsyncThunk } from "../type";
 export const fetchTodolist = createAppAsyncThunk(
   "todolist/fetchTodolist",
   async (value, thunkAPI) => {
-    const { isInitialized } = thunkAPI.getState().appStatus;
-    if (!isInitialized) {
-      thunkAPI.dispatch(changeStatusError({ status: "loading" }));
-      try {
-        const res = await API.getTodolists();
-        thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
-        return { todolists: res.data };
-      } catch (e: any) {
-        console.log(e, "errr");
-        handleServerNetworkError(e.message, thunkAPI.dispatch);
-      }
+    thunkAPI.dispatch(changeStatusError({ status: "loading" }));
+    try {
+      const res = await API.getTodolists();
+      thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
+      return { todolists: res.data };
+    } catch (e: any) {
+      console.log(e, "errr");
+      handleServerNetworkError(e.message, thunkAPI.dispatch);
     }
   }
 );
