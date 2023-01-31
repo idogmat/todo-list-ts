@@ -7,7 +7,7 @@ type SnackbarType = { status: RequestStatusType; error: null | string };
 const Snackbar: React.FC<SnackbarType> = ({ status, error }) => {
   const [show, setShow] = useState<boolean>(!!status);
 
-  let TIME = 2000;
+  let TIME = 1000;
   let TIMER: NodeJS.Timeout;
 
   function handleTimeout() {

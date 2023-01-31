@@ -7,6 +7,7 @@ export const authMeThunk = createAppAsyncThunk(
   "auth/authMe",
   async (value, thunkAPI) => {
     const { isInitialized } = thunkAPI.getState().appStatus;
+
     isInitialized &&
       thunkAPI.dispatch(changeStatusError({ status: "loading" }));
     try {
@@ -14,9 +15,6 @@ export const authMeThunk = createAppAsyncThunk(
       if (res.resultCode === 0) {
         thunkAPI.dispatch(changeStatusError({ status: "succeeded" }));
         return { value: true };
-      } else {
-        isInitialized &&
-          handleServerNetworkError(res.statusText, thunkAPI.dispatch);
       }
     } catch (e: any) {
       isInitialized && handleServerNetworkError(e, thunkAPI.dispatch);

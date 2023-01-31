@@ -37,7 +37,7 @@ type MapDispatchType = {
     filter: FilterValuesType;
   }) => void;
   changeTodoListInput: (payload: { todolistId: string; text: string }) => void;
-  updateTodolistTitle: (todolistId: string, title: string) => void;
+  updateTodolistTitle: (param: { todolistId: string; title: string }) => void;
   addTodolist: (title: string) => void;
   logoutThunk: () => void;
   addTask: (param: { todolistId: string; title: string }) => any;
@@ -75,11 +75,11 @@ const TodoListComponent: React.FC<AppStateType & MapDispatchType> = ({
   todolists,
   auth,
 }) => {
-  const initialized = useAppSelector(getIsInitialized);
+  // const initialized = useAppSelector(getIsInitialized);
   //preload-list
   useEffect(() => {
     fetchTodolist();
-  }, [initialized]);
+  }, []);
   //tasks
   const addTaskHandler = useCallback((todolistId: string, title: string) => {
     addTask({ todolistId, title });
@@ -121,7 +121,7 @@ const TodoListComponent: React.FC<AppStateType & MapDispatchType> = ({
   }, []);
   const changeFieldTodolistTitle = useCallback(
     (todolistId: string, newText: string) => {
-      updateTodolistTitle(todolistId, newText);
+      updateTodolistTitle({ todolistId, title: newText });
     },
     []
   );
