@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import s from "../style.module.css";
-import { Input } from "../../style/elements";
+import { Header, HeaderTitle, Input } from "../../style/elements";
 import Button from "./Button";
 
 type AddItemForm = {
@@ -24,9 +24,10 @@ const AddItemForm: React.FC<AddItemForm> = React.memo(({ addTodo, logout }) => {
   };
   return (
     <div>
-      <h3>
-        Add new TodoList <Button callBack={logout} name={"logout"}></Button>
-      </h3>
+      <Header>
+        <HeaderTitle>TodoList</HeaderTitle>{" "}
+        <Button callBack={logout} name={"LOGOUT"}></Button>
+      </Header>
       <div className={s.inputBlock}>
         <Input
           value={title}

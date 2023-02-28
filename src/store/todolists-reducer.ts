@@ -7,12 +7,14 @@ import {
 } from "./thunks/todolistsThunks";
 
 export type FilterValuesType = "all" | "completed" | "active";
+
 export type TodoListsFromAPIType = {
   addedDate: string;
   id: string;
   order: number;
   title: string;
 };
+
 export type TodoListType = {
   id: string;
   title: string;
@@ -23,20 +25,12 @@ export type TodoListType = {
   addedDate: string;
   entityStatus: RequestStatusType;
 };
-const initialState: Array<TodoListType> = [
-  // {id:'todoListsId1',title:'React',addedDate:'1', order:1,filter:'all', error:false, text:''  },
-  // {id:'todoListsId2',title:'React',addedDate:'1',order:1,filter:'all', error:false, text:''  }
-];
+const initialState: Array<TodoListType> = [];
 
 const slice = createSlice({
   name: "todolist",
   initialState: initialState,
   reducers: {
-    addTodoList(
-      state,
-      action: PayloadAction<{ todolist: TodoListsFromAPIType }>
-    ) {},
-    removeTodoList(state, action: PayloadAction<{ todolistId: string }>) {},
     changeTodoListInput(
       state,
       action: PayloadAction<{ todolistId: string; text: string }>

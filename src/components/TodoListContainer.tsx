@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import "../App.css";
 import TodoList from "./Todolists/TodoList";
 import AddItemForm from "./common/AddItemForm";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { fetchTasks, TaskType } from "../store/tasks-reducer";
 import {
   changeTodoListFilter,
@@ -75,25 +75,31 @@ const TodoListComponent: React.FC<AppStateType & MapDispatchType> = ({
   todolists,
   auth,
 }) => {
+  //selectors
   const initialized = useAppSelector(getIsInitialized);
   const isLoggedIn = useAppSelector(getIsLoggedIn);
+
   //preload-list
   useEffect(() => {
     initialized && isLoggedIn && fetchTodolist();
   }, []);
+
   //tasks
   const addTaskHandler = useCallback((todolistId: string, title: string) => {
     addTask({ todolistId, title });
   }, []);
+
   const removeTask = useCallback((todolistId: string, taskId: string) => {
     deleteTask({ todolistId, taskId });
   }, []);
+
   const changeStatus = useCallback(
     (todolistId: string, id: string, task: TaskType) => {
       changeTaskStatus({ todolistId, taskId: id, task });
     },
     []
   );
+
   const changeTaskTitleHandler = useCallback(
     (todolistId: string, taskId: string, title: string) => {
       changeTaskTitle({ todolistId, taskId, title });
@@ -108,27 +114,33 @@ const TodoListComponent: React.FC<AppStateType & MapDispatchType> = ({
     },
     []
   );
+
   const addTodo = useCallback((title: string) => {
     addTodolist(title);
   }, []);
+
   const setFilterType = useCallback(
     (todolistId: string, filter: FilterValuesType) => {
       changeTodoListFilter({ todolistId, filter });
     },
     []
   );
+
   const removeTodoList = useCallback((todolistId: string) => {
     removeTodolist(todolistId);
   }, []);
+
   const changeFieldTodolistTitle = useCallback(
     (todolistId: string, newText: string) => {
       updateTodolistTitle({ todolistId, title: newText });
     },
     []
   );
+
   const logout = () => {
     logoutThunk();
   };
+
   if (!auth.isLoggedIn) {
     return <Navigate to={"/login"} />;
   } else {

@@ -32,6 +32,7 @@ export type TaskType = {
 export type TasksStateType = {
   [key: string]: TaskType[];
 };
+
 let initialState: TasksStateType = {};
 export const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",

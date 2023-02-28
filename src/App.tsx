@@ -6,6 +6,7 @@ import { authMeThunk } from "./store/thunks/authThunks";
 import { CircularProgress } from "@mui/material";
 import { getIsInitialized } from "./store/selectors";
 import { useAppDispatch, useAppSelector } from "./store/type";
+import { MainWrapper } from "./style/elements";
 
 const App = () => {
   const isInitialized = useAppSelector(getIsInitialized);
@@ -28,7 +29,7 @@ const App = () => {
     );
   }
   return (
-    <>
+    <MainWrapper>
       <Routes>
         <Route path={"/"} element={<TodoListContainer />} />
         <Route path={"/login"} element={<Login />} />
@@ -39,7 +40,7 @@ const App = () => {
         />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
-    </>
+    </MainWrapper>
   );
 };
 

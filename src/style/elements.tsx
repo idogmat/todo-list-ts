@@ -1,5 +1,16 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+export const HeaderTitle = styled.h2`
+  color: #ec6262;
+  background: -webkit-linear-gradient(#ec6262, #251212);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-sizing: border-box;
+`;
 
 export const Input = styled.input.attrs((props) => ({
   type: "text",
@@ -28,6 +39,7 @@ export const BtnStyle = styled.button.attrs((props: any) => ({
   box-sizing: border-box;
   border: 2px solid palevioletred;
   border-radius: 30px;
+  font-weight: 700;
 
   :hover {
     background: palevioletred;
@@ -178,4 +190,9 @@ export const ButtonSnackbar = styled.button`
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.5);
   }
+`;
+export const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 50px;
 `;

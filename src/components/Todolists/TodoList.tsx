@@ -52,12 +52,15 @@ const TodoList: React.FC<TodolistType> = React.memo(
     useEffect(() => {
       fetchTasks(todolistId);
     }, []);
+
     const selectFilter = (todoListId: string, filter: FilterType) => {
       setFilterType(todoListId, filter);
     };
+
     const changeTodoListTitle = (text: string) => {
       if (title !== text) changeFieldTodolistTitle(todolistId, text);
     };
+
     let tasksForTodolist = tasks;
 
     if (filter === "completed") {
@@ -65,6 +68,7 @@ const TodoList: React.FC<TodolistType> = React.memo(
     } else if (filter === "active") {
       tasksForTodolist = tasks.filter((el: TaskType) => !el.status);
     }
+
     return (
       <div className={s.todolishka}>
         <div className={s.flex}>

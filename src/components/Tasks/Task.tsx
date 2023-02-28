@@ -13,6 +13,7 @@ type TaskElementType = {
   changeStatus: (a: string, c: string, b: TaskType) => void;
   entityStatus: RequestStatusType;
 };
+
 export const Task: React.FC<TaskElementType> = React.memo(
   ({
     task,
@@ -53,6 +54,7 @@ export const Task: React.FC<TaskElementType> = React.memo(
       },
       [task.todoListId, task.id]
     );
+
     return (
       <li
         className={s.task + " " + (task.status ? s.done + " " : "")}
@@ -67,7 +69,6 @@ export const Task: React.FC<TaskElementType> = React.memo(
             checked={!!task.status}
           />
         )}
-
         <EditableTitle
           entityStatus={task.entityStatus}
           title={task.title}

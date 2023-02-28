@@ -20,11 +20,15 @@ type FormikErrorType = {
   rememberMe?: boolean;
 };
 export const Login = () => {
+  //selectors
   const status = useAppSelector(getStatus);
   const error = useAppSelector(getError);
   const isLoggedIn = useAppSelector(getIsLoggedIn);
 
   const dispatch = useAppDispatch();
+
+  const fieldsChecker = (field: keyof typeof formik.initialValues) =>
+    formik.touched[field] && formik.errors[field] ? true : false;
 
   const formik = useFormik({
     initialValues: {
@@ -50,11 +54,11 @@ export const Login = () => {
       dispatch(loginThunk({ user: values }));
     },
   });
+
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
   }
-  const fieldsChecker = (field: keyof typeof formik.initialValues) =>
-    formik.touched[field] && formik.errors[field] ? true : false;
+
   return (
     <Grid container justifyContent={"center"}>
       <Snackbar status={status} error={error} />
