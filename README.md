@@ -1,7 +1,8 @@
 # Welcome to React Todo list app (TS) 👋
 
 > Simple Todo list app built with React hooks and TypeScript.
-> [Demo](https://idogmat.github.io/todo-list-ts/)
+
+[Demo](https://idogmat.github.io/todo-list-ts/)
 
 ## Install
 
